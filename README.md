@@ -66,7 +66,7 @@ The goal of this project is to create a graphics program using OpenGLfor walking
     <li>Launch Visual Studio and <strong>open</strong> the project directory.</li>
     <li>Open the GUI of the CMakeSettings.json </li>
     <li>Find the CMake Toolchain File option</li>
-    <li>Use the file explorer option to add the <code>../framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake</code> file as toolchain file.</li>
+    <li>Use the file explorer option to add the <code>../Framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake</code> file as toolchain file.</li>
     <li>In the text field written CMake options enter: <br>
     </ul>
 </li>

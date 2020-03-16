@@ -79,6 +79,13 @@ ProceduralForest_EXTERNAL_OBJECTS =
 
 ProceduralForest: CMakeFiles/ProceduralForest.dir/main.cpp.o
 ProceduralForest: CMakeFiles/ProceduralForest.dir/build.make
+ProceduralForest: ../Framework/vcpkg-2020.01/installed/x64-linux/debug/lib/libGLEWd.a
+ProceduralForest: ../Framework/vcpkg-2020.01/installed/x64-linux/debug/lib/libglfw3.a
+ProceduralForest: /usr/lib/libGL.so
+ProceduralForest: /usr/lib/libGLU.so
+ProceduralForest: /usr/lib/librt.so
+ProceduralForest: /usr/lib/libm.so
+ProceduralForest: /usr/lib/libX11.so
 ProceduralForest: CMakeFiles/ProceduralForest.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ProceduralForest"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ProceduralForest.dir/link.txt --verbose=$(VERBOSE)

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS = -g   -std=gnu++14
 
-CXX_DEFINES = 
+CXX_DEFINES = -DGLEW_STATIC
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -isystem /home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/Framework/vcpkg-2020.01/installed/x64-linux/include 
 

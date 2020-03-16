@@ -14,6 +14,12 @@
 # EXTERNAL cache entries
 ########################
 
+//Value Computed by CMake
+371ProceduralForest_BINARY_DIR:STATIC=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug
+
+//Value Computed by CMake
+371ProceduralForest_SOURCE_DIR:STATIC=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest
+
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
@@ -150,7 +156,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=ProceduralForest
+CMAKE_PROJECT_NAME:STATIC=371ProceduralForest
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -205,23 +211,42 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/strip
 
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=../Framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake
+
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//Value Computed by CMake
-ProceduralForest_BINARY_DIR:STATIC=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug
-
-//Value Computed by CMake
-ProceduralForest_SOURCE_DIR:STATIC=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest
+//The directory containing a CMake configuration file for GLEW.
+GLEW_DIR:PATH=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/Framework/vcpkg-2020.01/installed/x64-linux/share/glew
 
 //Path to a program.
 ProcessorCount_cmd_nproc:FILEPATH=/usr/bin/nproc
 
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/bin/sysctl
+
+//Automatically copy dependencies into the output directory for
+// executables.
+VCPKG_APPLOCAL_DEPS:BOOL=ON
+
+//Vcpkg target triplet (ex. x86-windows)
+VCPKG_TARGET_TRIPLET:STRING=x64-linux
+
+//Enables messages from the VCPKG toolchain for debugging purposes.
+VCPKG_VERBOSE:BOOL=OFF
+
+//Path to a program.
+_VCPKG_CL:FILEPATH=_VCPKG_CL-NOTFOUND
+
+//The directory containing a CMake configuration file for glfw3.
+glfw3_DIR:PATH=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/Framework/vcpkg-2020.01/installed/x64-linux/share/glfw3
+
+//The directory containing a CMake configuration file for glm.
+glm_DIR:PATH=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/Framework/vcpkg-2020.01/installed/x64-linux/share/glm
 
 
 ########################
@@ -369,6 +394,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STRIP
 CMAKE_STRIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_TOOLCHAIN_FILE
+CMAKE_TOOLCHAIN_FILE-ADVANCED:INTERNAL=1
 //uname command
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
@@ -377,4 +404,8 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 ProcessorCount_cmd_nproc-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VCPKG_VERBOSE
+VCPKG_VERBOSE-ADVANCED:INTERNAL=1
+//Vcpkg root directory
+_VCPKG_ROOT_DIR:INTERNAL=/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/Framework/vcpkg-2020.01
 
