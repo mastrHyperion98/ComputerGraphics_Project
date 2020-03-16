@@ -3,11 +3,11 @@
 Team #17<br>
 Members: Steven Smith, Michael Rowe, Nhut Vo, Sheridan Perez Antigua<br></strong>
 # Table of Contents
-<ul>
-<li><a href="#description"><h2>Project Description</h2></a></li>
-<li><a href="#SetupEnvironmnet"><h2>Setup Environment</h2></a></li>
-<li><a href="#Tools"><h2>Tools and Libraries Used</h2></a></li>
-</ul>
+
+<a href="#description"><h2>Project Description</h2></a>
+<a href="#SetupEnvironmnet"><h2>Setup Environment</h2></a>
+<a href="#Tools"><h2>Tools and Libraries Used</h2></a>
+
 
 # Project Description
 <p id="description">The generation of a procedurally rendered forest implementing collision, shadows, lighting and various other computer graphics techniques to enhance the realism or artistic appreciation of the rendered scene.<br><br>
@@ -67,7 +67,9 @@ The goal of this project is to create a graphics program using OpenGLfor walking
 </ol>
 
 <p id="Tools"></p>
+
 # Tools and Libraries
+
 <table>
     <caption> Project Tools and Libraries </caption>
     <tr>
