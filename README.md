@@ -40,7 +40,7 @@ The goal of this project is to create a graphics program using OpenGLfor walking
     <code>.\bootstrap-vcpkg.bat</code>
     <br>
 </li>
-<li> Install framework libraries
+<li> Install framework libraries (may require Adminstrative privileges)
     <h4>On Unix</h4><br>
     <code>./dependencies.sh</code>
     <br>
