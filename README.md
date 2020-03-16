@@ -57,7 +57,7 @@ The goal of this project is to create a graphics program using OpenGLfor walking
     <li>Select the <strong> CMake </strong> option.</li>
     <li>In the text field written CMake options enter: <br>
     <code>
-    -DCMAKE_TOOLCHAIN_FILE=../framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake
+    -DCMAKE_TOOLCHAIN_FILE=../Framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake
     </code>
     </li>
     </ul>
