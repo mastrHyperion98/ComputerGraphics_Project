@@ -2,12 +2,18 @@
 <strong>
 Team #17<br>
 Members: Steven Smith, Michael Rowe, Nhut Vo, Sheridan Perez Antigua<br></strong>
+
 # Table of Contents
-
-<a href="#description"><h2>Project Description</h2></a>
-<a href="#SetupEnvironmnet"><h2>Setup Environment</h2></a>
-<a href="#Tools"><h2>Tools and Libraries Used</h2></a>
-
+<ul>
+ <li><a href="#description">Project Description</a>
+ </li>
+ <li>
+  <a href="#environment">Environment Setup</a>
+ </li>
+ <li>
+  <a href="#tools"> Tools and Libraries </a>
+ </li>
+ </ul>
 
 # Project Description
 <p id="description">The generation of a procedurally rendered forest implementing collision, shadows, lighting and various other computer graphics techniques to enhance the realism or artistic appreciation of the rendered scene.<br><br>
@@ -15,7 +21,7 @@ The goal of this project is to create a graphics program using OpenGLfor walking
 
 # Setup Environment
 
-<ol>
+<ol id="environment">
 <li>Clone or Download the repository onto your host machine.</li>
 <li>Open up the Command Prompt or Unix Terminal and enter 
     <br>
@@ -66,7 +72,7 @@ The goal of this project is to create a graphics program using OpenGLfor walking
 </li>
 </ol>
 
-<p id="Tools"></p>
+<p id="tools"></p>
 
 # Tools and Libraries
 
