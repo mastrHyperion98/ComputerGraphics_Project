@@ -63,8 +63,9 @@ The goal of this project is to create a graphics program using OpenGLfor walking
     </ul>
     <br><h4>In Visual Studio 2019</h4>
      <ul>
+      <li> Makes sure Visual Studio is setup for CMake <a href="https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=vs-2019">Link here</a></li>
     <li>Launch Visual Studio and <strong>open</strong> the project directory.</li>
-    <li>Open the GUI of the CMakeSettings.json </li>
+    <li>Open the GUI of the CMakeSettings.json or follow these instructions <a href="https://docs.microsoft.com/en-us/cpp/build/customize-cmake-settings?view=vs-2019">Link Here!</a></li>
     <li>Find the CMake Toolchain File option</li>
     <li>Use the file explorer option to add the <code>../Framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake</code> file as toolchain file.</li>
     <li>In the text field written CMake options enter: <br>
