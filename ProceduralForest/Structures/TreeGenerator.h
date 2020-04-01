@@ -1,0 +1,15 @@
+//
+// Created by hyperion on 2020-04-01.
+//
+
+#ifndef INC_371PROCEDURALFOREST_TREEGENERATOR_H
+#define INC_371PROCEDURALFOREST_TREEGENERATOR_H
+
+
+class TreeGenerator {
+
+    TreeGenerator();
+};
+
+
+#endif //INC_371PROCEDURALFOREST_TREEGENERATOR_H
