@@ -1,3 +1,0 @@
-/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug/CMakeFiles/ProceduralForest.dir
-/home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug/CMakeFiles/edit_cache.dir
