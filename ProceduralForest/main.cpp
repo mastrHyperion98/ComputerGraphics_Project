@@ -307,7 +307,6 @@ int main(int argc, char*argv[])
         }
 
     }
-    Transform transform;
     // Shutdown GLFW
     glfwTerminate();
 

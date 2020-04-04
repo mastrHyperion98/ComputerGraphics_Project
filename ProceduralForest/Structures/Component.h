@@ -11,7 +11,7 @@
 #include "glm/common.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "Transform.h"
-#include "../framework/shader.h"
+#include "Shader.h"
 #include "Material.h"
 class Component {
 public:

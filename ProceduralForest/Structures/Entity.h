@@ -8,7 +8,7 @@
 #include <vector>
 #include "Component.h"
 #include "Transform.h"
-#include "../framework/shader.h"
+#include "Shader.h"
 class Entity {
 public:
     Entity(Shader);
