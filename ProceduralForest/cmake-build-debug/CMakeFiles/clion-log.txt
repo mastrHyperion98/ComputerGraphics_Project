@@ -1,4 +1,0 @@
-/home/hyperion/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/193.6015.37/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=../Framework/vcpkg-2020.01/scripts/buildsystems/vcpkg.cmake -G "CodeBlocks - Unix Makefiles" /home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest
--- Configuring done
--- Generating done
--- Build files have been written to: /home/hyperion/Documents/University/Winter_2020/Comp_371_Computer_Graphics/ComputerGraphics_Project/ProceduralForest/cmake-build-debug
