@@ -17,17 +17,18 @@ class Component {
 public:
     Component(Shader, Material);
     virtual GLuint createVertexArrayObject();
+    // I want to elimate the parameters here by using creating a Singleton Renderer.
     virtual void Draw(Transform, Transform, int);
     void Translate(glm::vec3 translate);
     void Rotate(float angle, vec3 trans);
     void Scale(glm::vec3 scale);
+    void setShader(Shader);
+    void setMaterial(Material);
     Transform transform;
 protected:
     Material material;
     Shader shaderProgram;
     GLuint vao;
-    int number_of_parts;
-    glm::mat4 modelWorldMatrix = mat4(1.0f);
 };
 
 

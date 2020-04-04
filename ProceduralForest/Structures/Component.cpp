@@ -35,4 +35,6 @@ GLuint Component::createVertexArrayObject() {
     return 1;
 }
 
-
+void Component::setShader(Shader shader) {
+    shaderProgram = shader;
+}

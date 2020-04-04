@@ -12,6 +12,9 @@
 class Entity {
 public:
     Entity(Shader);
+    Entity(const Entity& entity);
+    Entity& operator=(const Entity& entity);
+    ~Entity();
     void SetPosition(vec3 pos);
     void SetRenderMode(int mode);
     void Translate(glm::vec3 translate);
@@ -29,7 +32,6 @@ public:
 protected:
     std::vector<Component*> components;
     Shader shaderProgram;
-
     int mode;
 };
 

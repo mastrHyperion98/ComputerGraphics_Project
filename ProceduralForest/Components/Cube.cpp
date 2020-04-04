@@ -114,6 +114,7 @@ GLuint Cube::createVertexArrayObject(){
 
 void Cube::Draw(Transform world, Transform entity, int mode){
     // set transform to mat4(1.0)
+    glm::mat4 modelWorldMatrix = mat4(1.0f);
     transform.transformation = mat4(1.0);
     // load textures
     if(material.isTextured) {
