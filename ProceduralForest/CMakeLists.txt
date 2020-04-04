@@ -8,5 +8,11 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 include_directories(Framework)
-add_executable(ProceduralForest main.cpp Assets/Utils.h)
-target_link_libraries(ProceduralForest PRIVATE GLEW::GLEW PRIVATE glfw PRIVATE glm)
+include_directories(Structures)
+include_directories(Components)
+include_directories(Assets)
+
+add_executable(ProceduralForest main.cpp Assets/Utils.h Structures/Transform.cpp Structures/Component.cpp
+        Structures/Material.h Structures/Entity.cpp )
+target_link_libraries(ProceduralForest PRIVATE GLEW::GLEW PRIVATE glfw PRIVATE glm )
+

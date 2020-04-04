@@ -9,6 +9,7 @@
 #include "glm/glm.hpp"  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "Transform.h"
 const char* getVertexShaderSource()
 {
     // For now, you use a string for your shader code, in the assignment, shaders will be stored in .glsl files
@@ -306,7 +307,7 @@ int main(int argc, char*argv[])
         }
 
     }
-
+    Transform transform;
     // Shutdown GLFW
     glfwTerminate();
 

@@ -22,7 +22,6 @@ public:
     void Translate(glm::vec3 translate);
     void Rotate(float angle, vec3 trans);
     void Scale(glm::vec3 scale);
-    void setShader(Shader);
     void setMaterial(Material);
     Transform transform;
 protected:
