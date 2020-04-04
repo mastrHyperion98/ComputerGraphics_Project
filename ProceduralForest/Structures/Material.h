@@ -1,5 +1,5 @@
 //
-// Created by hyperion on 2020-04-02.
+// Created by Steven Smith on 2020-04-02.
 //
 #include "GL/glew.h"
 #include "glm/glm.hpp"

@@ -1,5 +1,5 @@
 //
-// Created by hyperion on 2020-03-07.
+// Created by Steven Smith on 2020-03-07.
 //
 
 #ifndef ASSIGNMENT2_ENTITY_H

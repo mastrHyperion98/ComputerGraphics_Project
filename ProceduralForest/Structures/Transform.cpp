@@ -1,5 +1,5 @@
 //
-// Created by hyperion on 2020-03-07.
+// Created by Steven Smith on 2020-03-07.
 //
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
