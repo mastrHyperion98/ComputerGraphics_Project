@@ -122,3 +122,7 @@ float WindowManager::GetMouseMotionY()
 {
     return sMouseDeltaY;
 }
+
+GLFWwindow* WindowManager::getWindow() {
+    return window;
+}

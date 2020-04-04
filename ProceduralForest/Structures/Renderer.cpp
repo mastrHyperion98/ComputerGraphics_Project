@@ -5,12 +5,129 @@
 // the currently active Shader
 //
 #include "Renderer.h"
-
+#include "WindowManager.h"
 //default constructor
-Renderer::Renderer(){
+void Renderer::Initialize(glm::vec3 color) {
+    glfwMakeContextCurrent(WindowManager::getWindow());
+
+    // Initialize GLEW
+    glewExperimental = true; // Needed for core profile
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW\n");
+
+        getchar();
+        exit(-1);
+    }
+
+    // Somehow, glewInit triggers a glInvalidEnum... Let's ignore it
+    glGetError();
+
+    // Black background
+    glClearColor(color.x, color.y, color.z, 0.0f);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+
+    CheckForErrors();
+}
+
+void Renderer::Shutdown() {
+    // Shaders
+    for (std::vector<Shader>::iterator it = shaderList.begin(); it < shaderList.end(); ++it)
+    {
+        glDeleteProgram(it->ID);
+    }
+    shaderList.clear();
+    WindowManager::Shutdown();
+}
+void Renderer::BeginFrame()
+{
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
 
-void Renderer::Initialize() {
-
+void Renderer::EndFrame()
+{
+    // Swap buffers
+    glfwSwapBuffers(WindowManager::getWindow());
 }
+
+
+bool Renderer::PrintError()
+{
+    static bool checkForErrors = true;
+
+    //
+    if( !checkForErrors )
+    {
+        return false;
+    }
+
+    //
+    const char * errorString = NULL;
+    bool retVal = false;
+
+    switch( glGetError() )
+    {
+        case GL_NO_ERROR:
+            retVal = true;
+            break;
+
+        case GL_INVALID_ENUM:
+            errorString = "GL_INVALID_ENUM";
+            break;
+
+        case GL_INVALID_VALUE:
+            errorString = "GL_INVALID_VALUE";
+            break;
+
+        case GL_INVALID_OPERATION:
+            errorString = "GL_INVALID_OPERATION";
+            break;
+
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            errorString = "GL_INVALID_FRAMEBUFFER_OPERATION";
+            break;
+
+        case GL_OUT_OF_MEMORY:
+            errorString = "GL_OUT_OF_MEMORY";
+            break;
+
+        default:
+            errorString = "UNKNOWN";
+            break;
+    }
+
+    //
+    if( !retVal )
+    {
+        printf( "%s\n", errorString );
+    }
+
+    //
+    return retVal;
+}
+
+
+void Renderer::CheckForErrors(){
+    while(PrintError() == false)
+    {
+    }
+}
+
+Shader Renderer::getCurrentShader() {
+    return currentShader;
+}
+
+void Renderer::setShader(int index) {
+    if(index < 0 || index > shaderList.size()){
+        std::cout << "ERROR INDEX OUT OF BOUNDS" << std::endl;
+        Shutdown();
+    }
+    currentShader = shaderList[index];
+    currentShader.use();
+}
+

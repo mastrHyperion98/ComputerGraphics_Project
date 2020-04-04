@@ -7,9 +7,6 @@
 
 #ifndef INC_371PROCEDURALFOREST_RENDERER_H
 #define INC_371PROCEDURALFOREST_RENDERER_H
-
-
-
 // Include GLEW - OpenGL Extension Wrangler
 #define GLEW_STATIC 1
 #include <GL/glew.h>
@@ -20,14 +17,17 @@
 class Renderer
 {
 public:
-    Renderer();
-    static void Initialize();
+    static void Initialize(glm::vec3 color);
     static void Shutdown();
     static void BeginFrame();
     static void EndFrame();
+    static Shader getCurrentShader();
+    static void setShader(int index);
 private:
-
-
+    static void CheckForErrors();
+    static bool PrintError();
+    static std::vector<Shader> shaderList;
+    static Shader currentShader;
 };
 
 

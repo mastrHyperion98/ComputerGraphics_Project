@@ -12,6 +12,7 @@
 #include "GLFW/glfw3.h"
 #include <string>
 class WindowManager {
+public:
     static void Initialize(std::string, int, int);
     static void Shutdown();
     static void Update();
@@ -19,7 +20,7 @@ class WindowManager {
     static void DisableMouseCursor();
     static float GetMouseMotionX();
     static float GetMouseMotionY();
-    static GLFWwindow* getWindow;
+    static GLFWwindow* getWindow();
 private:
     static double sLastFrameTime;
     static float sFrameTime;
