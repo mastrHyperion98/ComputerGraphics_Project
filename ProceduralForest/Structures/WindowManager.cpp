@@ -3,12 +3,12 @@
 // A class created to help and simplify the main driver into something more simple
 // and easier to manage.
 
-#include "WindowManager.h"
-#include <GLFW/glfw3.h>
+
+#include "GLFW/glfw3.h"
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-
+#include "WindowManager.h"
 
 // set up and define the frame time static variable
 double WindowManager::sLastFrameTime = glfwGetTime();
@@ -81,7 +81,6 @@ void WindowManager::Initialize(std::string title, int width, int height) {
 
 void WindowManager::Shutdown() {
     glfwTerminate();
-    delete window;
     window = nullptr;
 }
 
@@ -125,4 +124,14 @@ float WindowManager::GetMouseMotionY()
 
 GLFWwindow* WindowManager::getWindow() {
     return window;
+}
+
+float WindowManager::GetFrameTime()
+{
+    return sFrameTime;
+}
+
+bool WindowManager::ExitWindow()
+{
+    return glfwGetKey(window, GLFW_KEY_ESCAPE ) == GLFW_PRESS || glfwWindowShouldClose(window);
 }

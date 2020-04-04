@@ -7,6 +7,10 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 //default constructor
+
+std::vector<Shader*> Renderer::shaderList;
+Shader * Renderer::currentShader = nullptr;
+GLuint Renderer::renderMode = -1;
 void Renderer::Initialize(glm::vec3 color) {
     glfwMakeContextCurrent(WindowManager::getWindow());
 
@@ -35,10 +39,11 @@ void Renderer::Initialize(glm::vec3 color) {
 
 void Renderer::Shutdown() {
     // Shaders
-    for (std::vector<Shader>::iterator it = shaderList.begin(); it < shaderList.end(); ++it)
+    for (std::vector<Shader*>::iterator it = shaderList.begin(); it < shaderList.end(); ++it)
     {
-        glDeleteProgram(it->ID);
+        glDeleteProgram((*it.base())->ID);
     }
+    currentShader = nullptr;
     shaderList.clear();
     WindowManager::Shutdown();
 }
@@ -118,7 +123,7 @@ void Renderer::CheckForErrors(){
     }
 }
 
-Shader Renderer::getCurrentShader() {
+Shader* Renderer::getCurrentShader() {
     return currentShader;
 }
 
@@ -128,6 +133,9 @@ void Renderer::setShader(int index) {
         Shutdown();
     }
     currentShader = shaderList[index];
-    currentShader.use();
+    currentShader->use();
 }
 
+void Renderer::setRenderMode(GLuint mode) {
+    renderMode = mode;
+}

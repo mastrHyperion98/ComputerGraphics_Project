@@ -21,6 +21,8 @@ public:
     static float GetMouseMotionX();
     static float GetMouseMotionY();
     static GLFWwindow* getWindow();
+    static float GetFrameTime();
+    static bool ExitWindow();
 private:
     static double sLastFrameTime;
     static float sFrameTime;
