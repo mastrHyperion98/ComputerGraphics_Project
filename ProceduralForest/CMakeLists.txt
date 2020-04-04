@@ -13,6 +13,6 @@ include_directories(Components)
 include_directories(Assets)
 
 add_executable(ProceduralForest main.cpp Assets/Utils.h Structures/Transform.cpp Structures/Component.cpp
-        Structures/Material.h Structures/Entity.cpp )
+        Structures/Material.h Structures/Entity.cpp Structures/Shader.h)
 target_link_libraries(ProceduralForest PRIVATE GLEW::GLEW PRIVATE glfw PRIVATE glm )
 
