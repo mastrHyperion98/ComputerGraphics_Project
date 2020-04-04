@@ -9,7 +9,6 @@
 #include <sstream>
 #include <iostream>
 /*
- * Inspired from the learnOpenGL class
  * Header only file
  */
 class Shader
