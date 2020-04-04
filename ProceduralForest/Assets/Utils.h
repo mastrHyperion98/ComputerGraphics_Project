@@ -50,7 +50,3 @@ int loadTexture(const char *filename) {
     glBindTexture(GL_TEXTURE_2D, 0);
     return textureId;
 }
-
-
-#endif //INC_371PROCEDURALFOREST_UTILS_H
-
