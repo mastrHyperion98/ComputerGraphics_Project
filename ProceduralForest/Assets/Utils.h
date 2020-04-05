@@ -13,7 +13,7 @@
 #include "glm/glm.hpp"  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <iostream>
 using namespace std;
-int loadTexture(const char *filename) {
+GLuint loadTexture(const char *filename) {
     // Step1 Create and bind textures
     GLuint textureId = 0;
     glGenTextures(1, &textureId);
@@ -47,6 +47,5 @@ int loadTexture(const char *filename) {
 
     // Step5 Free resources
     stbi_image_free(data);
-    glBindTexture(GL_TEXTURE_2D, 0);
     return textureId;
 }
