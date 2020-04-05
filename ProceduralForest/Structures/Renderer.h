@@ -22,7 +22,8 @@ public:
     static void BeginFrame();
     static void EndFrame();
     static Shader* getCurrentShader();
-    static void setShader(int index);
+    static void useShader(int index);
+    static void addShader(Shader*);
     static int getRenderMode(){return renderMode;};
     static void setRenderMode(GLuint);
 private:

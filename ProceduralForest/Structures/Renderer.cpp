@@ -127,12 +127,18 @@ Shader* Renderer::getCurrentShader() {
     return currentShader;
 }
 
-void Renderer::setShader(int index) {
+void Renderer::useShader(int index) {
     if(index < 0 || index > shaderList.size()){
         std::cout << "ERROR INDEX OUT OF BOUNDS" << std::endl;
         Shutdown();
     }
     currentShader = shaderList[index];
+    currentShader->use();
+}
+
+void Renderer::addShader(Shader* shader) {
+    shaderList.push_back(shader);
+    currentShader = shaderList.back();
     currentShader->use();
 }
 

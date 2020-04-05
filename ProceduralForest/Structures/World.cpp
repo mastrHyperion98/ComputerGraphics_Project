@@ -7,15 +7,13 @@
 World * World::current;
 
 World::World(){
+    current = this;
 }
 
 World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
     world_entities = std::vector<Entity>(world.world_entities);
     current = this;
-}
-World::~World(){
-    delete current;
 }
 
 void World::Draw() {

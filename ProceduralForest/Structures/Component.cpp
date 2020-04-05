@@ -18,8 +18,8 @@
 
 }
 
-Component::Component(Entity& entity, Material material):  material{material},
-parent{&entity}{
+Component::Component(Material material):  material{material},
+parent{nullptr}{
 }
 
 
@@ -58,5 +58,8 @@ void Component::setMaterial(Material _material)  {
     material = _material;
 }
 
+void Component::setParent(Entity *entity) {
+    parent = entity;
+}
 
 

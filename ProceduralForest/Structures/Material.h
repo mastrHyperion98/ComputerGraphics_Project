@@ -9,8 +9,8 @@
 #define ASSIGNMENT2_MATERIAL_H
 struct Material{
     GLuint diffuseMapId;
-    glm::vec3 vertexColor;
-    bool isTextured;
+    glm::vec3 vertexColor{vec3(1,1,1)};
+    bool isTextured{false};
 
     void addTexture(const char *filename) {
         // Step1 Create and bind textures

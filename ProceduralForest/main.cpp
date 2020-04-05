@@ -11,20 +11,30 @@
 #include "Transform.h"
 #include <WindowManager.h>
 #include <Renderer.h>
+#include "Entity.h"
+#include "Cube.h"
+#include "World.h"
 int main(int argc, char*argv[])
 {
     WindowManager::Initialize("Procedural Forest",1024,768);
-    Renderer::Initialize(vec3(1,1,1));
+    Renderer::Initialize(vec3(0,0.5,0.5));
+    Renderer::addShader(new Shader("../Shaders/vertex_shader.glsl","../Shaders/frag_shader.glsl"));
     // Entering Main Loop
+    World world;
+    Material white;
+    Entity entity;
+    Cube *cube = new Cube(white);
+    entity.addComponent(cube);
+    world.AddEntities(entity);
    do{
         WindowManager::Update();
         // Update World
         float dt = WindowManager::GetFrameTime();
         Renderer::BeginFrame();
-        Renderer::EndFrame();
+       world.Draw();
+       Renderer::EndFrame();
     }while(!WindowManager::ExitWindow());
     // Shutdown GLFW
-    WindowManager::Shutdown();
     Renderer::Shutdown();
 
     return 0;

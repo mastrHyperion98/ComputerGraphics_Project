@@ -4,11 +4,11 @@
 #ifndef ASSIGNMENT2_CUBE_H
 #define ASSIGNMENT2_CUBE_H
 
-#include "Component.h"
+#include "../Structures/Component.h"
 
 class Cube: public Component {
 public:
-    Cube(Entity&, Material);
+    Cube(Material);
     virtual void Draw() override ;
     virtual GLuint createVertexArrayObject() override;
 };

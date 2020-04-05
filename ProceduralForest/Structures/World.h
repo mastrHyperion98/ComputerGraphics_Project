@@ -14,7 +14,6 @@ class World {
 public:
     World();
     World(const World&);
-    ~World();
     void Draw();
     void AddEntities(Entity&);
     void RemoveEntity(int index);

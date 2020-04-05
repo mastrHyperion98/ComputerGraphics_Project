@@ -9,12 +9,12 @@
 #include "Component.h"
 #include "Transform.h"
 #include "Shader.h"
+class Component;
 class Entity {
 public:
     Entity();
     Entity(const Entity& entity);
     Entity& operator=(const Entity& entity);
-    ~Entity();
     void SetPosition(vec3 pos);
     void Translate(glm::vec3 translate);
     void Rotate(float angle, glm::vec3 rotate);
@@ -27,7 +27,7 @@ public:
     void ResetScaling();
     void Draw();
     void Update();
-    void addComponent(Component);
+    void addComponent(Component* components);
     Transform getTransform();
 protected:
     std::vector<Component*> components;

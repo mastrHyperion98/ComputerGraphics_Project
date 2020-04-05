@@ -52,8 +52,9 @@ void Entity::Draw(){
     for(auto & component : components)
         component->Draw();
 }
-void Entity::addComponent(Component component){
-    components.push_back(&component);
+void Entity::addComponent(Component* component){
+    components.push_back(component);
+    component->setParent(this);
 }
 
 Entity::Entity(const Entity &entity) {
@@ -71,11 +72,9 @@ Entity& Entity::operator=(const Entity &entity) {
     return *this;
 }
 
-Entity::~Entity() {
-    for(int i = 0; i < components.size(); i++) {
-        delete components[i];
-        // for safe measure
-        components[i] = nullptr;
-    }
-}
+void Entity::Update() {
 
+}
+Transform Entity::getTransform() {
+    return transform;
+}

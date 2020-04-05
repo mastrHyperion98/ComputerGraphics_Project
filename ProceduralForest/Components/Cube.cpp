@@ -18,7 +18,7 @@ struct TexturedColoredVertex
     vec3 normal;
     vec2 uv;
 };
-Cube::Cube(Entity& entity, Material material): Component{entity,material}{
+Cube::Cube(Material material): Component{material}{
     vao = createVertexArrayObject();
 }
 GLuint Cube::createVertexArrayObject(){

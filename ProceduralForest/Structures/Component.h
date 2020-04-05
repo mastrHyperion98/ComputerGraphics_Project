@@ -15,10 +15,10 @@
 #include "Material.h"
 #include "Entity.h"
 #include "Renderer.h"
-
+class Entity;
 class Component {
 public:
-    Component(Entity& entity, Material);
+    Component(Material);
     Component(const Component& component);
     ~Component();
     Component& operator=(const Component& component);
@@ -29,7 +29,8 @@ public:
     void Rotate(float angle, vec3 trans);
     void Scale(glm::vec3 scale);
     void setMaterial(Material);
-    Entity& getParent(){return parent;};
+    void setParent(Entity* entity);
+    Entity* getParent(){return parent;};
 protected:
     Material material;
     Transform transform;
