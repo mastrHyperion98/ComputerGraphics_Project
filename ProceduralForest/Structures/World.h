@@ -1,5 +1,5 @@
 //
-// Created by hyperion on 2020-04-05.
+// Created by Steven Smith on 2020-04-05.
 //
 
 #ifndef INC_371PROCEDURALFOREST_WORLD_H

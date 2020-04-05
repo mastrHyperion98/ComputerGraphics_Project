@@ -18,12 +18,14 @@
 
 }
 
-Component::Component(Material material):  material{material},
+Component::Component(Material material, glm::vec3 size):  material{material},
 parent{nullptr}{
+    transform.size = size;
 }
 
 
 Component::Component(const Component &component):parent{component.parent}, material{Material(component.material)}{
+    transform=component.transform;
 }
 
 Component::~Component() {

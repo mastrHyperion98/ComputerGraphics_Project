@@ -8,7 +8,7 @@
 
 class Cube: public Component {
 public:
-    Cube(Material);
+    Cube(Material, vec3);
     virtual void Draw() override ;
     virtual GLuint createVertexArrayObject() override;
 };

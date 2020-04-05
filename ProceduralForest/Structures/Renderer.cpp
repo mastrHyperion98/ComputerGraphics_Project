@@ -32,6 +32,7 @@ void Renderer::Initialize(glm::vec3 color) {
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
 
 
     CheckForErrors();

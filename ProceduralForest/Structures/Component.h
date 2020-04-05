@@ -18,7 +18,7 @@
 class Entity;
 class Component {
 public:
-    Component(Material);
+    Component(Material, glm::vec3);
     Component(const Component& component);
     ~Component();
     Component& operator=(const Component& component);

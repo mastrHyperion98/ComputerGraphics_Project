@@ -14,6 +14,9 @@
 #include "Entity.h"
 #include "Cube.h"
 #include "World.h"
+
+using namespace glm;
+using namespace std;
 int main(int argc, char*argv[])
 {
     WindowManager::Initialize("Procedural Forest",1024,768);
@@ -23,16 +26,67 @@ int main(int argc, char*argv[])
     World world;
     Material white;
     Entity entity;
-    Cube *cube = new Cube(white);
+    Cube *cube = new Cube(white, vec3(10));
     entity.addComponent(cube);
     world.AddEntities(entity);
+
+    float fov = 70.00f;
+    // position camera at the origin
+    vec3 cameraPosition(0.0f,10.0f,20.0f);
+    vec3 cameraLookAt(0.0f, 0.0f, 0.0f);
+    vec3 cameraUp(0.0f, 1.0f, 0.0f);
+    // Other camera parameters
+    float cameraSpeed = 1.0f;
+    float cameraFastSpeed = 2 * cameraSpeed;
+    float cameraHorizontalAngle = 90.0f;
+    float cameraVerticalAngle =  0.0f;
+
+    mat4 projectionMatrix;
+    mat4 viewMatrix;
    do{
+       projectionMatrix = glm::perspective(fov,            // field of view in degrees
+                                                1024.0f / 768.0f,  // aspect ratio
+                                                0.01f, 100.0f);   // near and far (near > 0)
+       viewMatrix = lookAt(cameraPosition,  // eye
+                                cameraPosition + cameraLookAt,  // center
+                                cameraUp ); //
+
         WindowManager::Update();
         // Update World
         float dt = WindowManager::GetFrameTime();
         Renderer::BeginFrame();
-       world.Draw();
+        // set uniforms
+        Renderer::getCurrentShader()->setMat4("projectionMatrix", projectionMatrix);
+        Renderer::getCurrentShader()->setMat4("viewMatrix", viewMatrix);
+        Renderer::setRenderMode(GL_TRIANGLES);
+        world.Draw();
        Renderer::EndFrame();
+       // update camera
+       const float cameraAngularSpeed = 60.0f;
+       if(glfwGetMouseButton(WindowManager::getWindow(), GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS){
+           cameraVerticalAngle   -= WindowManager::GetMouseMotionY() * cameraAngularSpeed * dt;
+
+       }
+       cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
+       if (cameraHorizontalAngle > 360)
+       {
+           cameraHorizontalAngle -= 360;
+       }
+       else if (cameraHorizontalAngle < -360)
+       {
+           cameraHorizontalAngle += 360;
+       }
+       float theta = radians(cameraHorizontalAngle);
+       float phi = radians(cameraVerticalAngle);
+
+       // forward vector -- pointing to the direction we are looking at
+       cameraLookAt = vec3(cosf(phi)*cosf(theta), sinf(phi), -cosf(phi)*sinf(theta));
+       // side vector
+       vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 0.5f, 0.0f));
+       // we need to make the side vector a unit vector
+       glm::normalize(cameraSideVector);
+       viewMatrix = lookAt(cameraPosition, cameraPosition + cameraLookAt, cameraUp );
+       Renderer::getCurrentShader()->setMat4("viewMatrix", viewMatrix);
     }while(!WindowManager::ExitWindow());
     // Shutdown GLFW
     Renderer::Shutdown();

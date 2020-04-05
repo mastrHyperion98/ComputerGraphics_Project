@@ -1,5 +1,5 @@
 //
-// Created by hyperion on 2020-04-05.
+// Created by Steven Smith on 2020-04-05.
 //
 
 #include "World.h"
@@ -19,6 +19,8 @@ World::World(const World& world){
 void World::Draw() {
     for(int i = 0; i < world_entities.size();i++)
         world_entities[i].Draw();
+
+    glBindVertexArray(0);
 }
 
 void World::AddEntities(Entity& entity) {
