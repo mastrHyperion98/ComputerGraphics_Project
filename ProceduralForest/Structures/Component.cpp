@@ -14,13 +14,32 @@
 #include <list>
 #include "stb_image.h"
 
- void Component::Draw(Transform world, Transform entity, int mode){
+ void Component::Draw(){
 
 }
 
-Component::Component(Shader shader, Material material): shaderProgram{shader}, material{material} {
+Component::Component(Entity& entity, Material material):  material{material},
+parent{&entity}{
 }
 
+
+Component::Component(const Component &component):parent{component.parent}, material{Material(component.material)}{
+}
+
+Component::~Component() {
+    // we dont necessarily want to delete the parent if a component is deleted
+   parent = nullptr;
+}
+
+Component& Component::operator=(const Component& component){
+    if(this == & component)
+        return *this;
+
+    material = component.material;
+    transform = component.transform;
+    vao = component.vao;
+    *parent = *component.parent;
+}
 void Component::Translate(glm::vec3 translate){
     transform.position += translate;
 }
@@ -38,3 +57,6 @@ GLuint Component::createVertexArrayObject() {
 void Component::setMaterial(Material _material)  {
     material = _material;
 }
+
+
+

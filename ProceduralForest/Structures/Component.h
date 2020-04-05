@@ -13,21 +13,28 @@
 #include "Transform.h"
 #include "Shader.h"
 #include "Material.h"
+#include "Entity.h"
+#include "Renderer.h"
+
 class Component {
 public:
-    Component(Shader, Material);
+    Component(Entity& entity, Material);
+    Component(const Component& component);
+    ~Component();
+    Component& operator=(const Component& component);
     virtual GLuint createVertexArrayObject();
     // I want to elimate the parameters here by using creating a Singleton Renderer.
-    virtual void Draw(Transform, Transform, int);
+    virtual void Draw();
     void Translate(glm::vec3 translate);
     void Rotate(float angle, vec3 trans);
     void Scale(glm::vec3 scale);
     void setMaterial(Material);
-    Transform transform;
+    Entity& getParent(){return parent;};
 protected:
     Material material;
-    Shader shaderProgram;
+    Transform transform;
     GLuint vao;
+    Entity* parent;
 };
 
 

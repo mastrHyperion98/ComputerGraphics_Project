@@ -3,8 +3,9 @@
 //
 
 #include "Cube.h"
-#include "../structures/Component.h"
+#include "Component.h"
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
+#include <World.h>
 // initializing OpenGL and binding inputs
 #include "glm/glm.hpp"  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 
@@ -17,60 +18,60 @@ struct TexturedColoredVertex
     vec3 normal;
     vec2 uv;
 };
-Cube::Cube(Shader shader, Material material): Component{shader,material}{
+Cube::Cube(Entity& entity, Material material): Component{entity,material}{
     vao = createVertexArrayObject();
 }
 GLuint Cube::createVertexArrayObject(){
     // Cube model
     // Cube model stolen from lab 3
     const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f),vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)), //left - red
-            TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f),vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size * vec3(-0.5f,-0.5f,-0.5f),vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)), //left - red
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f, 0.5f),vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
 
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)), // far - blue
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)), // far - blue
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 1.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 0.0f)),
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 1.0f)), // bottom - turquoise
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 1.0f)), // bottom - turquoise
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
-            TexturedColoredVertex(vec3(-0.5f,-0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
+            TexturedColoredVertex(transform.size *vec3(-0.5f,-0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)), // right - purple
-            TexturedColoredVertex(vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)), // right - purple
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3( 0.5f,-0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f,-0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)), // top - yellow
-            TexturedColoredVertex(vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 0.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)), // top - yellow
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.0f, 0.0f)),
 
-            TexturedColoredVertex(vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f))
+            TexturedColoredVertex(transform.size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform.size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f))
     };
     // Create a vertex array
     GLuint vertexArrayObject;
@@ -112,7 +113,7 @@ GLuint Cube::createVertexArrayObject(){
     return vertexArrayObject;
 }
 
-void Cube::Draw(Transform world, Transform entity, int mode){
+void Cube::Draw(){
     // set transform to mat4(1.0)
     glm::mat4 modelWorldMatrix = mat4(1.0f);
     transform.transformation = mat4(1.0);
@@ -121,22 +122,22 @@ void Cube::Draw(Transform world, Transform entity, int mode){
        //shaderProgram.setInt("textureSampler", 0);
        glActiveTexture(GL_TEXTURE0+0);
        glBindTexture(GL_TEXTURE_2D, material.diffuseMapId);
-       shaderProgram.setBool("material.isTextured", true);
+        Renderer::getCurrentShader()->setBool("material.isTextured", true);
         // Set our Texture sampler to user Texture Unit 0
     }
     // load the proper vao
     glBindVertexArray(vao);
     //glBindBuffer(GL_ARRAY_BUFFER, vbo);
     // set the color
-    shaderProgram.setVec3("material.color", material.vertexColor.x, material.vertexColor.y, material.vertexColor.z);
+    Renderer::getCurrentShader()->setVec3("material.color", material.vertexColor.x, material.vertexColor.y, material.vertexColor.z);
     // setup transform
     transform.transformation = translate(transform.transformation, transform.position);
     transform.transformation = transform.transformation * glm::mat4_cast(transform.rotation);
     transform.transformation = glm::scale(transform.transformation, transform.scaling);
     // matrix on the right applies first so we want to do the following
-    modelWorldMatrix = world.transformation * entity.transformation * transform.transformation;
-    shaderProgram.setMat4("worldMatrix", modelWorldMatrix);
+    modelWorldMatrix = World::getCurrent()->getTransform().transformation* parent->getTransform().transformation * transform.transformation;
+    Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
-    glDrawArrays(mode, 0, 36);
-    shaderProgram.setBool("material.isTextured", false);
+    glDrawArrays(Renderer::getRenderMode(), 0, 36);
+    Renderer::getCurrentShader()->setBool("material.isTextured", false);
 }

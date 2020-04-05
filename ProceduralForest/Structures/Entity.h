@@ -11,12 +11,11 @@
 #include "Shader.h"
 class Entity {
 public:
-    Entity(Shader);
+    Entity();
     Entity(const Entity& entity);
     Entity& operator=(const Entity& entity);
     ~Entity();
     void SetPosition(vec3 pos);
-    void SetRenderMode(int mode);
     void Translate(glm::vec3 translate);
     void Rotate(float angle, glm::vec3 rotate);
     void Scale(glm::vec3 scale);
@@ -26,13 +25,13 @@ public:
     void ResetPosition();
     void ResetRotation();
     void ResetScaling();
-    void Draw(Transform worldTransform);
+    void Draw();
+    void Update();
     void addComponent(Component);
-    Transform transform;
+    Transform getTransform();
 protected:
     std::vector<Component*> components;
-    Shader shaderProgram;
-    int mode;
+    Transform transform;
 };
 
 
