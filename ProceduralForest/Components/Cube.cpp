@@ -135,7 +135,7 @@ void Cube::Draw(){
     transform.transformation = transform.transformation * glm::mat4_cast(transform.rotation);
     transform.transformation = glm::scale(transform.transformation, transform.scaling);
     // matrix on the right applies first so we want to do the following
-    modelWorldMatrix = World::getCurrent()->getTransform().transformation* parent->getTransform().transformation * transform.transformation;
+    modelWorldMatrix = World::getCurrent()->getTransform().transformation* parent->transformation * transform.transformation;
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
     glDrawArrays(Renderer::getRenderMode(), 0, 36);

@@ -54,7 +54,7 @@ void Entity::Draw(){
 }
 void Entity::addComponent(Component* component){
     components.push_back(component);
-    component->setParent(this);
+    component->setParent(&this->transform);
 }
 
 Entity::Entity(const Entity &entity) {

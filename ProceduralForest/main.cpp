@@ -14,7 +14,7 @@
 #include "Entity.h"
 #include "Cube.h"
 #include "World.h"
-
+#include "TreeGenerator.h"
 using namespace glm;
 using namespace std;
 int main(int argc, char*argv[])
@@ -24,15 +24,11 @@ int main(int argc, char*argv[])
     Renderer::addShader(new Shader("../Shaders/vertex_shader.glsl","../Shaders/frag_shader.glsl"));
     // Entering Main Loop
     World world;
-    Material white;
-    Entity entity;
-    Cube *cube = new Cube(white, vec3(10));
-    entity.addComponent(cube);
-    world.AddEntities(entity);
+    world.AddEntities(TreeGenerator::generateTree(10,0.4,16));
 
     float fov = 70.00f;
     // position camera at the origin
-    vec3 cameraPosition(0.0f,10.0f,20.0f);
+    vec3 cameraPosition(0.0f,10.0f,40.0f);
     vec3 cameraLookAt(0.0f, 0.0f, 0.0f);
     vec3 cameraUp(0.0f, 1.0f, 0.0f);
     // Other camera parameters

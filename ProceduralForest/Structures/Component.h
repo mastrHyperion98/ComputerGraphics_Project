@@ -29,13 +29,14 @@ public:
     void Rotate(float angle, vec3 trans);
     void Scale(glm::vec3 scale);
     void setMaterial(Material);
-    void setParent(Entity* entity);
-    Entity* getParent(){return parent;};
+    void setParent(Transform*);
+    Transform* getParent(){return parent;};
+    Transform getTransform(){return transform;};
 protected:
     Material material;
     Transform transform;
     GLuint vao;
-    Entity* parent;
+    Transform* parent;
 };
 
 

@@ -25,9 +25,10 @@ public:
     void ResetPosition();
     void ResetRotation();
     void ResetScaling();
-    void Draw();
-    void Update();
+    void virtual Draw();
+    void virtual Update();
     void addComponent(Component* components);
+    Component* getComponent(int index){return components[index];}
     Transform getTransform();
 protected:
     std::vector<Component*> components;

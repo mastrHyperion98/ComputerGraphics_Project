@@ -23,7 +23,7 @@ void World::Draw() {
     glBindVertexArray(0);
 }
 
-void World::AddEntities(Entity& entity) {
+void World::AddEntities(Entity entity) {
     world_entities.push_back(entity);
 }
 
