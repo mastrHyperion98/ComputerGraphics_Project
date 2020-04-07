@@ -12,7 +12,7 @@ World::World(){
 
 World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
-    world_entities = std::vector<Entity>(world.world_entities);
+    world_entities = std::vector<Entity*>(world.world_entities);
     current = *this;
 }
 
@@ -22,13 +22,13 @@ World::~World() {
 }
 void World::Draw() {
     for(int i = 0; i < world_entities.size();i++)
-        world_entities[i].Draw();
+        world_entities[i]->Draw();
 
     glBindVertexArray(0);
 }
 
 void World::AddEntities(Entity &entity) {
-    world_entities.push_back(entity);
+    world_entities.push_back(&entity);
 }
 
 void World::RemoveEntity(int index){
@@ -43,5 +43,5 @@ World& World::getCurrent(){
 
 void World::Update() {
     for(int i = 0; i < world_entities.size();i++)
-        world_entities[i].Update();
+        world_entities[i]->Update();
 }

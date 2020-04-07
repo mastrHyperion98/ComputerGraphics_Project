@@ -34,11 +34,12 @@ void Tree::Draw() {
     transform->transformation = transform->transformation * glm::mat4_cast(transform->rotation);
     transform->transformation = glm::scale(transform->transformation, transform->scaling);
     // matrix on the right applies first so we want to do the following
-    modelWorldMatrix = World::getCurrent()->getTransform().transformation* transform->transformation ;
+    modelWorldMatrix = World::getCurrent().getTransform().transformation* transform->transformation ;
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
     glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, offset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
+    glDeleteTextures(1,&mat.diffuseMapId);
 }
 
 void Tree::Update() {
