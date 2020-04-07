@@ -16,12 +16,13 @@ public:
     World(const World&);
     ~World();
     void Draw();
-    void AddEntities(Entity&);
+    void AddEntities(Entity*);
     void RemoveEntity(int index);
     Entity* GetEntity(int index){return world_entities[index];}
     void Update();
     static World& getCurrent();
     Transform getTransform(){return worldTransform;};
+    void ProcedurallyGenerateWorld();
 private:
     Transform worldTransform;
     std::vector<Entity*> world_entities;
