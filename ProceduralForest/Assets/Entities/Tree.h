@@ -9,19 +9,25 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include "Cube.h"
+
+struct TreeOffsetData{
+    vec3 offset;
+    float textureOffset;
+};
 class Tree: public Entity{
 public:
     void virtual Draw() override ;
     void virtual Update() override;
-    void addLeavesOffset(glm::vec3);
-    std::vector<glm::vec3> getLeavesOffsets(){return offset;};
+    void addLeavesOffset(TreeOffsetData);
+    std::vector<TreeOffsetData> getLeavesOffsets(){return data_offset;};
     void removeLeavesOffset(int);
+    void setTrunkHeight(int);
     void createVAO();
+    std::vector<TreeOffsetData> data_offset;
 private:
     Material leaves;
     Material trunk;
-
-    std::vector<glm::vec3> offset;
+    int trunk_height{0};
     GLuint vao;
     unsigned int instanceVBO;
 };

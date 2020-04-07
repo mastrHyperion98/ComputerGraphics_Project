@@ -114,7 +114,7 @@ void Cube::Draw(){
        //shaderProgram.setInt("textureSampler", 0);
        glActiveTexture(GL_TEXTURE0+0);
        glBindTexture(GL_TEXTURE_2D, material.diffuseMapId);
-        Renderer::getCurrentShader()->setBool("material.isTextured", true);
+        Renderer::getCurrentShader()->setBool("material1.isTextured", true);
         // Set our Texture sampler to user Texture Unit 0
     }
     // load the proper vao
@@ -131,6 +131,6 @@ void Cube::Draw(){
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
     glDrawArrays(Renderer::getRenderMode(), 0, 36);
-    Renderer::getCurrentShader()->setBool("material.isTextured", false);
+    Renderer::getCurrentShader()->setBool("material1.isTextured", false);
 
 }
