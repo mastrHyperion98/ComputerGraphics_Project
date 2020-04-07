@@ -14,17 +14,18 @@ class World {
 public:
     World();
     World(const World&);
+    ~World();
     void Draw();
-    void AddEntities(Entity*);
+    void AddEntities(Entity&);
     void RemoveEntity(int index);
-    Entity* GetEntity(int index){return world_entities[index];}
+    Entity& GetEntity(int index){return world_entities[index];}
     void Update();
-    static World* getCurrent();
+    static World& getCurrent();
     Transform getTransform(){return worldTransform;};
 private:
     Transform worldTransform;
-    std::vector<Entity*> world_entities;
-    static World *current;
+    std::vector<Entity> world_entities;
+    static World current;
 };
 
 

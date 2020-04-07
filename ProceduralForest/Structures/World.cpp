@@ -4,26 +4,30 @@
 
 #include "World.h"
 
-World * World::current;
+World  World::current;
 
 World::World(){
-    current = this;
+    current = *this;
 }
 
 World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
-    world_entities = std::vector<Entity*>(world.world_entities);
-    current = this;
+    world_entities = std::vector<Entity>(world.world_entities);
+    current = *this;
 }
 
+
+World::~World() {
+
+}
 void World::Draw() {
     for(int i = 0; i < world_entities.size();i++)
-        world_entities[i]->Draw();
+        world_entities[i].Draw();
 
     glBindVertexArray(0);
 }
 
-void World::AddEntities(Entity *entity) {
+void World::AddEntities(Entity &entity) {
     world_entities.push_back(entity);
 }
 
@@ -33,11 +37,11 @@ void World::RemoveEntity(int index){
     else
         std::cout << "INDEX OUT OF BOUND! CANNOT REMOVE ENTITY";
 }
-World* World::getCurrent(){
+World& World::getCurrent(){
     return current;
 }
 
 void World::Update() {
     for(int i = 0; i < world_entities.size();i++)
-        world_entities[i]->Update();
+        world_entities[i].Update();
 }
