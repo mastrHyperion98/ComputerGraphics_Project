@@ -32,11 +32,11 @@ public:
     void setParent(Transform*);
     Material getMaterial(){return material;};
     Transform* getParent(){return parent;};
-    Transform* getTransform(){return transform;};
+    Transform& getTransform(){return transform;};
     GLuint getVAO(){return vao;};
 protected:
     Material material;
-    Transform *transform{new Transform};
+    Transform transform;
     GLuint vao;
     Transform* parent;
 };

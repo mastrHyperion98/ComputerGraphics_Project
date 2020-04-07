@@ -18,7 +18,10 @@ World::World(const World& world){
 
 
 World::~World() {
-
+for(auto & entries:world_entities){
+    delete entries;
+    entries = nullptr;
+}
 }
 void World::Draw() {
     for(int i = 0; i < world_entities.size();i++)

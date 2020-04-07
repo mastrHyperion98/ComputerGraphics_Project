@@ -11,7 +11,13 @@
 Entity::Entity():components{std::vector<Component*>()}, transform{new Transform}{
 
 }
-
+Entity::~Entity(){
+    for(auto entries:components){
+        delete entries;
+        entries=nullptr;
+    }
+    delete transform;
+}
 
 void Entity::SetPosition(vec3 pos){
     transform->position = pos;
@@ -89,6 +95,3 @@ int Entity::getSize() {
     return components.size();
 }
 
-Entity::~Entity(){
-    delete transform;
-}

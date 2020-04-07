@@ -12,8 +12,8 @@ class TreeGenerator {
 public:
     static Tree* generateTree(vec3);
 private:
-    static void generateTrunk(Tree*, int);
-    static void generateLeaves(Tree*, int, vec3);
+    static void generateTrunk(Tree&, int);
+    static void generateLeaves(Tree&, int, vec3);
     static float euclidianNorm(vec3, vec3);
     static bool inSphere(vec3, vec3, float);
     static int computeNumberInX(vec3 center, float radius, int index, int increment);

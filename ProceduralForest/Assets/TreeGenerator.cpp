@@ -9,7 +9,7 @@
 #include "Material.h"
 #include <iostream>
 #include "random"
-Tree* TreeGenerator::generateTree(vec3 position) {
+ Tree* TreeGenerator::generateTree(vec3 position) {
     // generate the tree here and return it.
     Tree *tree = new Tree;
     std::random_device dev;
@@ -17,23 +17,23 @@ Tree* TreeGenerator::generateTree(vec3 position) {
     std::uniform_int_distribution<std::mt19937::result_type> dist(7,20); // dist
     int trunk_height = dist(rng);
     int radius = max(trunk_height/3, 3);
-    generateTrunk( tree, trunk_height);
+    generateTrunk( *tree, trunk_height);
     vec3 center{tree->getLeavesOffsets()[tree->getLeavesOffsets().size()-1]};
-    generateLeaves(tree, radius, center);
+    generateLeaves(*tree, radius, center);
 
     // set position
     tree->getTransform()->position = position;
     tree->createVAO();
     return tree;
 }
-void TreeGenerator::generateTrunk( Tree *tree, int num_trunk) {
+void TreeGenerator::generateTrunk( Tree &tree, int num_trunk) {
     vec3 initial_pos{vec3{0,0,0}};
-    tree->addLeavesOffset(initial_pos);
+    tree.addLeavesOffset(initial_pos);
     for(int i = 1; i < num_trunk; i++)
-        tree->addLeavesOffset(vec3(0, initial_pos.y + (i * 1.0f),0));
+        tree.addLeavesOffset(vec3(0, initial_pos.y + (i * 1.0f),0));
 }
 
-void TreeGenerator::generateLeaves( Tree *tree, int radius, vec3 center) {
+void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
     int square_count{0};
     int buttom_cutoff = 0;//ceilf(radius/2);
     int increment = 1; // unit cube
@@ -47,17 +47,17 @@ void TreeGenerator::generateLeaves( Tree *tree, int radius, vec3 center) {
         for(int j = 0; j <= num_x; j++){
             vec3 position = center + vec3(j, i * increment, 0);
             if(j!=0) {
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(j, i * increment, k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
 
                 position = center + vec3(j, i * increment, -k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
 
             }
@@ -66,15 +66,15 @@ void TreeGenerator::generateLeaves( Tree *tree, int radius, vec3 center) {
             vec3 position = center + vec3(-j, i * increment, 0);
             if(j!=0 ) {
                 square_count++;
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(-j, i * increment, k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                     square_count++;
                 position = center + vec3(-j, i * increment, -k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
         }
@@ -85,48 +85,47 @@ void TreeGenerator::generateLeaves( Tree *tree, int radius, vec3 center) {
         for(int j = 0; j <= num_x; j++){
             vec3 position = center + vec3(j, -(i * increment), 0);
             if(j!=0) {
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(j, -(i * increment), k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
 
                 position = center + vec3(j, -(i * increment), -k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
         }
         for(int j = 0; j <= num_x; j++){
             vec3 position = center + vec3(-j, -(i * increment), 0);
             if(j!=0) {
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(-j, -(i * increment), k);
 
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
 
                 position = center + vec3(-j, -(i * increment), -k);
-                tree->addLeavesOffset(position);
+                tree.addLeavesOffset(position);
                 square_count++;
             }
         }
     }
-    std::cout << square_count << std::endl;
     // we want to remove x_number of blocks based on the total number of blocks in the tree
     int to_remove = square_count *0.40;
 
     for(int i = 0; i < to_remove; i++){
-        int tree_size = tree->getLeavesOffsets().size() - 1;
+        int tree_size = tree.getLeavesOffsets().size() - 1;
         std::uniform_int_distribution<std::mt19937::result_type> dist(square_count/2,tree_size); // distribution in range [1, 6]
         int remove = dist(rng);
-        tree->removeLeavesOffset(remove);
+        tree.removeLeavesOffset(remove);
     }
 
 
