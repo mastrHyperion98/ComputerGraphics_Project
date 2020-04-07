@@ -9,18 +9,24 @@
 #include "Material.h"
 #include <iostream>
 #include "random"
-Entity TreeGenerator::generateTree(float bias) {
+Entity TreeGenerator::generateTree() {
     // generate the tree here and return it.
     Entity tree;
-    generateTrunk( &tree);
-    generateLeaves(&tree, bias);
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(7,20); // dist
+    int trunk_height = dist(rng);
+    int radius = max(trunk_height/3, 3);
+    generateTrunk( &tree, trunk_height);
+    vec3 center{0,tree.getComponent(trunk_height-2)->getTransform().position.y,0};
+    generateLeaves(&tree, radius, center);
     return tree;
 }
-void TreeGenerator::generateTrunk( Entity *tree) {
+void TreeGenerator::generateTrunk( Entity *tree, int num_trunk) {
     Material mat;
-    mat.addTexture("../Assets/Textures/bark.bmp");
+    mat.addTexture("../Assets/Textures/tree.jpg");
     mat.vertexColor= vec3(0.290196, 0.172549, 0.160784);
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < num_trunk; i++) {
         Cube *cube=new Cube{mat, vec3(1)};
         tree->addComponent(cube);
         if(i != 0)
@@ -29,16 +35,14 @@ void TreeGenerator::generateTrunk( Entity *tree) {
     }
 }
 
-void TreeGenerator::generateLeaves( Entity *tree, float bias) {
+void TreeGenerator::generateLeaves( Entity *tree, int radius, vec3 center) {
     int square_count{0};
     Material mat;
     mat.addTexture("../Assets/Textures/leaves_c4.png");
     // equation of a sphere is
     //(x-a)^2 + (y-b)^2 +(2-c)^2 = r^2
     //(a,b,c) --> origin
-    int radius =4;
     int buttom_cutoff = 0;//ceilf(radius/2);
-    vec3 center = tree->getComponent(7)->getTransform().position;
     int increment = 1; // unit cube
 
     std::random_device dev;
@@ -124,7 +128,6 @@ void TreeGenerator::generateLeaves( Entity *tree, float bias) {
                     square_count++;
                     tree->addComponent(cube2);
                     cube2->Translate(position);
-
             }
         }
         for(int j = 0; j <= num_x; j++){

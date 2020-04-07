@@ -8,10 +8,10 @@
 
 class TreeGenerator {
 public:
-    static Entity generateTree(float);
+    static Entity generateTree();
 private:
-    static void generateTrunk(Entity*);
-    static void generateLeaves(Entity*, float);
+    static void generateTrunk(Entity*, int);
+    static void generateLeaves(Entity*, int, vec3);
     static float euclidianNorm(vec3, vec3);
     static bool inSphere(vec3, vec3, float);
     static int computeNumberInX(vec3 center, float radius, int index, int increment);
