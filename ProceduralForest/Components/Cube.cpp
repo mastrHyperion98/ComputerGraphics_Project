@@ -9,15 +9,7 @@
 // initializing OpenGL and binding inputs
 #include "glm/glm.hpp"  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 
-struct TexturedColoredVertex
-{
-    TexturedColoredVertex(vec3 _position, vec3 _normal, vec2 _uv)
-            : position(_position), normal(_normal),uv(_uv) {}
 
-    vec3 position;
-    vec3 normal;
-    vec2 uv;
-};
 Cube::Cube(Material material, vec3 size): Component{material, size}{
     vao = createVertexArrayObject();
 }
@@ -135,7 +127,7 @@ void Cube::Draw(){
     transform.transformation = transform.transformation * glm::mat4_cast(transform.rotation);
     transform.transformation = glm::scale(transform.transformation, transform.scaling);
     // matrix on the right applies first so we want to do the following
-    modelWorldMatrix = World::getCurrent()->getTransform().transformation* parent->getTransform().transformation * transform.transformation;
+    modelWorldMatrix = World::getCurrent().getTransform().transformation* parent->transformation * transform.transformation;
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
     glDrawArrays(Renderer::getRenderMode(), 0, 36);

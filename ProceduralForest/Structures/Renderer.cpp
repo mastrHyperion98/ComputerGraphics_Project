@@ -33,17 +33,19 @@ void Renderer::Initialize(glm::vec3 color) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
-
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     CheckForErrors();
 }
 
 void Renderer::Shutdown() {
     // Shaders
-    for (std::vector<Shader*>::iterator it = shaderList.begin(); it < shaderList.end(); ++it)
-    {
-        glDeleteProgram((*it.base())->ID);
+    for(int i = 0; i < shaderList.size(); i++){
+        glDeleteProgram(shaderList[i]->ID);
+        delete shaderList[i];
+        shaderList[i] = nullptr;
     }
+
     currentShader = nullptr;
     shaderList.clear();
     WindowManager::Shutdown();

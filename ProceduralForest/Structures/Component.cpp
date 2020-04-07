@@ -15,14 +15,11 @@
 #include "stb_image.h"
 
  void Component::Draw(){
-
 }
-
 Component::Component(Material material, glm::vec3 size):  material{material},
 parent{nullptr}{
     transform.size = size;
 }
-
 
 Component::Component(const Component &component):parent{component.parent}, material{Material(component.material)}{
     transform=component.transform;
@@ -41,6 +38,8 @@ Component& Component::operator=(const Component& component){
     transform = component.transform;
     vao = component.vao;
     *parent = *component.parent;
+
+    return *this;
 }
 void Component::Translate(glm::vec3 translate){
     transform.position += translate;
@@ -60,8 +59,8 @@ void Component::setMaterial(Material _material)  {
     material = _material;
 }
 
-void Component::setParent(Entity *entity) {
-    parent = entity;
+void Component::setParent(Transform *transform) {
+    parent = transform;
 }
 
 

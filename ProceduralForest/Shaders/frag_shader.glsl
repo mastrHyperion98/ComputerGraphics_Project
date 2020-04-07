@@ -14,7 +14,7 @@ in vec3 Normal;
 out vec4 FragColor;
 
 uniform Material material;
-uniform bool enabled_textures;
+uniform bool enabled_textures = true;
 
 void main()
 {

@@ -14,7 +14,7 @@
 #include "Entity.h"
 #include "Cube.h"
 #include "World.h"
-
+#include "TreeGenerator.h"
 using namespace glm;
 using namespace std;
 int main(int argc, char*argv[])
@@ -24,19 +24,21 @@ int main(int argc, char*argv[])
     Renderer::addShader(new Shader("../Shaders/vertex_shader.glsl","../Shaders/frag_shader.glsl"));
     // Entering Main Loop
     World world;
-    Material white;
-    Entity entity;
-    Cube *cube = new Cube(white, vec3(10));
-    entity.addComponent(cube);
-    world.AddEntities(entity);
+   // world.AddEntities(TreeGenerator::generateTree(vec3{0,0,0}));
+
+   for(int i = 0; i < 10; i++){
+       for(int j = 0; j < 10; j++){
+           world.AddEntities(*TreeGenerator::generateTree(vec3{i*10,0,-j*10}));
+       }
+   }
 
     float fov = 70.00f;
     // position camera at the origin
-    vec3 cameraPosition(0.0f,10.0f,20.0f);
+    vec3 cameraPosition(0.0f,5.0f,20.0f);
     vec3 cameraLookAt(0.0f, 0.0f, 0.0f);
     vec3 cameraUp(0.0f, 1.0f, 0.0f);
     // Other camera parameters
-    float cameraSpeed = 1.0f;
+    float cameraSpeed = 3.0f;
     float cameraFastSpeed = 2 * cameraSpeed;
     float cameraHorizontalAngle = 90.0f;
     float cameraVerticalAngle =  0.0f;
@@ -67,6 +69,9 @@ int main(int argc, char*argv[])
            cameraVerticalAngle   -= WindowManager::GetMouseMotionY() * cameraAngularSpeed * dt;
 
        }
+       if(glfwGetMouseButton(WindowManager::getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS){
+           cameraHorizontalAngle -= WindowManager::GetMouseMotionX()* cameraAngularSpeed * dt;
+       }
        cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
        if (cameraHorizontalAngle > 360)
        {
@@ -78,11 +83,30 @@ int main(int argc, char*argv[])
        }
        float theta = radians(cameraHorizontalAngle);
        float phi = radians(cameraVerticalAngle);
+       vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 0.5f, 0.0f));
+       if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
+       {
+           cameraPosition -= cameraSideVector * cameraSpeed * dt;
+       }
 
+       if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
+       {
+          cameraPosition += cameraSideVector * cameraSpeed * dt;
+       }
+
+       if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
+       {
+           cameraPosition -= cameraLookAt * cameraSpeed * dt;
+       }
+
+       if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
+       {
+           cameraPosition += cameraLookAt * cameraSpeed * dt;
+       }
        // forward vector -- pointing to the direction we are looking at
        cameraLookAt = vec3(cosf(phi)*cosf(theta), sinf(phi), -cosf(phi)*sinf(theta));
        // side vector
-       vec3 cameraSideVector = glm::cross(cameraLookAt, vec3(0.0f, 0.5f, 0.0f));
+
        // we need to make the side vector a unit vector
        glm::normalize(cameraSideVector);
        viewMatrix = lookAt(cameraPosition, cameraPosition + cameraLookAt, cameraUp );

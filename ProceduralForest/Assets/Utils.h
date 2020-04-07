@@ -4,6 +4,7 @@
 
 #ifndef INC_371PROCEDURALFOREST_UTILS_H
 #define INC_371PROCEDURALFOREST_UTILS_H
+
 #include <string>
 #include <vector>
 #include <fstream>
@@ -33,7 +34,6 @@ GLuint loadTexture(const char *filename) {
         std::cerr << "Error::Texture could not load texture file:" << filename << std::endl;
         return -1;
     }
-
     // Step4 Upload the texture to the PU
     GLenum format = 0;
     if (nrChannels == 1)
@@ -44,8 +44,8 @@ GLuint loadTexture(const char *filename) {
         format = GL_RGBA;
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
                  0, format, GL_UNSIGNED_BYTE, data);
-
     // Step5 Free resources
     stbi_image_free(data);
     return textureId;
 }
+#endif

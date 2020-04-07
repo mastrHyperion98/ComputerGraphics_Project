@@ -15,6 +15,7 @@ public:
     Entity();
     Entity(const Entity& entity);
     Entity& operator=(const Entity& entity);
+    ~Entity();
     void SetPosition(vec3 pos);
     void Translate(glm::vec3 translate);
     void Rotate(float angle, glm::vec3 rotate);
@@ -25,13 +26,16 @@ public:
     void ResetPosition();
     void ResetRotation();
     void ResetScaling();
-    void Draw();
-    void Update();
+    void virtual Draw();
+    void virtual Update();
     void addComponent(Component* components);
-    Transform getTransform();
+    void removeComponent(int position);
+    int getSize();
+    Component* getComponent(int index){return components[index];}
+    Transform* getTransform();
 protected:
     std::vector<Component*> components;
-    Transform transform;
+    Transform *transform;
 };
 
 

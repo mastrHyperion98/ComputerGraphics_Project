@@ -6,6 +6,16 @@
 
 #include "../Structures/Component.h"
 
+struct TexturedColoredVertex
+{
+    TexturedColoredVertex(vec3 _position, vec3 _normal, vec2 _uv)
+            : position(_position), normal(_normal),uv(_uv) {}
+
+    vec3 position;
+    vec3 normal;
+    vec2 uv;
+};
+
 class Cube: public Component {
 public:
     Cube(Material, vec3);
