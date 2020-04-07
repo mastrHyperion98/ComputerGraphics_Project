@@ -132,4 +132,5 @@ void Cube::Draw(){
     // draw a cube
     glDrawArrays(Renderer::getRenderMode(), 0, 36);
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
+
 }

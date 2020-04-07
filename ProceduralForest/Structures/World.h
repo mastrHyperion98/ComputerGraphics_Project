@@ -16,7 +16,7 @@ public:
     World(const World&);
     ~World();
     void Draw();
-    void AddEntities(Entity&);
+    void AddEntities(Entity*);
     void RemoveEntity(int index);
     Entity* GetEntity(int index){return world_entities[index];}
     void Update();
