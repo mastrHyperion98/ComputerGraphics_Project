@@ -24,13 +24,7 @@ int main(int argc, char*argv[])
     Renderer::addShader(new Shader("../Shaders/vertex_shader.glsl","../Shaders/frag_shader.glsl"));
     // Entering Main Loop
     World world;
-   // world.AddEntities(TreeGenerator::generateTree(vec3{0,0,0}));
-
-   for(int i = 0; i < 10; i++){
-       for(int j = 0; j < 10; j++){
-           world.AddEntities(*TreeGenerator::generateTree(vec3{i*10,0,-j*10}));
-       }
-   }
+    world.ProcedurallyGenerateWorld();
 
     float fov = 70.00f;
     // position camera at the origin

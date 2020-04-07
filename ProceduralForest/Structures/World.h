@@ -22,6 +22,7 @@ public:
     void Update();
     static World& getCurrent();
     Transform getTransform(){return worldTransform;};
+    void ProcedurallyGenerateWorld();
 private:
     Transform worldTransform;
     std::vector<Entity*> world_entities;

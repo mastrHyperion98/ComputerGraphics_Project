@@ -3,7 +3,7 @@
 //
 
 #include "World.h"
-
+#include "TreeGenerator.h"
 World  World::current;
 
 World::World(){
@@ -14,6 +14,8 @@ World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
     world_entities = std::vector<Entity*>(world.world_entities);
     current = *this;
+
+
 }
 
 
@@ -47,4 +49,14 @@ World& World::getCurrent(){
 void World::Update() {
     for(int i = 0; i < world_entities.size();i++)
         world_entities[i]->Update();
+}
+
+void World::ProcedurallyGenerateWorld() {
+
+    // generate random spacing 
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            AddEntities(*TreeGenerator::generateTree(vec3{i*10,0,-j*10}));
+        }
+    }
 }
