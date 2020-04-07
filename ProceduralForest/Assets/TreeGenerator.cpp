@@ -9,17 +9,20 @@
 #include "Material.h"
 #include <iostream>
 #include "random"
-Entity TreeGenerator::generateTree() {
+Entity* TreeGenerator::generateTree(vec3 position) {
     // generate the tree here and return it.
-    Entity tree;
+    Entity *tree = new Entity;
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(7,20); // dist
     int trunk_height = dist(rng);
     int radius = max(trunk_height/3, 3);
-    generateTrunk( &tree, trunk_height);
-    vec3 center{0,tree.getComponent(trunk_height-2)->getTransform().position.y,0};
-    generateLeaves(&tree, radius, center);
+    generateTrunk( tree, trunk_height);
+    vec3 center{0,tree->getComponent(trunk_height-2)->getTransform().position.y,0};
+    generateLeaves(tree, radius, center);
+
+    // set position
+    tree->getTransform()->position = position;
     return tree;
 }
 void TreeGenerator::generateTrunk( Entity *tree, int num_trunk) {

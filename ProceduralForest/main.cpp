@@ -24,8 +24,8 @@ int main(int argc, char*argv[])
     Renderer::addShader(new Shader("../Shaders/vertex_shader.glsl","../Shaders/frag_shader.glsl"));
     // Entering Main Loop
     World world;
-    world.AddEntities(TreeGenerator::generateTree());
-
+   // world.AddEntities(TreeGenerator::generateTree(vec3{0,0,0}));
+    world.AddEntities(TreeGenerator::generateTree(vec3{0.0,0,-20}));
     float fov = 70.00f;
     // position camera at the origin
     vec3 cameraPosition(0.0f,5.0f,20.0f);
@@ -85,7 +85,7 @@ int main(int argc, char*argv[])
 
        if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
        {
-           cameraPosition += cameraSideVector * cameraSpeed * dt;
+          cameraPosition += cameraSideVector * cameraSpeed * dt;
        }
 
        if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up

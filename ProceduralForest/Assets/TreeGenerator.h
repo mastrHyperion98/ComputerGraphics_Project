@@ -8,7 +8,7 @@
 
 class TreeGenerator {
 public:
-    static Entity generateTree();
+    static Entity* generateTree(vec3);
 private:
     static void generateTrunk(Entity*, int);
     static void generateLeaves(Entity*, int, vec3);
