@@ -10,21 +10,19 @@ void Tree::Draw() {
      * Instance drawing no need to setup anything TreeGenerator should do that for us. Using one VAO
      * and using instancing
      */
-
     glm::mat4 modelWorldMatrix = mat4(1.0f);
-  /*  glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, trunk_mat.diffuseMapId);
-    Renderer::getCurrentShader()->setInt("material.diffuseMap[0]", 0);*/
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, leaves.diffuseMapId);
-    Renderer::getCurrentShader()->setInt("material.diffuseMap[0]",0 );
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, trunk.diffuseMapId);
-    Renderer::getCurrentShader()->setInt("material.diffuseMap[1]",2 );
-    Renderer::getCurrentShader()->setBool("material.isTextured", true);
+    Material mat;
+    mat.addTexture("../Assets/Textures/leaves_c4.png");
 
+
+
+    if(mat.isTextured) {
+        //shaderProgram.setInt("textureSampler", 0);
+        glActiveTexture(GL_TEXTURE0+0);
+        glBindTexture(GL_TEXTURE_2D, mat.diffuseMapId);
+        Renderer::getCurrentShader()->setBool("material.isTextured", true);
         // Set our Texture sampler to user Texture Unit 0
-
+    }
     // load the proper vao
     glBindVertexArray(vao);
     //glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -40,10 +38,9 @@ void Tree::Draw() {
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
     glDisable(GL_CULL_FACE);
-    glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, data_offset.size());
+    glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, offset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
-  //  glDeleteTextures(1,&leaves.diffuseMapId);
-   // glDeleteTextures(1,&trunk_mat.diffuseMapId);
+    glDeleteTextures(1,&mat.diffuseMapId);
     glEnable(GL_CULL_FACE);
 }
 
@@ -53,18 +50,16 @@ void Tree::Update() {
 
 
 
-void Tree::addLeavesOffset(TreeOffsetData l_offset) {
-   data_offset.push_back(l_offset);
+void Tree::addLeavesOffset(glm::vec3 l_offset) {
+   offset.push_back(l_offset);
 }
 
 
 void Tree::removeLeavesOffset(int index) {
-    data_offset.erase(data_offset.begin()+index);
+    offset.erase(offset.begin()+index);
 }
 
 void Tree::createVAO(){
-    leaves.addTexture("../Assets/Textures/leaves_c4.png");
-    trunk.addTexture("../Assets/Textures/tree.jpg");
 
     // Cube model
     // Cube model stolen from lab 3
@@ -155,23 +150,14 @@ void Tree::createVAO(){
 
     glGenBuffers(1, &instanceVBO);
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    glBufferData(GL_ARRAY_BUFFER, data_offset.size() * sizeof(data_offset), &data_offset[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * offset.size(), &offset[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glEnableVertexAttribArray(3);
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), (void*)0);
-     glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)(1*sizeof(vec3)));
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
     glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
-    glVertexAttribDivisor(4, 1); // tell OpenGL this is an instanced vertex attribute.
-
 
     vao = vertexArrayObject;
-}
-
-void Tree::setTrunkHeight(int height) {
-    trunk_height = height;
 }
