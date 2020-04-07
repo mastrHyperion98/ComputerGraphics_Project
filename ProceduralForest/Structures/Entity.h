@@ -28,6 +28,8 @@ public:
     void virtual Draw();
     void virtual Update();
     void addComponent(Component* components);
+    void removeComponent(int position);
+    int getSize();
     Component* getComponent(int index){return components[index];}
     Transform getTransform();
 protected:

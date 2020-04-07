@@ -78,3 +78,11 @@ void Entity::Update() {
 Transform Entity::getTransform() {
     return transform;
 }
+
+void Entity::removeComponent(int position) {
+    components.erase(components.begin() + position);
+}
+
+int Entity::getSize() {
+    return components.size();
+}
