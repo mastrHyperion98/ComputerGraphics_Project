@@ -26,6 +26,7 @@ int main(int argc, char*argv[])
     World world;
    // world.AddEntities(TreeGenerator::generateTree(vec3{0,0,0}));
     world.AddEntities(TreeGenerator::generateTree(vec3{0.0,0,-20}));
+
     float fov = 70.00f;
     // position camera at the origin
     vec3 cameraPosition(0.0f,5.0f,20.0f);

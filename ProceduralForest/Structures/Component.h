@@ -30,11 +30,13 @@ public:
     void Scale(glm::vec3 scale);
     void setMaterial(Material);
     void setParent(Transform*);
+    Material getMaterial(){return material;};
     Transform* getParent(){return parent;};
-    Transform getTransform(){return transform;};
+    Transform* getTransform(){return transform;};
+    GLuint getVAO(){return vao;};
 protected:
     Material material;
-    Transform transform;
+    Transform *transform{new Transform};
     GLuint vao;
     Transform* parent;
 };

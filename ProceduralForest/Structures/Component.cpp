@@ -20,7 +20,7 @@
 
 Component::Component(Material material, glm::vec3 size):  material{material},
 parent{nullptr}{
-    transform.size = size;
+    transform->size = size;
 }
 
 
@@ -45,14 +45,14 @@ Component& Component::operator=(const Component& component){
     return *this;
 }
 void Component::Translate(glm::vec3 translate){
-    transform.position += translate;
+    transform->position += translate;
 }
 void Component::Rotate(float angle, vec3 trans){
     quat rotated_point = angleAxis(angle, trans);
-    transform.rotation *= rotated_point;
+    transform->rotation *= rotated_point;
 }
 void Component::Scale(glm::vec3 scale){
-    transform.scaling += scale;
+    transform->scaling += scale;
 }
 GLuint Component::createVertexArrayObject() {
     return 1;

@@ -4,14 +4,16 @@
 
 #ifndef INC_371PROCEDURALFOREST_TREEGENERATOR_H
 #define INC_371PROCEDURALFOREST_TREEGENERATOR_H
+
+#include <Entities/Tree.h>
 #include "Entity.h"
 
 class TreeGenerator {
 public:
-    static Entity* generateTree(vec3);
+    static Tree* generateTree(vec3);
 private:
-    static void generateTrunk(Entity*, int);
-    static void generateLeaves(Entity*, int, vec3);
+    static void generateTrunk(Tree*, int);
+    static void generateLeaves(Tree*, int, vec3);
     static float euclidianNorm(vec3, vec3);
     static bool inSphere(vec3, vec3, float);
     static int computeNumberInX(vec3 center, float radius, int index, int increment);
