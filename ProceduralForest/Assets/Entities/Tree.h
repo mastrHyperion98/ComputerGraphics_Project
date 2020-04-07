@@ -13,9 +13,7 @@ class Tree: public Entity{
 public:
     void virtual Draw() override ;
     void virtual Update() override;
-    void addTrunkOffset(glm::vec3);
     void addLeavesOffset(glm::vec3);
-    void setCube(Cube* cube);
     std::vector<glm::vec3> getLeavesOffsets(){return offset;};
     void removeLeavesOffset(int);
     void createVAO();
