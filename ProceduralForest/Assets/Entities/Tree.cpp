@@ -11,15 +11,14 @@ void Tree::Draw() {
      * and using instancing
      */
     glm::mat4 modelWorldMatrix = mat4(1.0f);
-    Material mat;
-    mat.addTexture("../Assets/Textures/leaves_c4.png");
 
 
 
-    if(mat.isTextured) {
+
+    if(leaves.isTextured) {
         //shaderProgram.setInt("textureSampler", 0);
         glActiveTexture(GL_TEXTURE0+0);
-        glBindTexture(GL_TEXTURE_2D, mat.diffuseMapId);
+        glBindTexture(GL_TEXTURE_2D, leaves.diffuseMapId);
         Renderer::getCurrentShader()->setBool("material.isTextured", true);
         // Set our Texture sampler to user Texture Unit 0
     }
@@ -40,7 +39,7 @@ void Tree::Draw() {
     glDisable(GL_CULL_FACE);
     glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, offset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
-    glDeleteTextures(1,&mat.diffuseMapId);
+    glDeleteTextures(1,&leaves.diffuseMapId);
     glEnable(GL_CULL_FACE);
 }
 
@@ -60,7 +59,7 @@ void Tree::removeLeavesOffset(int index) {
 }
 
 void Tree::createVAO(){
-
+    leaves.addTexture("../Assets/Textures/leaves_c4.png");
     // Cube model
     // Cube model stolen from lab 3
     const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,
