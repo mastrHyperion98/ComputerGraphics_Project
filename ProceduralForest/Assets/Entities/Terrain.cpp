@@ -214,5 +214,18 @@ vec3 Terrain::generateEndPoint() {
 
 }
 
-void Terrain::GenerateForest() {
+/*
+ * Checks to see if the Terrain Component Index / Position index if
+ * terrain is switched to instanced drawing.
+ *
+ * Returns true if the index is contained within the path_mapping.
+ * We do not want to be able set down Entities on the terrain on tiles
+ * that are the path.
+ */
+bool Terrain::isInPath(int index) {
+    for(int i = 0; i < path_mapping.size(); i++){
+        if(index == path_mapping[i])
+            return true;
+    }
+    return false;
 }

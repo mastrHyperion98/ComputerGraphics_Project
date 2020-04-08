@@ -4,7 +4,6 @@
 // Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
 // Student ID: 26101267
 //
-//
 
 #ifndef INC_371PROCEDURALFOREST_TREE_H
 #define INC_371PROCEDURALFOREST_TREE_H

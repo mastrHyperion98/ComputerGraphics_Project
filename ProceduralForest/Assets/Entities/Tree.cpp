@@ -5,7 +5,6 @@
 // Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
 // Student ID: 26101267
 //
-//
 
 /*
  * An extension of the super class Entity used to render the World through simplified commands
