@@ -90,7 +90,7 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
 
     int segment_size = 2;
     // since width and depth are divisable by the tile width than there exist a solution using x fragments to read it.
-    int z_distance =abs(end.z - start.z);
+    int z_distance =abs(end.z - position.z);
     int z_segment = z_distance / TILE_SCALE;
 
     int x_distance = (end.x - start.x);
@@ -116,18 +116,21 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
     }
     bool down{true};
     while(position != end) {
+        std::cout << "END: "  << end.x << '\t' << end.y << '\t' << end.z << std::endl;
         // check which direction
-    if(down || (down && z_segment > 0)){
-        position = vec3(0, 0, -TILE_SCALE) + position;
-        positionMapping.push_back(position);
-        z_segment--;
-        z_distance = z_distance  - TILE_SCALE;
+    if(down){
+        if(z_segment > 0 && position.z > -depth) {
+            position = vec3(0, 0, -TILE_SCALE) + position;
+            positionMapping.push_back(position);
+            z_segment--;
+            z_distance = z_distance - TILE_SCALE;
 
-        if(z_segment > 0){
-        position = vec3(0, 0, -TILE_SCALE) + position;
-        positionMapping.push_back(position);
-        z_segment--;
-        z_distance = z_distance  - TILE_SCALE;
+            if (z_segment > 0) {
+                position = vec3(0, 0, -TILE_SCALE) + position;
+                positionMapping.push_back(position);
+                z_segment--;
+                z_distance = z_distance - TILE_SCALE;
+            }
         }
         down = false;
     }else{
@@ -156,6 +159,7 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
             }
         }
     }
+        std:: cout << position.x << '\t' << position.y << '\t' << position.z << std::endl;
     }
     return positionMapping;
 }
