@@ -35,10 +35,8 @@ void Tree::Draw() {
     modelWorldMatrix = World::getCurrent().getTransform().transformation* transform->transformation ;
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
-    glDisable(GL_CULL_FACE);
     glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, offset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
-    glEnable(GL_CULL_FACE);
 }
 
 void Tree::Update() {
