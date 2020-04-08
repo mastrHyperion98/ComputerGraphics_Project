@@ -17,13 +17,16 @@ public:
     std::vector<glm::vec3> getLeavesOffsets(){return offset;};
     void removeLeavesOffset(int);
     void createVAO();
+    std::vector<float> textureOffset;
 private:
     Material leaves;
     Material trunk;
 
     std::vector<glm::vec3> offset;
+
     GLuint vao;
     unsigned int instanceVBO;
+    unsigned int instanceTextVBO;
 };
 
 
