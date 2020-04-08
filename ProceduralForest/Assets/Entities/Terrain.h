@@ -21,9 +21,9 @@ public:
     int getDepth(){return depth;};
     int getWidth(){return width;};
 private:
-    const int TILE_SCALE = 5;
-    const int MAX= 100;
-    const int MIN = 50;
+    const int TILE_SCALE = 1;
+    const int MAX= 50;
+    const int MIN = 25;
     std::vector<glm::vec3> GeneratePathMapping(const vec3, const vec3);
     float computeDistance(const vec3, const vec3);
     int depth;
