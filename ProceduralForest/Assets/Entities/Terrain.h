@@ -31,6 +31,7 @@ private:
     terrainMap terrain_mapping;
     std::vector<int> path_mapping;
     bool isContainedIn(const vec3, std::vector<vec3>);
+    bool isAdjacentIn(const vec3, std::vector<vec3>);
     vec3 generateEndPoint();
 };
 

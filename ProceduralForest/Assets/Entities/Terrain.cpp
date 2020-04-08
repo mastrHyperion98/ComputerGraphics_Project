@@ -87,9 +87,79 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
         position = position + vec3(0,0,-TILE_SCALE);
         positionMapping.push_back(position);
     }
-    
+
+    int segment_size = 2;
+    // since width and depth are divisable by the tile width than there exist a solution using x fragments to read it.
+    int z_distance =abs(end.z - start.z);
+    int z_segment = z_distance / TILE_SCALE;
+
+    int x_distance = (end.x - start.x);
+    int x_segment =abs(x_distance)/TILE_SCALE;
+
+    if(x_distance < 0) {
+        position = vec3( TILE_SCALE, 0, 0) + position;
+        positionMapping.push_back(position);
+        position = vec3( TILE_SCALE, 0, 0) + position;
+        positionMapping.push_back(position);
+        x_segment++;
+        x_segment++;
+        x_distance = x_distance  - (2 * TILE_SCALE);
+    }
+    else{
+        position = vec3(-1* TILE_SCALE, 0, 0) + position;
+        positionMapping.push_back(position);
+        position = vec3(-1 * TILE_SCALE, 0, 0) + position;
+        positionMapping.push_back(position);
+        x_segment++;
+        x_segment++;
+        x_distance = x_distance + (2 * TILE_SCALE);
+    }
+    bool down{true};
+    while(position != end) {
+        // check which direction
+    if(down || (down && z_segment > 0)){
+        position = vec3(0, 0, -TILE_SCALE) + position;
+        positionMapping.push_back(position);
+        z_segment--;
+        z_distance = z_distance  - TILE_SCALE;
+
+        if(z_segment > 0){
+        position = vec3(0, 0, -TILE_SCALE) + position;
+        positionMapping.push_back(position);
+        z_segment--;
+        z_distance = z_distance  - TILE_SCALE;
+        }
+        down = false;
+    }else{
+        down = true;
+        if(x_distance < 0){
+            position = vec3(-1* TILE_SCALE, 0, 0) + position;
+            positionMapping.push_back(position);
+            x_segment--;
+            x_distance = x_distance + TILE_SCALE;
+            if(x_segment != 0){
+                position = vec3(-1* TILE_SCALE, 0, 0) + position;
+                positionMapping.push_back(position);
+                x_segment--;
+                x_distance = x_distance + TILE_SCALE;
+            }
+        }else if(x_distance > 0){
+            position = vec3( TILE_SCALE, 0, 0) + position;
+            positionMapping.push_back(position);
+            x_segment--;
+            x_distance = x_distance - TILE_SCALE;
+            if(x_segment != 0){
+                position = vec3( TILE_SCALE, 0, 0) + position;
+                positionMapping.push_back(position);
+                x_segment--;
+                x_distance = x_distance - TILE_SCALE;
+            }
+        }
+    }
+    }
     return positionMapping;
 }
+
 // returns the distance from current position to end point.
 // we will be building shortest path from origin to end point.
 float Terrain::computeDistance(const vec3 position, const vec3 end) {
@@ -103,6 +173,20 @@ float Terrain::computeDistance(const vec3 position, const vec3 end) {
 bool Terrain::isContainedIn(const vec3 position, std::vector<vec3> positionContainer) {
     for(std::vector<vec3>::iterator it = positionContainer.begin(); it != positionContainer.end(); it++){
         if(it->x == position.x && it->y == position.y && it->z == position.z)
+            return true;
+    }
+
+    return false;
+}
+
+bool Terrain::isAdjacentIn(const vec3 position, std::vector<vec3> positionContainer) {
+    vec3 down = position + (vec3(0,0,-TILE_SCALE));
+    vec3 up = position + (vec3(0,0,TILE_SCALE));
+    vec3 left = position + (vec3(-TILE_SCALE,0,0));
+    vec3 right = position + (vec3(TILE_SCALE,0,0));
+
+    for(int i = 0; i < positionContainer.size(); i++){
+        if(down == positionContainer[i] ||up == positionContainer[i] || left == positionContainer[i] || right == positionContainer[i])
             return true;
     }
 
