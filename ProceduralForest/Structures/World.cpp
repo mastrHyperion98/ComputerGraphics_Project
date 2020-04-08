@@ -6,7 +6,6 @@
 // Student ID: 26101267
 //
  *
- *
  * The world class is an additional layer of abstraction used when drawing our entities
  * The world allows to procedurally generate a world while keeping the main display loop clean.
  *
@@ -30,8 +29,6 @@ World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
     world_entities = std::vector<Entity*>(world.world_entities);
     current = *this;
-
-
 }
 
 
@@ -103,6 +100,7 @@ void World::ProcedurallyGenerateWorld() {/*
     }*/
     Terrain *terrain = new Terrain();
     AddEntities(terrain);
+    GenerateForest(1, *terrain);
 }
 
 /*
@@ -127,15 +125,15 @@ void World::GenerateForest(float density, Terrain terrain){
 
     // because the terrain is composed of unit cubes
     int row = terrain.getDepth();
-    int column = terrain.getWidth();
+    int column= terrain.getWidth();
 
     // remember that the terrain is generated depth first so column wise
     // this important as it affects the layout of its indices.
 
-    long number_of_tiles = terrain.getNumberOfComponents() - terrain.pathLength();
+    long number_of_tiles = terrain.getNumberOfComponents() -terrain.pathLength();
     // # of tiles represent the absolute maximum number of trees if only trunks were involved
     // Trees have radius ranging from 20/3 to 3
-    float average_distance = ((20/3.0) + 3)/2.0 + (1.0/density);
+    float average_distance= ((20/3.0) + 3)/2.0 + (1.0/density);
     int number_of_trees = floor(number_of_tiles/average_distance);
 
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, terrain.getNumberOfComponents()); // dist
@@ -164,7 +162,7 @@ void World::GenerateForest(float density, Terrain terrain){
             tree = TreeGenerator::generateTree(origin);
             radius = tree->getTreeRadius();
             iterations++;
-        }while(!placeTree(radius, index,tree) && iterations < 100);
+        }while(!placeTree(radius, index,tree, row, column) && iterations < 100);
 
             if(iterations == 100)
                 break; // cant play true exit
@@ -177,7 +175,7 @@ bool World::placeTree(float radius, int index, Tree* tree, int row, int col){
     deque<int> queue;
     queue.push_back(index);
     vector<int> connectingIndices;
-
+    connectingIndices.push_back(index);
     while(radius != 0 && !queue.empty()){
         // do some stuff
         // look up
@@ -186,68 +184,109 @@ bool World::placeTree(float radius, int index, Tree* tree, int row, int col){
             int new_index = index -1;
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                connectingIndices.push_back(new_index);
+            }
         }
         //look down
         if(index % row != row-1){
             int new_index = index + 1;
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         //look left
         if(index % col != col - 1){
             int new_index = index +row;
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         // look right
         if(index % col != 0){
             int new_index = index -row;
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         // look diagonal left down
         if(index % col != col - 1 && index % row != row-1){
             int new_index = index +(row+1);
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         // look diagonal right down
         if(index % col != 0 && index % row != row-1){
             int new_index = index - (row + 1);
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         // look diagonal left up
         if(index % row != 0 && index % col != col - 1){
             int new_index = index + (row-1);
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         // look diagonal right up
         if(index % col != 0 && index % col != col - 1){
             int new_index = index -(row - 1);
             if(terrain_mapping.find(new_index) != terrain_mapping.end())
                 return false;
-            else
+            else if(!indexInQueue(new_index, queue)){
                 queue.push_back(new_index);
+                if(!indexInVector(new_index, connectingIndices))
+                    connectingIndices.push_back(new_index);
+            }
         }
         radius--;
         queue.pop_back();
     }
-
      return true;
+}
+
+bool World::indexInQueue(int index, std::deque<int> queue) {
+
+    for(int & it : queue){
+        if(it == index)
+            return true;
+
+    }
+return false;
+}
+
+bool World::indexInVector(int index, std::vector<int> vect) {
+    for(int & it : vect){
+        if(it == index)
+            return true;
+    }
+    return false;
 }

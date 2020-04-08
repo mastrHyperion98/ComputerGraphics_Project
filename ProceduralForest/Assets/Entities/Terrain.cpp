@@ -4,7 +4,6 @@
 // Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
 // Student ID: 26101267
 //
-//
 /*
  * Created as an extension of the basic terrain previously used for testing means.
  * The terrain will always be flat. We may consider adding a blocky hill somewhere later, but that is not a priority
@@ -54,9 +53,9 @@ void Terrain::GenerateTerrain() {
     std::vector<vec3> pathPositions = GeneratePathMapping(path_start, path_end);
 
     int component_index = 0;
-    for(int i = 0; (TILE_SCALE*i) <= width; i++){
+    for(int i = 0; (TILE_SCALE*i) < width; i++){
         vec3 position;
-        for(int j = 0; TILE_SCALE*j <= depth; j++){
+        for(int j = 0; TILE_SCALE*j < depth; j++){
             position = vec3((TILE_SCALE*i) - width/2, 0, -TILE_SCALE*j);
             Cube *tile;
             if(isContainedIn(position, pathPositions)) {

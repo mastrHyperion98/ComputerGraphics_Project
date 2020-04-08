@@ -15,6 +15,7 @@
 #include "glm/glm.hpp"
 #include "Tree.h"
 #include "Terrain.h"
+#include <deque>
 
 typedef std::pair<int, std::vector<Tree*>> terrainPair;
 typedef std::map<int, std::vector<Tree*>> terrainMap;
@@ -39,7 +40,8 @@ private:
     terrainMap terrain_mapping;
     void GenerateForest(float, Terrain terrain);
     bool placeTree(float, int, Tree*, int, int);
-
+    bool indexInQueue(int, std::deque<int>);
+    bool indexInVector(int, std::vector<int>);
 };
 
 

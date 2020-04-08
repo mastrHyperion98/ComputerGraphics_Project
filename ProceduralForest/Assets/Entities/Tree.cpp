@@ -181,5 +181,5 @@ void Tree::setHeight(float height) {
 }
 
 void Tree::setTreeRadius(float radius) {
-    tree_radius = raidus;
+    tree_radius = radius;
 }
