@@ -1,7 +1,12 @@
 //
 // Created by Steven Smith on 2020-03-07.
-//
-
+// Created for Concordia W 2020 Comp 371
+/*
+ * Base Component Class to be used as a component of the Entity class.
+ * This class is meant to be extended since Draw and the VAO are not defined and will
+ * result in nothing getting printed.
+ *
+ */
 #include "Component.h"
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 #include <GLFW/glfw3.h> // cross-platform interface for creating a graphical context,

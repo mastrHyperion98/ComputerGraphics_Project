@@ -1,5 +1,6 @@
-//
-// Created by Steven Smith on 2020-04-04.
+// Taken from Lab 5
+// Modified by Steven Smith on 2020-04-04.
+// Modified for Concordia W 2020 Comp 371
 // A class created to help and simplify the main driver into something more simple
 // and easier to manage. A singleton instance that would keep references to important objects such as
 // the currently active Shader

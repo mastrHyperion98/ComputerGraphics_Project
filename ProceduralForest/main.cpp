@@ -1,4 +1,8 @@
-
+/*
+ * Created by Steven SMith
+ // Created for Concordia W 2020 Comp 371
+* Main driver for the Procedural Forest project
+ */
 #include <iostream>
 #include "GL/glew.h"   // Include GLEW - OpenGL Extension Wrangler
 

@@ -1,6 +1,9 @@
 //
 // Created by Steven Smith on 2020-04-02.
-//
+// // Created for Concordia W 2020 Comp 371
+// Material class contins diffuse texture, color and others
+// could be made more specialized
+
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "stb_image.h"

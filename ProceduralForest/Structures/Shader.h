@@ -10,6 +10,8 @@
 #include <iostream>
 /*
  * Header only file
+ * Taken from Learnopengl.com
+ * modified to fit projects needs
  */
 class Shader
 {
