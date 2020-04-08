@@ -1,6 +1,10 @@
 //
 // Created by hyperion on 2020-04-07.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
+//
 /*
  * Created as an extension of the basic terrain previously used for testing means.
  * The terrain will always be flat. We may consider adding a blocky hill somewhere later, but that is not a priority
@@ -208,4 +212,7 @@ vec3 Terrain::generateEndPoint() {
 
     return vec3(width_index, 0, -depth_index);
 
+}
+
+void Terrain::GenerateForest() {
 }

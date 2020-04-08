@@ -1,6 +1,10 @@
 //
 // Created by hyperion on 2020-04-07.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
+//
 
 #ifndef INC_371PROCEDURALFOREST_TERRAIN_H
 #define INC_371PROCEDURALFOREST_TERRAIN_H
@@ -33,6 +37,7 @@ private:
     bool isContainedIn(const vec3, std::vector<vec3>);
     bool isAdjacentIn(const vec3, std::vector<vec3>);
     vec3 generateEndPoint();
+    void GenerateForest();
 };
 
 

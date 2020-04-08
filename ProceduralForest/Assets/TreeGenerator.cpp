@@ -1,6 +1,10 @@
 //
 // Created by hyperion(Steven Smith) on 2020-04-05.
 // Student ID: 40057065
+//
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 /*
 * Static tree generator:
  *
@@ -30,6 +34,8 @@
     vec3 center{tree->getLeavesOffsets()[tree->getLeavesOffsets().size()-1]};
     generateLeaves(*tree, radius, center);
 
+    tree->setTreeRadius(radius);
+    tree->setHeight(trunk_height);
     // set position
     tree->getTransform()->position = position;
     tree->createVAO();
