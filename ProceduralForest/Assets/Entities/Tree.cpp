@@ -12,16 +12,15 @@ void Tree::Draw() {
      */
     glm::mat4 modelWorldMatrix = mat4(1.0f);
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, leaves.diffuseMapId);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, trunk.diffuseMapId);
+    Renderer::getCurrentShader()->setBool("material.isTextured", true);
+    Renderer::getCurrentShader()->setInt("material.diffuseMap[1]", 0);
+    Renderer::getCurrentShader()->setInt("material.diffuseMap[0]", 2);
+    // Set our Texture sampler to user Texture Unit 0
 
-
-
-    if(leaves.isTextured) {
-        //shaderProgram.setInt("textureSampler", 0);
-        glActiveTexture(GL_TEXTURE0+0);
-        glBindTexture(GL_TEXTURE_2D, leaves.diffuseMapId);
-        Renderer::getCurrentShader()->setBool("material.isTextured", true);
-        // Set our Texture sampler to user Texture Unit 0
-    }
     // load the proper vao
     glBindVertexArray(vao);
     //glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -36,11 +35,8 @@ void Tree::Draw() {
     modelWorldMatrix = World::getCurrent().getTransform().transformation* transform->transformation ;
     Renderer::getCurrentShader()->setMat4("worldMatrix", modelWorldMatrix);
     // draw a cube
-    glDisable(GL_CULL_FACE);
     glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, offset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
-    glDeleteTextures(1,&leaves.diffuseMapId);
-    glEnable(GL_CULL_FACE);
 }
 
 void Tree::Update() {
@@ -60,6 +56,7 @@ void Tree::removeLeavesOffset(int index) {
 
 void Tree::createVAO(){
     leaves.addTexture("../Assets/Textures/leaves_c4.png");
+    trunk.addTexture("../Assets/Textures/tree.jpg");
     // Cube model
     // Cube model stolen from lab 3
     const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,
@@ -157,6 +154,17 @@ void Tree::createVAO(){
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
+
+    glGenBuffers(1, &instanceTextVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, instanceTextVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureOffset.size(), &textureOffset[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glEnableVertexAttribArray(4);
+    glBindBuffer(GL_ARRAY_BUFFER, instanceTextVBO); // this attribute comes from a different vertex buffer
+    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(4, 1); // tell OpenGL this is an instanced vertex attribute.
 
     vao = vertexArrayObject;
 }

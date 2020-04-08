@@ -29,8 +29,11 @@
 void TreeGenerator::generateTrunk( Tree &tree, int num_trunk) {
     vec3 initial_pos{vec3{0,0,0}};
     tree.addLeavesOffset(initial_pos);
-    for(int i = 1; i < num_trunk; i++)
-        tree.addLeavesOffset(vec3(0, initial_pos.y + (i * 1.0f),0));
+    tree.textureOffset.push_back(0);
+    for(int i = 1; i < num_trunk; i++) {
+        tree.addLeavesOffset(vec3(0, initial_pos.y + (i * 1.0f), 0));
+        tree.textureOffset.push_back(0);
+    }
 }
 
 void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
@@ -48,16 +51,19 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
             vec3 position = center + vec3(j, i * increment, 0);
             if(j!=0) {
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(j, i * increment, k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
 
                 position = center + vec3(j, i * increment, -k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
 
             }
@@ -67,14 +73,17 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
             if(j!=0 ) {
                 square_count++;
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(-j, i * increment, k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                     square_count++;
                 position = center + vec3(-j, i * increment, -k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
         }
@@ -86,16 +95,19 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
             vec3 position = center + vec3(j, -(i * increment), 0);
             if(j!=0) {
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(j, -(i * increment), k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
 
                 position = center + vec3(j, -(i * increment), -k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
         }
@@ -103,6 +115,7 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
             vec3 position = center + vec3(-j, -(i * increment), 0);
             if(j!=0) {
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
             int num_z = computeNumberInZ(position, center, radius,j, increment);
@@ -110,10 +123,12 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
                 position = center + vec3(-j, -(i * increment), k);
 
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
 
                 position = center + vec3(-j, -(i * increment), -k);
                 tree.addLeavesOffset(position);
+                tree.textureOffset.push_back(1);
                 square_count++;
             }
         }
@@ -126,6 +141,7 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
         std::uniform_int_distribution<std::mt19937::result_type> dist(square_count/2,tree_size); // distribution in range [1, 6]
         int remove = dist(rng);
         tree.removeLeavesOffset(remove);
+        tree.textureOffset.pop_back();
     }
 
 
