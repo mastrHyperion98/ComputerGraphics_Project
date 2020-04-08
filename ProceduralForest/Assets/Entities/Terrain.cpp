@@ -88,7 +88,7 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
         positionMapping.push_back(position);
     }
 
-    int segment_size = 2;
+    int segment_size = 4;
     // since width and depth are divisable by the tile width than there exist a solution using x fragments to read it.
     int z_distance =abs(end.z - position.z);
     int z_segment = z_distance / TILE_SCALE;
@@ -97,62 +97,47 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
     int x_segment =abs(x_distance)/TILE_SCALE;
 
     if(x_distance < 0) {
-        position = vec3( TILE_SCALE, 0, 0) + position;
-        positionMapping.push_back(position);
-        position = vec3( TILE_SCALE, 0, 0) + position;
-        positionMapping.push_back(position);
-        x_segment++;
-        x_segment++;
-        x_distance = x_distance  - (2 * TILE_SCALE);
+        for(int i = 0; i < segment_size; i++) {
+            position = vec3(TILE_SCALE, 0, 0) + position;
+            positionMapping.push_back(position);
+            x_distance = x_distance  - (TILE_SCALE);
+            x_segment++;
+        }
+
     }
     else{
-        position = vec3(-1* TILE_SCALE, 0, 0) + position;
-        positionMapping.push_back(position);
-        position = vec3(-1 * TILE_SCALE, 0, 0) + position;
-        positionMapping.push_back(position);
-        x_segment++;
-        x_segment++;
-        x_distance = x_distance + (2 * TILE_SCALE);
+        for(int i = 0; i < segment_size; i++) {
+            position = vec3(-1 * TILE_SCALE, 0, 0) + position;
+            positionMapping.push_back(position);
+            x_segment++;
+            x_distance = x_distance +  TILE_SCALE;
+        }
     }
     bool down{true};
     while(position != end) {
         std::cout << "END: "  << end.x << '\t' << end.y << '\t' << end.z << std::endl;
         // check which direction
     if(down){
-        if(z_segment > 0 && position.z > -depth) {
+        for(int i = 0; i < segment_size && (z_segment > 0 && position.z > -depth);i++){
             position = vec3(0, 0, -TILE_SCALE) + position;
             positionMapping.push_back(position);
             z_segment--;
             z_distance = z_distance - TILE_SCALE;
-
-            if (z_segment > 0) {
-                position = vec3(0, 0, -TILE_SCALE) + position;
-                positionMapping.push_back(position);
-                z_segment--;
-                z_distance = z_distance - TILE_SCALE;
-            }
         }
         down = false;
     }else{
         down = true;
         if(x_distance < 0){
-            position = vec3(-1* TILE_SCALE, 0, 0) + position;
-            positionMapping.push_back(position);
-            x_segment--;
-            x_distance = x_distance + TILE_SCALE;
-            if(x_segment != 0){
-                position = vec3(-1* TILE_SCALE, 0, 0) + position;
+            for(int i = 0; i < segment_size && x_segment != 0; i++) {
+                position = vec3(-1 * TILE_SCALE, 0, 0) + position;
                 positionMapping.push_back(position);
                 x_segment--;
                 x_distance = x_distance + TILE_SCALE;
             }
+
         }else if(x_distance > 0){
-            position = vec3( TILE_SCALE, 0, 0) + position;
-            positionMapping.push_back(position);
-            x_segment--;
-            x_distance = x_distance - TILE_SCALE;
-            if(x_segment != 0){
-                position = vec3( TILE_SCALE, 0, 0) + position;
+            for(int i = 0; i < segment_size && x_segment != 0; i++) {
+                position = vec3(TILE_SCALE, 0, 0) + position;
                 positionMapping.push_back(position);
                 x_segment--;
                 x_distance = x_distance - TILE_SCALE;
