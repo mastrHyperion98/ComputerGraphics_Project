@@ -20,31 +20,27 @@ Terrain::Terrain(){
 }
 
 void Terrain::GenerateTerrain() {
-    std::string texture_list[4]{"../Assets/Textures/grass3.bmp", "../Assets/Textures/grass1.jpg",
+    std::string texture_list[3]{"../Assets/Textures/grass3.bmp",
                 "../Assets/Textures/grass2.png", "../Assets/Textures/forest_path.jpg"};
-    int path_index{3};
+    int path_index{2};
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(MIN, MAX); // dist
-    std::uniform_int_distribution<std::mt19937::result_type> text_random(0, 2); // dist
+    std::uniform_int_distribution<std::mt19937::result_type> text_random(0, 1); // dist
 
     depth = dist(rng);
-    width = dist(rng);
+    while(depth % TILE_SCALE != 0 || depth % 2 != 0){
+        depth = dist(rng);
+    }
+
+  do{
+        width = dist(rng);
+    } while(width % TILE_SCALE != 0 || width % 2 != 0);
     int texture_index=text_random(rng);
     std::uniform_int_distribution<std::mt19937::result_type> width_coord_random(width/2, width ); // dist
     std::uniform_int_distribution<std::mt19937::result_type> depth_coord_random(depth/2, depth ); // dist
     vec3 path_start{0,0,0};
-    int end_x = width_coord_random(rng);
-    int end_z =-depth_coord_random(rng);
-
-    while(end_x % TILE_SCALE != 0){
-        end_x = width_coord_random(rng);
-    }
-
-    while(end_z % TILE_SCALE != 0){
-        end_z = -depth_coord_random(rng);
-    }
-    vec3 path_end{end_x, 0, end_z};
+    vec3 path_end = generateEndPoint();
 
     Material path;
     path.addTexture(texture_list[path_index].c_str());
@@ -54,10 +50,10 @@ void Terrain::GenerateTerrain() {
     std::vector<vec3> pathPositions = GeneratePathMapping(path_start, path_end);
 
     int component_index = 0;
-    for(int i = 0; i < width; i++){
+    for(int i = 0; (TILE_SCALE*i) <= width; i++){
         vec3 position;
-        for(int j = 0; j < depth; j++){
-            position = vec3(TILE_SCALE*i, 0, -TILE_SCALE*j);
+        for(int j = 0; TILE_SCALE*j <= depth; j++){
+            position = vec3((TILE_SCALE*i) - width/2, 0, -TILE_SCALE*j);
             Cube *tile;
             if(isContainedIn(position, pathPositions)) {
                 tile = new Cube(path, scale);
@@ -74,6 +70,8 @@ void Terrain::GenerateTerrain() {
             component_index++;
         }
     }
+
+
 }
 
 // generate the Path Mapping to be used to construct
@@ -89,26 +87,7 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
         position = position + vec3(0,0,-TILE_SCALE);
         positionMapping.push_back(position);
     }
-
-    // now we need to get the 3 components from which to go, down, left or right
-    while(position != end){
-        vec3 down = position + (vec3(0,0,-TILE_SCALE));
-        vec3 left = position + (vec3(-TILE_SCALE,0,0));
-        vec3 right = position + (vec3(TILE_SCALE,0,0));
-        float distance_down = computeDistance(down, end);
-        float distance_left = computeDistance(left, end);
-        float distance_right = computeDistance(right, end);
-        float smallest_distance = min(min(distance_down, distance_left), distance_right);
-
-        if(smallest_distance == distance_down)
-            position = down;
-        else if(smallest_distance == distance_right)
-            position = right;
-        else
-            position = left;
-        // add position to the position map --> continue until we reach the end
-        positionMapping.push_back(position);
-    }
+    
     return positionMapping;
 }
 // returns the distance from current position to end point.
@@ -128,4 +107,32 @@ bool Terrain::isContainedIn(const vec3 position, std::vector<vec3> positionConta
     }
 
     return false;
+}
+
+vec3 Terrain::generateEndPoint() {
+    int depth_min = depth/2;
+    int lw_bound = -width/2;
+    int rw_bound = width/2;
+
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(lw_bound, rw_bound); // dist
+    std::uniform_int_distribution<std::mt19937::result_type> dist_depth(depth_min, depth); // dist
+    int depth_index;
+    int width_index;
+    do{
+        width_index = dist(rng);
+    }while(width_index % TILE_SCALE != 0);
+
+    if(width_index == lw_bound || width_index == rw_bound){
+        // compute random depth
+        do{
+            depth_index = dist_depth(rng);
+        }while(depth_index % TILE_SCALE != 0);
+    }
+    else
+        depth_index = depth;
+
+    return vec3(width_index, 0, -depth_index);
+
 }
