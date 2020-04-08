@@ -12,6 +12,7 @@
 
 #include "World.h"
 #include "TreeGenerator.h"
+#include "Terrain.h"
 World  World::current;
 
 World::World(){
@@ -59,7 +60,7 @@ void World::Update() {
         world_entities[i]->Update();
 }
 
-void World::ProcedurallyGenerateWorld() {
+void World::ProcedurallyGenerateWorld() {/*
     // create a basic terrain
     Material simple_ground_material;
     simple_ground_material.addTexture("../Assets/Textures/grass3.bmp");
@@ -92,5 +93,6 @@ void World::ProcedurallyGenerateWorld() {
         for(int j = 0; j < 10; j++){
             AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,j*15}));
         }
-    }
+    }*/
+    Terrain terrain;
 }
