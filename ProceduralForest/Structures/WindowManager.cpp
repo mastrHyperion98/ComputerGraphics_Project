@@ -1,7 +1,9 @@
 //
-// Created by Steven Smith on 2020-04-04.
+// Modified by Steven Smith on 2020-04-04.
+// Modified for Concordia W 2020 Comp 371
 // A class created to help and simplify the main driver into something more simple
 // and easier to manage.
+//  A modified version of labs5 EventManager
 
 
 #include "GLFW/glfw3.h"

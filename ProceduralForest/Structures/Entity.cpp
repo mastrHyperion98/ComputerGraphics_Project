@@ -1,6 +1,11 @@
 //
 // Created by Steven Smith on 2020-03-07.
+// Created for Concordia W 2020 Comp 371
 //
+/* Entity class can be use as is but can be extended if more specialized models are needed.
+ * An example of this is the Tree class which is highly specialized to print Trees. This and
+ * the Component class relies heavily on the inheritance and polymorphism principles of OOP.
+ */
 
 #include "Entity.h"
 #include <vector>

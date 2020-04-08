@@ -1,6 +1,7 @@
 //
 // Created by Steven Smith on 2020-03-07.
-//
+// // Created for Concordia W 2020 Comp 371
+// Transform holds transformation information required by COmponents and Entitiy
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "Transform.h"

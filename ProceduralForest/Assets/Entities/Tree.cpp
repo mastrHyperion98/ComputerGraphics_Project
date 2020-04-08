@@ -1,7 +1,15 @@
 //
-// Created by hyperion on 2020-04-05.
+// Created by Steven Smith(4 on 2020-04-05.
+// Created for Comp 371 Concordia W 2020 Procedural Generation project
 //
 
+/*
+ * An extension of the super class Entity used to render the World through simplified commands
+ * Also contains functions that enables the instanced drawing. A single tree can contain from
+ * 100 - 1000 cubes. As such the traditional draw technique is not sufficient as it will significantly
+ * slow down the generations of the trees.
+ *
+ */
 #include <World.h>
 #include "Tree.h"
 
@@ -11,7 +19,6 @@ void Tree::Draw() {
      * and using instancing
      */
     glm::mat4 modelWorldMatrix = mat4(1.0f);
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, leaves.diffuseMapId);
     glActiveTexture(GL_TEXTURE2);
@@ -42,9 +49,6 @@ void Tree::Draw() {
 void Tree::Update() {
 
 }
-
-
-
 void Tree::addLeavesOffset(glm::vec3 l_offset) {
    offset.push_back(l_offset);
 }

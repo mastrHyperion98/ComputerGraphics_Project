@@ -1,7 +1,10 @@
 //
-// Created by hyperion on 2020-03-08.
-//
-
+// Created by Steven Smith on 2020-03-08.
+// Created for Comp 371 Concordia W 2020
+/*
+ * Basic Cube model extendeding the Component class. Used extensively in the construction
+ * of all our more complex models. Contains functions for translations, rotations, etc....
+ */
 #include "Cube.h"
 #include "Component.h"
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler

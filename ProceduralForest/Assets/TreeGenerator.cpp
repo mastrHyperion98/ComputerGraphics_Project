@@ -1,8 +1,17 @@
 //
 // Created by hyperion(Steven Smith) on 2020-04-05.
-//
-//
-
+// Student ID: 40057065
+/*
+* Static tree generator:
+ *
+ * General Idea: Randomly creates a tree with a randum height between 7 and 20 cube units
+ * derive a radius for a sphere from the height of the tree. Fill up the sphere with cubes and
+ * randomly remove cubes from the buffer.
+ *
+ * TO-DO: ADD adjacency check such that cubes that are removed will not cause another cube to be
+ * left hanging (TO accomplish using a position mapping )
+ * -Randomly rotate the tree
+ */
 #include "TreeGenerator.h"
 #include <cmath>
 #include "Cube.h"
