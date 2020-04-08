@@ -30,6 +30,7 @@ private:
     int width;
     terrainMap terrain_mapping;
     std::vector<int> path_mapping;
+    bool isContainedIn(const vec3, std::vector<vec3>);
 };
 
 

@@ -52,19 +52,28 @@ void Terrain::GenerateTerrain() {
     ground.addTexture(texture_list[texture_index].c_str());
     vec3 scale{TILE_SCALE, 0.1, TILE_SCALE};
     std::vector<vec3> pathPositions = GeneratePathMapping(path_start, path_end);
-    /*
+
+    int component_index = 0;
     for(int i = 0; i < width; i++){
         vec3 position;
         for(int j = 0; j < depth; j++){
             position = vec3(TILE_SCALE*i, 0, -TILE_SCALE*j);
-            if(i == 0 && j == 0) {
-                Cube *tile = new Cube(path, scale);
+            Cube *tile;
+            if(isContainedIn(position, pathPositions)) {
+                tile = new Cube(path, scale);
+                path_mapping.push_back(component_index);
             }
+            else
+                tile = new Cube(ground, scale);
+
+            // set position of the tile
+            tile->getTransform().position = position;
+            // add tile to the components of Terrain
+            addComponent(tile);
+            // increase component index of the tile;
+            component_index++;
         }
     }
-*/
-
-
 }
 
 // generate the Path Mapping to be used to construct
@@ -109,4 +118,14 @@ float Terrain::computeDistance(const vec3 position, const vec3 end) {
             pow(end.z - position.z, 2));
 
     return distance;
+}
+
+
+bool Terrain::isContainedIn(const vec3 position, std::vector<vec3> positionContainer) {
+    for(std::vector<vec3>::iterator it = positionContainer.begin(); it != positionContainer.end(); it++){
+        if(it->x == position.x && it->y == position.y && it->z == position.z)
+            return true;
+    }
+
+    return false;
 }

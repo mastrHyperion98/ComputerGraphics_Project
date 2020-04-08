@@ -94,5 +94,6 @@ void World::ProcedurallyGenerateWorld() {/*
             AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,j*15}));
         }
     }*/
-    Terrain terrain;
+    Terrain *terrain = new Terrain();
+    AddEntities(terrain);
 }
