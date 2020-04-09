@@ -85,22 +85,12 @@ void World::ProcedurallyGenerateWorld() {/*
         }
     }
 
-    AddEntities(terrain);
+    AddEntities(terrain);*/
     // several options --> instancing or drawing ~10 cubes and allow for different textures.
     // generate random spacing
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,-j*15}));
-        }
-    }
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,j*15}));
-        }
-    }*/
-    Terrain *terrain = new Terrain();
-    AddEntities(terrain);
-    GenerateForest(1, *terrain);
+   Terrain *terrain = new Terrain();
+   AddEntities(terrain);
+   GenerateForest(1, *terrain);
 }
 
 /*
@@ -119,7 +109,7 @@ void World::ProcedurallyGenerateWorld() {/*
  *  Radius varies greatly between trees.
  *
  */
-void World::GenerateForest(float density, Terrain terrain){
+void World::GenerateForest(float density, Terrain& terrain){
     std::random_device dev;
     std::mt19937 rng(dev());
 
@@ -155,18 +145,26 @@ void World::GenerateForest(float density, Terrain terrain){
         vec3 origin  = vec3(0,0,0);
         vec3 position = terrain.getComponent(index)->getTransform().position;
         // Create a Tree
-        Tree *tree;
+        Tree *tree{nullptr};
         float radius;
         iterations = 0;
         do {
             tree = TreeGenerator::generateTree(origin);
             radius = tree->getTreeRadius();
             iterations++;
-        }while(!placeTree(radius, index,tree, row, column) && iterations < 100);
+        }while(!placeTree(radius, index,tree, row, column) && iterations < 10);
 
-            if(iterations == 100)
+            if(iterations == 10) {
                 break; // cant play true exit
+            }
+            else
+                tree->getTransform()->position = position;
+            if(tree != nullptr) {
+                AddEntities(tree);
+                number_of_trees--;
+            }
     }
+
 }
 
 using namespace std;
@@ -269,6 +267,11 @@ bool World::placeTree(float radius, int index, Tree* tree, int row, int col){
         }
         radius--;
         queue.pop_back();
+    }
+
+    // add to map
+    for(int i = 0; i < connectingIndices.size(); i++){
+        terrain_mapping.insert(terrainPair(connectingIndices[i], tree));
     }
      return true;
 }

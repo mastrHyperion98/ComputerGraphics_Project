@@ -118,7 +118,6 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
     }
     bool down{true};
     while(position != end) {
-        std::cout << "END: "  << end.x << '\t' << end.y << '\t' << end.z << std::endl;
         // check which direction
     if(down){
         for(int i = 0; i < segment_size && (z_segment > 0 && position.z > -depth);i++){
@@ -147,7 +146,7 @@ std::vector<glm::vec3> Terrain::GeneratePathMapping(const vec3 start,const vec3 
             }
         }
     }
-        std:: cout << position.x << '\t' << position.y << '\t' << position.z << std::endl;
+
     }
     return positionMapping;
 }
