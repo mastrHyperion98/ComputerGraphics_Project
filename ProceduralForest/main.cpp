@@ -59,7 +59,7 @@ int main(int argc, char*argv[])
 		//update camera
 		cam.processMouse(dt);
 		//collisions handled here
-		cam.processKeyboard(dt, world.world_entities);	
+		cam.processKeyboard(dt, world.getEntities());
 		
 
 		viewMatrix = lookAt(cam.Position, cam.Position + cam.LookAt, cam.Up);
