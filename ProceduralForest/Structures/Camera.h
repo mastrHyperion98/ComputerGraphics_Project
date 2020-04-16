@@ -41,12 +41,10 @@ public:
 		float theta = radians(horizontalAngle);
 		float phi = radians(verticalAngle);
 
-		if (glfwGetMouseButton(WindowManager::getWindow(), GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS) {
-			verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
-		}
-		if (glfwGetMouseButton(WindowManager::getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-			horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
-		}
+        verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
+        //verticalAngle += WindowManager::GetMouseMotionY() * angularSpeed * dt;      // Used to invert mouse
+        horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
+
 		verticalAngle = std::max(-85.0f, std::min(85.0f, verticalAngle));
 		if (horizontalAngle > 360)
 		{
