@@ -23,9 +23,9 @@
     Tree *tree = new Tree;
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(7,20); // dist
+    std::uniform_int_distribution<std::mt19937::result_type> dist(10,10); // dist
     int trunk_height = dist(rng);
-    int radius = max(trunk_height/3, 3);
+    int radius = max(trunk_height/3, 4);
     generateTrunk( *tree, trunk_height);
     vec3 center{tree->getLeavesOffsets()[tree->getLeavesOffsets().size()-1]};
     generateLeaves(*tree, radius, center);
@@ -143,13 +143,34 @@ void TreeGenerator::generateLeaves( Tree &tree, int radius, vec3 center) {
         }
     }
     // we want to remove x_number of blocks based on the total number of blocks in the tree
-    int to_remove = square_count *0.40;
+    std::uniform_int_distribution<std::mt19937::result_type> dist_to_remove(20,tree.getLeavesOffsets().size() - center.y); // distribution in range [1, 6]
+    int to_remove=dist_to_remove(rng); // we want to remove a random number of blocks
 
     for(int i = 0; i < to_remove; i++){
+        // create an list of 10 random points
+        int min = center.y;
         int tree_size = tree.getLeavesOffsets().size() - 1;
-        std::uniform_int_distribution<std::mt19937::result_type> dist(square_count/2,tree_size); // distribution in range [1, 6]
-        int remove = dist(rng);
-        tree.removeLeavesOffset(remove);
+
+        if(min >= tree_size)
+            break;
+        std::vector<int> remove_candidates;
+        for(int j = 0; j < dist_to_remove(rng);j++) {
+            std::uniform_int_distribution<std::mt19937::result_type> dist(min,tree_size); // distribution in range [1, 6]
+            int remove = dist(rng);
+            remove_candidates.push_back(remove);
+        }
+
+        while(remove_candidates.size() > 1){
+            float norm1 = euclidianNorm(tree.getLeavesOffsets()[remove_candidates[0]], center);
+            float norm2 = euclidianNorm(tree.getLeavesOffsets()[remove_candidates[1]], center);
+
+            if(norm1 > norm2)
+                remove_candidates.erase(remove_candidates.begin()+1);
+            else
+                remove_candidates.erase(remove_candidates.begin()+0);
+        }
+        if(tree.getLeavesOffsets().size() > center.y)
+        tree.removeLeavesOffset(remove_candidates[0]);
         tree.textureOffset.pop_back();
     }
 
