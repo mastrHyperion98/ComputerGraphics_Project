@@ -40,6 +40,7 @@ Terrain* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, f
             int pixel_bw = (int) ( fNoise2D[y * nOutputWidth + x] * 12.0f);
             glm::vec3 position(x, pixel_bw, -y);
             terrain->addPositionOffset(position);
+            terrain->addPositionToMap(position);
         }
 
     }

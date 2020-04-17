@@ -12,6 +12,18 @@ void Terrain::addPositionOffset(glm::vec3 position) {
     positionOffset.push_back(position);
 }
 
+void Terrain::addPositionToMap(glm::vec3 position) {
+    // map the board relative to the position on the grid when y is fixed at 0 and its height
+    terrain_map.insert(terrain_key(vec3(position.x, 0, position.z), position.y));
+}
+
+int Terrain::getHeightAtPosition(glm::vec3 position) {
+    if(terrain_map.find(position) != terrain_map.end()){
+        return terrain_map.at(position);
+    }
+    else
+        return 0;
+}
 
 void Terrain::Draw() {
     /*

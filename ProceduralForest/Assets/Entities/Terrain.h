@@ -19,6 +19,9 @@ public:
     virtual void Draw();
    // virtual void Update();
     void addPositionOffset(glm::vec3);
+    int getHeightAtPosition(glm::vec3);
+    void addPositionToMap(glm::vec3);
+
     void createVAO();
 private:
     Material terrain_mat;
