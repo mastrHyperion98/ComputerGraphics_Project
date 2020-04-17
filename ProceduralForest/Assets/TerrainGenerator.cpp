@@ -22,9 +22,6 @@ TerrainGenerator::~TerrainGenerator() {
 
 Terrain* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, float bias) {
     Terrain *terrain = new Terrain();
-    Material mat;
-    mat.vertexColor = vec3(0,1,0);
-    mat.addTexture("../Assets/Textures/grass2.png");
     // set our field parameters for the noise
     int nOutputWidth = width;
     int nOutputHeight = height;
@@ -40,14 +37,13 @@ Terrain* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, f
     GenerateNoise(nOutputWidth, nOutputHeight, nOctaves, sBias, fNoise2D);
     for (int x = 0; x < nOutputWidth; x++) {
         for (int y = 0; y < nOutputHeight; y++) {
-            Cube *cube=new Cube(mat, vec3(1));
-
             int pixel_bw = (int) ( fNoise2D[y * nOutputWidth + x] * 12.0f);
-            cube->Translate(vec3(x,pixel_bw,-y));
-            terrain->addComponent(cube);
+            glm::vec3 position(x, pixel_bw, -y);
+            terrain->addPositionOffset(position);
         }
 
     }
+    terrain->createVAO();
     return terrain;
 }
 // here we want to output to out fNoise2D, but perhaps we dont want to output directly to our local variable
