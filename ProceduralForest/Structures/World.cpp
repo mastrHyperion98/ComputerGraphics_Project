@@ -62,7 +62,7 @@ void World::Update() {
 
 void World::ProcedurallyGenerateWorld() {
     TerrainGenerator terrainGenerator;
-    TerrainV2 *terrain = terrainGenerator.GenerateTerrain(512, 512, 8, 1.0);
+    TerrainV2 *terrain = terrainGenerator.GenerateTerrain(512, 512, 9, 0.9);
     world_entities.push_back(terrain);
     for(int i = 0; i < 5; i++){
         for(int j = 0; j < 5; j++){
