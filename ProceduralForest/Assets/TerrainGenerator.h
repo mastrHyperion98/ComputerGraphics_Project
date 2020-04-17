@@ -7,13 +7,13 @@
 //
 #ifndef INC_371PROCEDURALFOREST_TERRAINGENERATOR_H
 #define INC_371PROCEDURALFOREST_TERRAINGENERATOR_H
-#include "Terrain.h"
+#include "TerrainV2.h"
 
 class TerrainGenerator {
 public:
     TerrainGenerator();
     ~TerrainGenerator();
-    Terrain* GenerateTerrain(int, int, int, float);
+    TerrainV2* GenerateTerrain(int, int, int, float);
 private:
     // default 2D value
     float *fNoiseSeed2D = nullptr;

@@ -3,22 +3,22 @@
 //
 
 #include <World.h>
-#include "Terrain.h"
+#include "TerrainV2.h"
 #include <iostream>
- Terrain::Terrain():Entity(){
+ TerrainV2::TerrainV2():Entity(){
     terrain_mat.addTexture("../Assets/Textures/terrain.png");
 }
-void Terrain::addPositionOffset(glm::vec3 position) {
+void TerrainV2::addPositionOffset(glm::vec3 position) {
     positionOffset.push_back(position);
 }
 
-void Terrain::addPositionToMap(glm::vec3 position) {
+void TerrainV2::addPositionToMap(glm::vec3 position) {
     //map the board relative to the position on the grid when y is fixed at 0 and its height
     std::vector<float>  vector{position.x, 0, position.y};
     terrain_map.insert(terrain_key(vector, position.y));
 }
 
-int Terrain::getHeightAtPosition(glm::vec3 position) {
+int TerrainV2::getHeightAtPosition(glm::vec3 position) {
     std::vector<float>  vector{position.x, 0, position.y};
     if(terrain_map.find(vector) != terrain_map.end()){
         return terrain_map[vector];
@@ -27,7 +27,7 @@ int Terrain::getHeightAtPosition(glm::vec3 position) {
         return 0;
 }
 
-void Terrain::Draw() {
+void TerrainV2::Draw() {
     /*
      * Instance drawing no need to setup anything TreeGenerator should do that for us. Using one VAO
      * and using instancing
@@ -56,7 +56,7 @@ void Terrain::Draw() {
     glDrawArraysInstanced(Renderer::getRenderMode(), 0, 36, positionOffset.size());
     Renderer::getCurrentShader()->setBool("material.isTextured", false);
 }
-void Terrain::createVAO() {
+void TerrainV2::createVAO() {
 // Cube model
     // Cube model stolen from lab 3
     const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,

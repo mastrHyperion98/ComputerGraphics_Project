@@ -20,8 +20,8 @@ TerrainGenerator::~TerrainGenerator() {
     delete fNoiseSeed2D;
 }
 
-Terrain* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, float bias) {
-    Terrain *terrain = new Terrain();
+TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, float bias) {
+    TerrainV2 *terrain = new TerrainV2();
     // set our field parameters for the noise
     int nOutputWidth = width;
     int nOutputHeight = height;

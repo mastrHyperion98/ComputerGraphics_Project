@@ -2,8 +2,8 @@
 // Created by hyperion on 2020-04-16.
 //
 
-#ifndef INC_371PROCEDURALFOREST_TERRAIN_H
-#define INC_371PROCEDURALFOREST_TERRAIN_H
+#ifndef INC_371PROCEDURALFOREST_TERRAINV2_H
+#define INC_371PROCEDURALFOREST_TERRAINV2_H
 
 #include "Entity.h"
 #include <map>
@@ -15,9 +15,9 @@ typedef std::pair<std::vector<float>, int> terrain_key;
 typedef std::map<std::vector<float>, int> height_map;
 
 
-class Terrain: public Entity{
+class TerrainV2: public Entity{
 public:
-    Terrain();
+    TerrainV2();
     virtual void Draw();
    // virtual void Update();
     void addPositionOffset(glm::vec3);
@@ -39,4 +39,4 @@ private:
 };
 
 
-#endif //INC_371PROCEDURALFOREST_TERRAIN_H
+#endif //INC_371PROCEDURALFOREST_TERRAINV2_H
