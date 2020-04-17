@@ -18,6 +18,19 @@ TerrainGenerator::~TerrainGenerator() {
     delete fNoiseSeed2D;
 }
 
-void TerrainGenerator::GenerateTerrain(int width=256, int height=256, int octaves=1 , float bias=2.0f) {
+void TerrainGenerator::GenerateTerrain(int width=256, int height=256, int octaves=1, float bias=2.0f) {
+    // set our field parameters for the noise
+    int nOutputWidth = width;
+    int nOutputHeight = height;
+    int nOctaves = octaves;
+    float sBias = bias;
+
+    // Now we generate our noise
+
+
+}
+
+// here we want to output to out fNoise2D, but perhaps we dont want to output directly to our local variable
+void GenerateNoise(int width, int height, int nOctaveCount, float sBias, float* output2D=nullptr){
 
 }

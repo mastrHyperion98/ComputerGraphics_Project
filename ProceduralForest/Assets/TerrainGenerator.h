@@ -16,13 +16,9 @@ public:
     void GenerateTerrain(int, int, int, float);
 private:
     // default 2D value
-    int nOutputWidth = 256;
-    int nOutputHeight = 256;
-    int nOctaves = 1;
-    float sBias = 2.0f;
     float *fNoiseSeed2D = nullptr;
     float *fNoise2D = nullptr;
-    void GenerateNoise(int, int, float, int , float, float);
+    void GenerateNoise(int, int, int , float, float*);
 
 
 };
