@@ -191,7 +191,7 @@ vec3 Terrain::generateEndPoint() {
 
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(lw_bound, rw_bound); // dist
+    std::uniform_int_distribution<int> dist(lw_bound, rw_bound); // dist
     std::uniform_int_distribution<std::mt19937::result_type> dist_depth(depth_min, depth); // dist
     int depth_index;
     int width_index;
