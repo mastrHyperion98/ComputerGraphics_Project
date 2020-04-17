@@ -23,7 +23,6 @@ private:
     Material trunk;
 
     std::vector<glm::vec3> offset;
-
     GLuint vao;
     unsigned int instanceVBO;
     unsigned int instanceTextVBO;

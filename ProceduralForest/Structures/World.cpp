@@ -10,9 +10,9 @@
  */
 //
 
+#include <TerrainGenerator.h>
 #include "World.h"
 #include "TreeGenerator.h"
-#include "Terrain.h"
 World  World::current;
 
 World::World(){
@@ -61,5 +61,18 @@ void World::Update() {
 }
 
 void World::ProcedurallyGenerateWorld() {
-
+    TerrainGenerator terrainGenerator;
+    Terrain *terrain = terrainGenerator.GenerateTerrain(56,56,4,3.0);
+    world_entities.push_back(terrain);
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,-j*15}));
+        }
+    }
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,j*15}));
+        }
+    }
+    std::cout << 'h' << std::endl;
 }

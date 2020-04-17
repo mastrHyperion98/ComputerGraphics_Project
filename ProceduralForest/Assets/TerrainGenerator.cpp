@@ -6,9 +6,11 @@
 // This will hopefully be used to generate terrain our terrain and hopefully add a 3rd coordinate
 //
 
+#include <algorithm>
 #include "TerrainGenerator.h"
-
-
+#include <iostream>
+#include <random>
+#include "Cube.h"
 TerrainGenerator::TerrainGenerator() {
 
 }
@@ -18,19 +20,63 @@ TerrainGenerator::~TerrainGenerator() {
     delete fNoiseSeed2D;
 }
 
-void TerrainGenerator::GenerateTerrain(int width=256, int height=256, int octaves=1, float bias=2.0f) {
+Terrain* TerrainGenerator::GenerateTerrain(int width, int height, int octaves, float bias) {
+    Terrain *terrain = new Terrain();
+    Material mat;
+    mat.vertexColor = vec3(0,1,0);
+    mat.addTexture("../Assets/Textures/grass2.png");
     // set our field parameters for the noise
     int nOutputWidth = width;
     int nOutputHeight = height;
     int nOctaves = octaves;
     float sBias = bias;
+    // create our noise
+    fNoiseSeed2D = new float[nOutputWidth * nOutputHeight];
+    fNoise2D = new float[nOutputWidth * nOutputHeight];
+    // Now we generate our noise seed this is what we will interpolate to create our mapping.
+    // fill it up with random numbers between 0 and 1
+    for (int i = 0; i < nOutputWidth * nOutputHeight; i++) fNoiseSeed2D[i] = (float) random() / (float)  RAND_MAX;
+    // then we generate out noise
+    GenerateNoise(nOutputWidth, nOutputHeight, nOctaves, sBias, fNoise2D);
+    for (int x = 0; x < nOutputWidth; x++) {
+        for (int y = 0; y < nOutputHeight; y++) {
+            Cube *cube=new Cube(mat, vec3(1));
 
-    // Now we generate our noise
+            int pixel_bw = (int) ( fNoise2D[y * nOutputWidth + x] * 12.0f);
+            cube->Translate(vec3(x,pixel_bw,-y));
+            terrain->addComponent(cube);
+        }
 
-
+    }
+    return terrain;
 }
-
 // here we want to output to out fNoise2D, but perhaps we dont want to output directly to our local variable
-void GenerateNoise(int width, int height, int nOctaveCount, float sBias, float* output2D=nullptr){
+void TerrainGenerator::GenerateNoise(int width, int height, int nOctaveCount, float sBias, float* output2D){
+    for(int x = 0; x < width;x++){
+        for(int y = 0; y < height; y++){
+            float f_noise = 0.0f;
+            float scale_acc = 0.0f;
+            float scale = 1.0f;
+            // now we iterate over our number of octaves
+            for(int k = 0; k < nOctaveCount;k++){
+                int pitch = width >> k;
+                // perform integer division to lose some accuracy resulting in improved realism
+                int sample_x1 = (x/pitch)*pitch;
+                int sample_y1 = (y/pitch)*pitch;
+                // since we are in 2D we need to use a second sample
+                int sample_x2 = (sample_x1+pitch)%width;
+                int sample_y2=  (sample_y1+pitch)%width;
 
+                float blend_x = (float)(x-sample_x1)/(float)(pitch);
+                float blend_y = (float)(y-sample_y1)/(float)(pitch);
+                // linear interpolation
+                float sample_t = (1.0 - blend_x)*fNoiseSeed2D[sample_y1*width + sample_x1] * fNoiseSeed2D[sample_y1*width + sample_x2];
+                float sample_b = (1.0 - blend_x)*fNoiseSeed2D[sample_y2*width + sample_x1] * fNoiseSeed2D[sample_y2*width + sample_x2];
+                scale_acc += scale;
+                f_noise += (blend_y * (sample_b-sample_t) + sample_t) * scale;
+                scale = scale/sBias;
+            }
+            output2D[y * width + x] = f_noise / scale_acc;
+        }
+    }
 }
