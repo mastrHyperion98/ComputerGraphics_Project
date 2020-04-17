@@ -10,9 +10,11 @@
 #include "glm/glm.hpp"
 #include <vector>
 #include "Cube.h"
-typedef std::pair<glm::vec3, int> terrain_key;
+typedef std::pair<std::vector<float>, int> terrain_key;
 // map a terrain position to a height value
-typedef std::map<glm::vec3, int> height_map;
+typedef std::map<std::vector<float>, int> height_map;
+
+
 class Terrain: public Entity{
 public:
     Terrain();
@@ -21,8 +23,8 @@ public:
     void addPositionOffset(glm::vec3);
     int getHeightAtPosition(glm::vec3);
     void addPositionToMap(glm::vec3);
-
     void createVAO();
+
 private:
     Material terrain_mat;
     // stores the height at every position

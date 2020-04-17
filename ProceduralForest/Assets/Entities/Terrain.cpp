@@ -4,22 +4,24 @@
 
 #include <World.h>
 #include "Terrain.h"
-
+#include <iostream>
  Terrain::Terrain():Entity(){
-    terrain_mat.addTexture("../Assets/Textures/Grass4.jpg");
+    terrain_mat.addTexture("../Assets/Textures/terrain.png");
 }
 void Terrain::addPositionOffset(glm::vec3 position) {
     positionOffset.push_back(position);
 }
 
 void Terrain::addPositionToMap(glm::vec3 position) {
-    // map the board relative to the position on the grid when y is fixed at 0 and its height
-    terrain_map.insert(terrain_key(vec3(position.x, 0, position.z), position.y));
+    //map the board relative to the position on the grid when y is fixed at 0 and its height
+    std::vector<float>  vector{position.x, 0, position.y};
+    terrain_map.insert(terrain_key(vector, position.y));
 }
 
 int Terrain::getHeightAtPosition(glm::vec3 position) {
-    if(terrain_map.find(position) != terrain_map.end()){
-        return terrain_map.at(position);
+    std::vector<float>  vector{position.x, 0, position.y};
+    if(terrain_map.find(vector) != terrain_map.end()){
+        return terrain_map[vector];
     }
     else
         return 0;
@@ -60,51 +62,54 @@ void Terrain::createVAO() {
     const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,
             TexturedColoredVertex(transform->size * vec3(-0.5f,-0.5f,-0.5f),vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)), //left - red
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(.50f, 1.0f)),
 
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.5f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.5f, 0.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)), // far - blue
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 1.0f)), // far - blue
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
             TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 1.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 0.0f)),
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 1.0f)), // bottom - turquoise
+            //bottom face
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)), // bottom - turquoise
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.5f, 0.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(0.5f, 1.0f)),
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.5f, 0.0f)),
 
+            // end of bottom face
             TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
             TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.50f, 0.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.5f, 1.0f)),
             TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.5f, 0.0f)),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f)), // right - purple
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.5f, 1.0f)), // right - purple
             TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.5f, 0.0f)),
 
             TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
+            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.5f, 1.0f)),
             TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
 
+            // top face
             TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)), // top - yellow
             TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.0f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.5f, 0.0f)),
 
             TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f))
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.5f, 0.0f)),
+            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.5f, 1.0f))
     };
     // Create a vertex array
     GLuint vertexArrayObject;
