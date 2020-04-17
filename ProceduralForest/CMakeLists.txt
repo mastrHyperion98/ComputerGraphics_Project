@@ -12,7 +12,7 @@ include_directories(Structures)
 include_directories(Components)
 include_directories(Assets)
 include_directories(Assets/Entities)
-add_executable(ProceduralForest main.cpp Assets/Utils.h Structures/Transform.cpp Structures/Component.cpp
+add_executable(ProceduralForest main.cpp Structures/Transform.cpp Structures/Component.cpp
         Structures/Material.h Structures/Entity.cpp Structures/Shader.h Structures/Renderer.cpp
         Structures/WindowManager.cpp Structures/World.cpp Components/Cube.cpp Framework/stb_image.cpp
         Assets/Entities/Tree.cpp Assets/TreeGenerator.cpp Assets/Entities/Terrain.cpp)
