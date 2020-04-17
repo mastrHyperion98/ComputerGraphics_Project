@@ -37,12 +37,17 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
     GenerateNoise(nOutputWidth, nOutputHeight, nOctaves, sBias, fNoise2D);
     for (int x = 0; x < nOutputWidth; x++) {
         for (int y = 0; y < nOutputHeight; y++) {
-            int pixel_bw = (int) ( fNoise2D[y * nOutputWidth + x] * 12.0f);
-            glm::vec3 position(x, pixel_bw, -y);
+            int height = (int) ( fNoise2D[y * nOutputWidth + x] * 12.0f);
+            // fill the void between -1 and height
+            for(int k = -1; k < height; k++){
+                glm::vec3 position(x, k, -y);
+                // add position
+                terrain->addPositionOffset(position);
+            }
+            glm::vec3 position(x, height, -y);
             terrain->addPositionOffset(position);
             terrain->addPositionToMap(position);
         }
-
     }
     terrain->createVAO();
     return terrain;
