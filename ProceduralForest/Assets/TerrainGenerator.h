@@ -11,17 +11,11 @@
 
 class TerrainGenerator {
 public:
-    TerrainGenerator();
-    ~TerrainGenerator();
-    TerrainV2* GenerateTerrain(int, int, int, float);
+    static TerrainV2* GenerateTerrain(int, int, int, float, float, int);
 private:
     // default 2D value
-    float *fNoiseSeed2D = nullptr;
-    float *fNoise2D = nullptr;
-    void GenerateNoise(int, int, int , float, float*);
+    static float * GenerateNoise(int, int, float * , int , float);
 
 
 };
-
-
 #endif //INC_371PROCEDURALFOREST_TERRAINGENERATOR_H
