@@ -9,7 +9,6 @@
 #include <map>
 #include "glm/glm.hpp"
 #include <vector>
-#include "Cube.h"
 typedef std::pair<std::vector<float>, int> terrain_key;
 // map a terrain position to a height value
 typedef std::map<std::vector<float>, int> height_map;
@@ -27,6 +26,7 @@ public:
 
 private:
     Material terrain_mat;
+    Material terrain_mat_top;
     // stores the height at every position
     static height_map terrain_map;
     // list of position offset from (0,0,0)
@@ -36,6 +36,17 @@ private:
 
     unsigned int instanceVBO;
 
+};
+
+struct TexturedVertex
+{
+    TexturedVertex(vec3 _position, vec3 _normal, vec2 _uv, float _texture_id)
+            : position(_position), normal(_normal),uv(_uv), texture_id{_texture_id} {}
+
+    vec3 position;
+    vec3 normal;
+    vec2 uv;
+    float texture_id;
 };
 
 

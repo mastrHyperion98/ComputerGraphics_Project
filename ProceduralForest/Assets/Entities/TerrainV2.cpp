@@ -8,7 +8,8 @@
 
 height_map TerrainV2::terrain_map;
  TerrainV2::TerrainV2():Entity(){
-    terrain_mat.addTexture("../Assets/Textures/terrain.png");
+    terrain_mat.addTexture("../Assets/Textures/dirt.jpg");
+    terrain_mat_top.addTexture("../Assets/Textures/Grass4.jpg");
 }
 void TerrainV2::addPositionOffset(glm::vec3 position) {
     positionOffset.push_back(position);
@@ -37,8 +38,11 @@ void TerrainV2::Draw() {
     glm::mat4 modelWorldMatrix = mat4(1.0f);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, terrain_mat.diffuseMapId);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, terrain_mat_top.diffuseMapId);
     Renderer::getCurrentShader()->setBool("material.isTextured", true);
     Renderer::getCurrentShader()->setInt("material.diffuseMap[0]", 0);
+    Renderer::getCurrentShader()->setInt("material.diffuseMap[1]", 2);
     // Set our Texture sampler to user Texture Unit 0
 
     // load the proper vao
@@ -61,57 +65,54 @@ void TerrainV2::Draw() {
 void TerrainV2::createVAO() {
 // Cube model
     // Cube model stolen from lab 3
-    const TexturedColoredVertex texturedCubeVertexArray[] = {  // position,
-            TexturedColoredVertex(transform->size * vec3(-0.5f,-0.5f,-0.5f),vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)), //left - red
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(.50f, 1.0f)),
+    const TexturedVertex texturedCubeVertexArray[] = {  // position,
+            TexturedVertex(transform->size * vec3(-0.5f,-0.5f,-0.5f),vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f), 0), //left - red
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.5f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3(-1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 1.0f)), // far - blue
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 1.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f),0), // far - blue
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 1.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.5f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(1.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f, 0.0f,-1.0f),vec2(0.0f, 0.0f),0),
 
-            //bottom face
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)), // bottom - turquoise
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 1.0f),0), // bottom - turquoise
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(1.0f, 0.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(0.5f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 0.0f,-1.0f, 0.0f), vec2(1.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f,-0.5f), vec3( 0.0f,-1.0f, 0.0f),vec2(0.0f, 0.0f),0),
 
-            // end of bottom face
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)), // near - green
-            TexturedColoredVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.50f, 0.0f)),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f),0), // near - green
+            TexturedVertex(transform->size *vec3(-0.5f,-0.5f, 0.5f),vec3( 0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.5f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(0.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f), vec3( 0.0f, 0.0f, 1.0f),vec2(1.0f, 0.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.5f, 1.0f)), // right - purple
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 1.0f),0), // right - purple
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(1.0f, 0.0f),0),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.5f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f,-0.5f), vec3( 1.0f, 0.0f, 0.0f),vec2(0.0f, 0.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f),0),
+            TexturedVertex(transform->size *vec3( 0.5f,-0.5f, 0.5f),vec3( 1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f),0),
 
-            // top face
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)), // top - yellow
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.5f, 0.0f)),
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f),1), // top - yellow
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 0.0f),1),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(0.0f, 0.0f),1),
 
-            TexturedColoredVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 1.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.5f, 0.0f)),
-            TexturedColoredVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.5f, 1.0f))
+            TexturedVertex(transform->size *vec3( 0.5f, 0.5f, 0.5f), vec3( 0.0f, 1.0f, 0.0f),vec2(1.0f, 1.0f),1),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f,-0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f),1),
+            TexturedVertex(transform->size *vec3(-0.5f, 0.5f, 0.5f),vec3( 0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f),1)
     };
     // Create a vertex array
     GLuint vertexArrayObject;
@@ -127,7 +128,7 @@ void TerrainV2::createVAO() {
                           3,                   // size
                           GL_FLOAT,            // type
                           GL_FALSE,            // normalized?
-                          sizeof(TexturedColoredVertex), // stride - each vertex contain 2 vec3 (position, color)
+                          sizeof(TexturedVertex), // stride - each vertex contain 2 vec3 (position, color)
                           (void*)0             // array buffer offset
     );
 
@@ -136,7 +137,7 @@ void TerrainV2::createVAO() {
                           3,
                           GL_FLOAT,
                           GL_FALSE,
-                          sizeof(TexturedColoredVertex),
+                          sizeof(TexturedVertex),
                           (void*)(1*sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
     );
 
@@ -145,10 +146,18 @@ void TerrainV2::createVAO() {
                           2,
                           GL_FLOAT,
                           GL_FALSE,
-                          sizeof(TexturedColoredVertex),
+                          sizeof(TexturedVertex),
                           (void*)(2*sizeof(vec3))      // uv is offseted by 2 vec3 (comes after position and color)
     );
 
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4,                            // attribute 2 matches aUV in Vertex Shader
+                          1,
+                          GL_FLOAT,
+                          GL_FALSE,
+                          sizeof(TexturedVertex),
+                          (void*)(2*sizeof(vec3) + sizeof(vec2))      // uv is offseted by 2 vec3 (comes after position and color)
+    );
     glGenBuffers(1, &instanceVBO);
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * positionOffset.size(), &positionOffset[0], GL_STATIC_DRAW);

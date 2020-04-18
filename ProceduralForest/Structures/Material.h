@@ -25,7 +25,7 @@ struct Material{
         glBindTexture(GL_TEXTURE_2D, textureId);
 
         // Step2 Set filter parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // Step3 Load Textures with dimension data
         int width, height, nrChannels;
