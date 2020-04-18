@@ -16,13 +16,15 @@ private:
 	float horizontalAngle = 90.0f;
 	float verticalAngle = 0.0f;
 	const float angularSpeed = 5.0f;
+	bool initMouse = false;
 public:
 
 	float collisionOffset = 0.25f; // makes camera thicker to simulate a human colliding with trees
 
 	float fov = 70.00f;
 	//this value can be increased/decreased if you walk on hills
-	float ground_height = 0.0f; 
+	float ground_height = 0.0f;
+
 	// position camera at the origin
 	glm::vec3 Position;
 	glm::vec3 LookAt;
@@ -34,28 +36,32 @@ public:
 		Position = glm::vec3(0.0f, ground_height + ground_offset, 20.0f);
 		LookAt = glm::vec3(0.0f, 0.0f, 0.0f);
 		Up = glm::vec3(0.0f, 1.0f, 0.0f);
+
 	}
 
 	void processMouse(float dt)
 	{
-		float theta = radians(horizontalAngle);
-		float phi = radians(verticalAngle);
+	    float theta = radians(horizontalAngle);
+        float phi = radians(verticalAngle);
+        // forward vector -- pointing to the direction we are looking at
+        LookAt = vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
 
-        verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
-        //verticalAngle += WindowManager::GetMouseMotionY() * angularSpeed * dt;      // Used to invert mouse
-        horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
+        if (initMouse) {
+            verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
+            //verticalAngle += WindowManager::GetMouseMotionY() * angularSpeed * dt;      // Used to invert mouse
+            horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
+        }
 
-		verticalAngle = std::max(-85.0f, std::min(85.0f, verticalAngle));
-		if (horizontalAngle > 360)
-		{
-			horizontalAngle -= 360;
-		}
-		else if (horizontalAngle < -360)
-		{
-			horizontalAngle += 360;
-		}
-		// forward vector -- pointing to the direction we are looking at
-		LookAt = vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
+        verticalAngle = std::max(-85.0f, std::min(85.0f, verticalAngle));
+        if (horizontalAngle > 360)
+        {
+            horizontalAngle -= 360;
+        }
+        else if (horizontalAngle < -360)
+        {
+            horizontalAngle += 360;
+        }
+        initMouse = true;
 	}
 
 	bool isInsideObject(glm::vec3 center, float halfLength)
