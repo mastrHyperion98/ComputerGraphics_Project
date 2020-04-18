@@ -25,8 +25,9 @@ struct Material{
         glBindTexture(GL_TEXTURE_2D, textureId);
 
         // Step2 Set filter parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 10);
         // Step3 Load Textures with dimension data
         int width, height, nrChannels;
         unsigned char *data = stbi_load(filename, &width, &height, &nrChannels, 0);
@@ -46,7 +47,7 @@ struct Material{
             format = GL_RGBA;
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
                      0, format, GL_UNSIGNED_BYTE, data);
-
+        glGenerateMipmap(GL_TEXTURE_2D);
         // Step5 Free resources
         stbi_image_free(data);
         //glBindTexture(GL_TEXTURE_2D, 0);

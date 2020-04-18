@@ -17,7 +17,7 @@ public:
     std::vector<glm::vec3> getLeavesOffsets(){return offset;};
     void removeLeavesOffset(int);
     void createVAO();
-    std::vector<float> textureOffset;
+    std::vector<int> textureOffset;
 private:
     Material leaves;
     Material trunk;
