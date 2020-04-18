@@ -5,6 +5,8 @@
 #include <World.h>
 #include "TerrainV2.h"
 #include <iostream>
+
+height_map TerrainV2::terrain_map;
  TerrainV2::TerrainV2():Entity(){
     terrain_mat.addTexture("../Assets/Textures/terrain.png");
 }
@@ -14,12 +16,12 @@ void TerrainV2::addPositionOffset(glm::vec3 position) {
 
 void TerrainV2::addPositionToMap(glm::vec3 position) {
     //map the board relative to the position on the grid when y is fixed at 0 and its height
-    std::vector<float>  vector{position.x, 0, position.y};
+    std::vector<float>  vector{position.x, 0, position.z};
     terrain_map.insert(terrain_key(vector, position.y));
 }
 
 int TerrainV2::getHeightAtPosition(glm::vec3 position) {
-    std::vector<float>  vector{position.x, 0, position.y};
+    std::vector<float>  vector{floor(position.x), 0, floor(position.z)};
     if(terrain_map.find(vector) != terrain_map.end()){
         return terrain_map[vector];
     }
