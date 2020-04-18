@@ -14,7 +14,7 @@ private:
 	float speed = 3.0f * 10/2;
 	float fastSpeed = 2 * speed;
 	float horizontalAngle = 90.0f;
-	float verticalAngle = 15.0f;
+	float verticalAngle = 0.0f;
 	const float angularSpeed = 5.0f;
 	bool initMouse = false;
 public:
