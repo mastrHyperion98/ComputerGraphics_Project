@@ -40,13 +40,13 @@ private:
 
 struct TexturedVertex
 {
-    TexturedVertex(vec3 _position, vec3 _normal, vec2 _uv, float _texture_id)
+    TexturedVertex(vec3 _position, vec3 _normal, vec2 _uv, int _texture_id)
             : position(_position), normal(_normal),uv(_uv), texture_id{_texture_id} {}
 
     vec3 position;
     vec3 normal;
     vec2 uv;
-    float texture_id;
+    int texture_id;
 };
 
 
