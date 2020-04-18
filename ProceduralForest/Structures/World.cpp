@@ -64,9 +64,11 @@ void World::ProcedurallyGenerateWorld() {
     TerrainGenerator terrainGenerator;
     TerrainV2 *terrain = terrainGenerator.GenerateTerrain(512, 512, 4, 0.25, 20, 4);
     world_entities.push_back(terrain);
-    for(int i = 0; i < 5; i++){
-        for(int j = 0; j < 5; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,-j*15}));
+    for(int i = -30; i < 31; i++){
+        for(int j = 0; j > -61; j--){
+            if ((rand() > 0.9975 * RAND_MAX)) {
+                AddEntities(TreeGenerator::generateTree(vec3{i, 0, j}));
+            }
         }
     }
     std::cout << 'h' << std::endl;
