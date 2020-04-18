@@ -26,7 +26,7 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
     float * noise;
     // Now we generate our noise seed this is what we will interpolate to create our mapping.
     // fill it up with random numbers between 0 and 1
-    for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = (float) random() / (float)  RAND_MAX;
+    for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = (float) rand() / (float)  RAND_MAX;
     // then we generate out noise
     noise = GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
     int blocks = 0;
@@ -34,7 +34,7 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
         for (int y = 0; y < n_height; y++) {
             if(blocks == n_block_per_terrain){
                 delete noise;
-                for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = (float) random() / (float)  RAND_MAX;
+                for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = (float) rand() / (float)  RAND_MAX;
                 noise =  GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
             }
             // grab our height from our array of noise
