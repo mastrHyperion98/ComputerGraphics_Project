@@ -39,7 +39,7 @@ Rock* RockGenerator::generateRock(vec3 position) {
 
 void RockGenerator::generateShape( Rock &rock, int radius, vec3 center) {
     int square_count{0};
-    int buttom_cutoff = 0;//ceilf(radius/2);
+    //int buttom_cutoff = 0;//ceilf(radius/2);
     int increment = 1; // unit cube
 
     std::random_device dev;
@@ -90,50 +90,6 @@ void RockGenerator::generateShape( Rock &rock, int radius, vec3 center) {
         }
     }
 
-    for(int i = 0; i < radius - buttom_cutoff; i++){
-        int num_x = computeNumberInX(center, radius, i, increment);
-        for(int j = 0; j <= num_x; j++){
-            vec3 position = center + vec3(j, -(i * increment), 0);
-            if(j!=0) {
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-            }
-            int num_z = computeNumberInZ(position, center, radius,j, increment);
-            for(int k = 0;k < num_z; k++){
-                position = center + vec3(j, -(i * increment), k);
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-
-                position = center + vec3(j, -(i * increment), -k);
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-            }
-        }
-        for(int j = 0; j <= num_x; j++){
-            vec3 position = center + vec3(-j, -(i * increment), 0);
-            if(j!=0) {
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-            }
-            int num_z = computeNumberInZ(position, center, radius,j, increment);
-            for(int k = 0;k < num_z; k++){
-                position = center + vec3(-j, -(i * increment), k);
-
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-
-                position = center + vec3(-j, -(i * increment), -k);
-                rock.addLeavesOffset(position);
-                rock.textureOffset.push_back(1);
-                square_count++;
-            }
-        }
-    }
     // we want to remove x_number of blocks based on the total number of blocks in the rock
     std::uniform_int_distribution<std::mt19937::result_type> dist_to_remove(20,rock.getLeavesOffsets().size() - center.y); // distribution in range [1, 6]
     int to_remove=dist_to_remove(rng); // we want to remove a random number of blocks
