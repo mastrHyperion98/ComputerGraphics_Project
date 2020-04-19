@@ -77,6 +77,12 @@ void World::ProcedurallyGenerateWorld() {
 }
 
 int World::RandNumGen(int min, int max) {
+    if(min < 0){
+        min = 0;
+    }
+    if(max < min){
+        max = min;
+    }
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(min,max); // dist
