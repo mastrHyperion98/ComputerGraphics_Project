@@ -6,16 +6,17 @@
 #include <cstdlib>
 #include <algorithm>	//for std::max to compile (windows)
 #include "TerrainV2.h"
-
+#include "Rock.h"
 class Camera
 {
 private:
 	float ground_offset = 5.0f;
 	// Other camera parameters
-	float speed = 3.0f * 10/2;
+	const float base_speed = 3.0f * 10 / 2;
+	float speed = base_speed;
 	float fastSpeed = 2 * speed;
 	float jumpSpeed = 8.0f;
-	float fallSpeed = 2.5*jumpSpeed;
+	float fallSpeed = 2.5 * jumpSpeed;
 	float horizontalAngle = 90.0f;
 	float verticalAngle = 0.0f;
 	const float angularSpeed = 5.0f;
@@ -24,7 +25,7 @@ private:
 
 public:
 
-	float collisionOffset = 0.25f; // makes camera thicker to simulate a human colliding with trees
+	float collisionOffset = 0.25f * 2; // makes camera thicker to simulate a human colliding with trees
 
 	float fov = 70.00f;
 	//this value can be increased/decreased if you walk on hills
@@ -51,27 +52,27 @@ public:
 
 	void processMouse(float dt)
 	{
-	    float theta = radians(horizontalAngle);
-        float phi = radians(verticalAngle);
-        // forward vector -- pointing to the direction we are looking at
-        LookAt = vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
+		float theta = radians(horizontalAngle);
+		float phi = radians(verticalAngle);
+		// forward vector -- pointing to the direction we are looking at
+		LookAt = vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
 
-        if (initMouse) {
-            verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
-            //verticalAngle += WindowManager::GetMouseMotionY() * angularSpeed * dt;      // Used to invert mouse
-            horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
-        }
+		if (initMouse) {
+			verticalAngle -= WindowManager::GetMouseMotionY() * angularSpeed * dt;
+			//verticalAngle += WindowManager::GetMouseMotionY() * angularSpeed * dt;      // Used to invert mouse
+			horizontalAngle -= WindowManager::GetMouseMotionX() * angularSpeed * dt;
+		}
 
-        verticalAngle = std::max(-85.0f, std::min(85.0f, verticalAngle));
-        if (horizontalAngle > 360)
-        {
-            horizontalAngle -= 360;
-        }
-        else if (horizontalAngle < -360)
-        {
-            horizontalAngle += 360;
-        }
-        initMouse = true;
+		verticalAngle = std::max(-85.0f, std::min(85.0f, verticalAngle));
+		if (horizontalAngle > 360)
+		{
+			horizontalAngle -= 360;
+		}
+		else if (horizontalAngle < -360)
+		{
+			horizontalAngle += 360;
+		}
+		initMouse = true;
 	}
 
 	bool isInsideObject(glm::vec3 center, float halfLength)
@@ -89,20 +90,27 @@ public:
 
 
 	bool airborne = false;
-	void processKeyboard(float dt, std::vector<Entity*> &world_entities)
+	bool wall_collision = false;
+	bool entity_collision = false;
+	void processKeyboard(float dt, std::vector<Entity*>& world_entities)
 	{
 		glm::vec3 old_Position = Position;			//save old position in case new pos collides with objects
 
 		vec3 cameraSideVector = glm::cross(LookAt, vec3(0.0f, 0.5f, 0.0f));
-		if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
-			Position -= cameraSideVector * speed * dt;
-		if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
-			Position += cameraSideVector * speed * dt;
-		if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
-			Position -= LookAt * speed * dt;
-		if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
-			Position += LookAt * speed * dt;
 
+		if (wall_collision == false)
+		{
+			if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
+				Position -= cameraSideVector * speed * dt;
+			if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
+				Position += cameraSideVector * speed * dt;
+			if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
+				Position -= LookAt * speed * dt;
+			if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
+				Position += LookAt * speed * dt;
+		}
+
+		
 		bool space_pressed = (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS);
 		if (airborne == false && space_pressed == true) // jump
 		{
@@ -111,40 +119,68 @@ public:
 			airborne = true;
 		}
 
-		Position.y = old_Position.y;			//so directional movement doesn't make you fly higher or land faster
-		Position = Position + velocity * dt;
-		velocity = velocity + gravity * dt;
-
 		ground_height = TerrainV2::getHeightAtPosition(Position);
-		if (Position.y <= ground_height + ground_offset)
+
+		//handle collisions with walls
+		int delta_height = (ground_height + ground_offset) - old_Position.y;
+		if (delta_height > 0)
 		{
-			velocity.y = 0.0f;
-			Position.y = ground_height + ground_offset;
-			if (airborne == true)
-				//std::cout << "\nlanded.\n";
-			airborne = false;
+			//walking into a wall || jumped into  wall && not high enough to climb the wall
+			if (airborne == false || (airborne == true && (Position.y < ground_height + ground_offset)))
+			{
+				Position = old_Position;	
+			}
+			wall_collision = true;
 		}
 		else
 		{
-			airborne = true;
-			//std::cout << "y=" << Position.y<< std::endl;
+			wall_collision = false;
 		}
 
-		//handle collisions
+		//handle collisions with trees & rocks
 		int i = 0;
 		for (Entity* e : world_entities)
 		{
 			if (i++ == 0) continue;	//skip 0th element
 			else
 			{
-				glm::vec3 position = e->getTransform()->position;
-				glm::vec3 scaling = e->getTransform()->scaling;
-				
-				if (isInsideObject(position, collisionOffset + scaling.x/2))    // Change scaling.x/2 to radius
+				//int radius = ((Rock*)e)->radius;
+				//if (radius == NULL)
+				//	radius = 1;
+				int radius = 1;
+				if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
 				{
 					Position = old_Position;
+					entity_collision = true;
+					break;
 				}
 			}
+		}
+
+		//gravity, drag camera to ground level over time.
+		Position.y = old_Position.y;			//for camera rotation to not make you fly higher or land faster while pressing directionals
+		Position = Position + velocity * dt;
+		velocity = velocity + gravity * dt;
+
+		//correct height if it's below the ground level & set velocity to 0
+		if (Position.y <= ground_height + ground_offset)	//camera is at ground level here
+		{
+			if (wall_collision == false || Position.y < -10)	//||Position.y<-10 in case it's falling through the floor (initial spawn)
+			{
+				velocity.y = 0.0f;
+				Position.y = ground_height + ground_offset;
+			}
+
+			//if (airborne == true)
+			//	std::cout << "\nlanded.\n";
+			airborne = false;
+		}
+		else //camera is airborne here
+		{
+			//if (airborne == false)
+				//std::cout << "\nairborne...\n";
+			airborne = true;
+			//std::cout << "y=" << Position.y << std::endl;
 		}
 
 		// we need to make the side vector a unit vector

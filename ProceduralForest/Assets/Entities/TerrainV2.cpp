@@ -8,8 +8,8 @@
 
 height_map TerrainV2::terrain_map;
  TerrainV2::TerrainV2():Entity(){
-    terrain_mat.addTexture("../Assets/Textures/dirt.jpg");
-    terrain_mat_top.addTexture("../Assets/Textures/Grass4.jpg");
+    terrain_mat.addTexture("../Assets/Textures/dirt.png");
+    terrain_mat_top.addTexture("../Assets/Textures/Grass4.png");
 }
 void TerrainV2::addPositionOffset(glm::vec3 position) {
     positionOffset.push_back(position);
