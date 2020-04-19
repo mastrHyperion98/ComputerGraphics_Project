@@ -23,7 +23,7 @@ public:
     static World& getCurrent();
     Transform getTransform(){return worldTransform;};
     void ProcedurallyGenerateWorld();
-    int RandNumGen(int min, int max);
+    static int RandNumGen(int min, int max);
     std::vector<Entity*>& getEntities() {return world_entities;};
 private:
     Transform worldTransform;
