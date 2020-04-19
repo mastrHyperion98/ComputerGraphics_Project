@@ -11,7 +11,6 @@
 #include "glm/gtc/matrix_transform.hpp" // include this to create transformation matrices
 #include "glm/glm.hpp"  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include "glm/gtc/type_ptr.hpp"
-#include "glm/gtc/type_ptr.hpp"
 #include "Transform.h"
 #include <WindowManager.h>
 #include <Renderer.h>
