@@ -13,6 +13,7 @@
 #include <TerrainGenerator.h>
 #include "World.h"
 #include "TreeGenerator.h"
+#include "RockGenerator.h"
 #include "random"
 World  World::current;
 
@@ -69,11 +70,15 @@ void World::ProcedurallyGenerateWorld() {
         for(int j = 0; j > -61; j--){
             if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
                 vec3 position = vec3 (i, 0, j);
-                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position), j}));
+                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position)+1, j}));
+            }
+            if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
+                vec3 position = vec3 (i, 0, j);
+                AddEntities(RockGenerator::generateRock(vec3{i, TerrainV2::getHeightAtPosition(position)+1, j}));
             }
         }
     }
-    std::cout << 'h' << std::endl;
+    //std::cout << 'h' << std::endl;
 }
 
 int World::RandNumGen(int min, int max) {
