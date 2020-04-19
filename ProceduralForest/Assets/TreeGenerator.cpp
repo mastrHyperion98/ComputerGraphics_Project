@@ -26,7 +26,7 @@ vec3 const TreeGenerator::ROTATION_AXIS = vec3(0,1,0);
     Tree *tree = new Tree;
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(10,10); // dist
+    std::uniform_int_distribution<std::mt19937::result_type> dist(7,20); // dist
      std::uniform_int_distribution<std::mt19937::result_type> angle_dist(MIN_ANGLE,MAX_ANGLE); // dist
     int trunk_height = dist(rng);
     int radius = max(trunk_height/3, 4);
