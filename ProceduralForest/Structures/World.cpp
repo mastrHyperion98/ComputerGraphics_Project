@@ -78,7 +78,7 @@ void World::ProcedurallyGenerateWorld() {
             }
         }
     }
-    std::cout << 'h' << std::endl;
+    //std::cout << 'h' << std::endl;
 }
 
 int World::RandNumGen(int min, int max) {

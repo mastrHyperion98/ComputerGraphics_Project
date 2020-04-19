@@ -106,7 +106,7 @@ public:
 		bool space_pressed = (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS);
 		if (airborne == false && space_pressed == true) // jump
 		{
-			std::cout << "\njumped\n";
+			//std::cout << "\njumped\n";
 			velocity.y = jumpSpeed;
 			airborne = true;
 		}
@@ -121,13 +121,13 @@ public:
 			velocity.y = 0.0f;
 			Position.y = ground_height + ground_offset;
 			if (airborne == true)
-				std::cout << "\nlanded.\n";
+				//std::cout << "\nlanded.\n";
 			airborne = false;
 		}
 		else
 		{
 			airborne = true;
-			std::cout << "y=" << Position.y<< std::endl;
+			//std::cout << "y=" << Position.y<< std::endl;
 		}
 
 		//handle collisions
