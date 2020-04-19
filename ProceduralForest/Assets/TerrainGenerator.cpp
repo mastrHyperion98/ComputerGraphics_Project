@@ -35,6 +35,7 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
     for (int x = 0; x < n_width; x++) {
         for (int y = 0; y < n_height; y++) {
             if(blocks == n_block_per_terrain){
+                blocks = 0;
                 delete noise;
                 for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = distribution(generator);
                 noise =  GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
