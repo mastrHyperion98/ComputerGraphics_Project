@@ -175,11 +175,3 @@ void Tree::createVAO(){
 
     vao = vertexArrayObject;
 }
-
-void Tree::setHeight(float height) {
-    tree_height = height;
-}
-
-void Tree::setTreeRadius(float radius) {
-    tree_radius = radius;
-}

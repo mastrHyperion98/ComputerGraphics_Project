@@ -14,7 +14,6 @@
 #include <map>
 #include "glm/glm.hpp"
 #include "Tree.h"
-#include "Terrain.h"
 #include <deque>
 
 typedef std::pair<int, Tree*> terrainPair;
@@ -40,10 +39,6 @@ private:
     std::vector<Entity*> world_entities;
     static World current;
     terrainMap terrain_mapping;
-    void GenerateForest(float, Terrain& terrain);
-    bool placeTree(float, int, Tree*, int, int);
-    bool indexInQueue(int, std::deque<int>);
-    bool indexInVector(int, std::vector<int>);
 };
 
 

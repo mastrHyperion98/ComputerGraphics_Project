@@ -37,9 +37,6 @@ vec3 const TreeGenerator::ROTATION_AXIS = vec3(0,1,0);
     generateTrunk( *tree, trunk_height);
     vec3 center{tree->getLeavesOffsets()[tree->getLeavesOffsets().size()-1]};
     generateLeaves(*tree, radius, center);
-
-    tree->setTreeRadius(radius);
-    tree->setHeight(trunk_height);
     // set position
     // we can also apply a random rotation to the tree
     tree->getTransform()->position = position;
