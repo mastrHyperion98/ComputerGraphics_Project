@@ -68,7 +68,8 @@ void World::ProcedurallyGenerateWorld() {
     for(int i = -30; i < 31; i++){
         for(int j = 0; j > -61; j--){
             if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
-                AddEntities(TreeGenerator::generateTree(vec3{i, 0, j}));
+                vec3 position = vec3 (i, 0, j);
+                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position), j}));
             }
         }
     }
