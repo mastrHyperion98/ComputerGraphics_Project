@@ -70,11 +70,11 @@ void World::ProcedurallyGenerateWorld() {
         for(int j = 0; j > -192; j--){
             if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
                 vec3 position = vec3 (i, 0, j);
-                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position)+1, j}));
+                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position)+1.005, j}));
             }
             if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
                 vec3 position = vec3 (i, 0, j);
-                AddEntities(RockGenerator::generateRock(vec3{i, TerrainV2::getHeightAtPosition(position)+1, j}));
+                AddEntities(RockGenerator::generateRock(vec3{i, TerrainV2::getHeightAtPosition(position)+1.005, j}));
             }
         }
     }
