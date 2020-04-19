@@ -15,6 +15,6 @@ include_directories(Assets/Entities)
 add_executable(ProceduralForest main.cpp Structures/Transform.cpp Structures/Component.cpp
         Structures/Material.h Structures/Entity.cpp Structures/Shader.h Structures/Renderer.cpp
         Structures/WindowManager.cpp Structures/World.cpp Components/Cube.cpp Framework/stb_image.cpp
-        Assets/Entities/Tree.cpp Assets/TreeGenerator.cpp Assets/Entities/Terrain.cpp)
+        Assets/Entities/Tree.cpp Assets/TreeGenerator.cpp Assets/TerrainGenerator.cpp Assets/Entities/TerrainV2.cpp Assets/RockGenerator.cpp Assets/RockGenerator.h Assets/Entities/Rock.cpp Assets/Entities/Rock.h)
 target_link_libraries(ProceduralForest PRIVATE GLEW::GLEW PRIVATE glfw PRIVATE glm )
 

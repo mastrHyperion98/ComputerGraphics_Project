@@ -20,12 +20,7 @@ public:
     std::vector<glm::vec3> getLeavesOffsets(){return offset;};
     void removeLeavesOffset(int);
     void createVAO();
-    std::vector<float> textureOffset;
-    void setTreeRadius(float);
-    void setHeight(float);
-    float getHeight(){return tree_height;};
-    float getTreeRadius(){return tree_radius;};
-
+    std::vector<int> textureOffset;
 private:
     Material leaves;
     Material trunk;

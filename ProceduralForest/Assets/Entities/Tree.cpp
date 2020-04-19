@@ -169,7 +169,7 @@ void Tree::createVAO(){
 
     glEnableVertexAttribArray(4);
     glBindBuffer(GL_ARRAY_BUFFER, instanceTextVBO); // this attribute comes from a different vertex buffer
-    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(int), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(4, 1); // tell OpenGL this is an instanced vertex attribute.
 

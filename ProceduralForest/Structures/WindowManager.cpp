@@ -71,6 +71,7 @@ void WindowManager::Initialize(std::string title, int width, int height) {
     // Initial mouse position
     glfwPollEvents();
     double x, y;
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwGetCursorPos(window, &x, &y);
 
     sLastMousePositionX = x;
