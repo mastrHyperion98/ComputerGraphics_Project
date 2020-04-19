@@ -1,6 +1,9 @@
 //
 // Created by hyperion on 2020-04-05.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 
 #ifndef INC_371PROCEDURALFOREST_TREEGENERATOR_H
 #define INC_371PROCEDURALFOREST_TREEGENERATOR_H

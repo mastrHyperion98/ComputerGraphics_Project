@@ -1,6 +1,9 @@
 //
 // Created by hyperion on 2020-04-05.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 
 #ifndef INC_371PROCEDURALFOREST_TREE_H
 #define INC_371PROCEDURALFOREST_TREE_H
@@ -21,9 +24,10 @@ public:
 private:
     Material leaves;
     Material trunk;
-
     std::vector<glm::vec3> offset;
     GLuint vao;
+    float tree_radius;
+    float tree_height;
     unsigned int instanceVBO;
     unsigned int instanceTextVBO;
 };

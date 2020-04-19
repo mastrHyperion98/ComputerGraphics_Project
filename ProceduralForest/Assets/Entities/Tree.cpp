@@ -2,6 +2,9 @@
 // Created by Steven Smith(4 on 2020-04-05.
 // Created for Comp 371 Concordia W 2020 Procedural Generation project
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 
 /*
  * An extension of the super class Entity used to render the World through simplified commands

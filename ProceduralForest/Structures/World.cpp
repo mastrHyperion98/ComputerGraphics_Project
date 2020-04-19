@@ -1,8 +1,11 @@
 //
 // Created by Steven Smith on 2020-04-05.
-/*// Created for Concordia W 2020 Comp 371
- *
- * THe world class is an additional layer of abstraction used when drawing our entities
+// Created for Concordia W 2020 Comp 371
+//
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
+/* The world class is an additional layer of abstraction used when drawing our entities
  * The world allows to procedurally generate a world while keeping the main display loop clean.
  *
  * Furthermore, the is composed of a vector list of Entities that allows us to add multiple
@@ -25,8 +28,6 @@ World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
     world_entities = std::vector<Entity*>(world.world_entities);
     current = *this;
-
-
 }
 
 
