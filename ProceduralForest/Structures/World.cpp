@@ -64,10 +64,10 @@ void World::Update() {
 
 void World::ProcedurallyGenerateWorld() {
     TerrainGenerator terrainGenerator;
-    TerrainV2 *terrain = terrainGenerator.GenerateTerrain(512, 512, 4, 0.25, 20, 4);
+    TerrainV2 *terrain = terrainGenerator.GenerateTerrain(192, 192, 4, 0.25, 20, 4);
     world_entities.push_back(terrain);
-    for(int i = -30; i < 31; i++){
-        for(int j = 0; j > -61; j--){
+    for(int i = 0; i < 192; i++){
+        for(int j = 0; j > -192; j--){
             if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
                 vec3 position = vec3 (i, 0, j);
                 AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position)+1, j}));

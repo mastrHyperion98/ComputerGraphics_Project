@@ -41,7 +41,7 @@ public:
 
 	Camera()
 	{
-		Position = glm::vec3(0.0f, ground_height + ground_offset, 20.0f);
+		Position = glm::vec3(81.0f, ground_height + ground_offset, -81.0f);
 		LookAt = glm::vec3(0.0f, 0.0f, 0.0f);
 		Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -140,7 +140,7 @@ public:
 				glm::vec3 position = e->getTransform()->position;
 				glm::vec3 scaling = e->getTransform()->scaling;
 				
-				if (isInsideObject(position, collisionOffset + scaling.x/2))
+				if (isInsideObject(position, collisionOffset + scaling.x/2))    // Change scaling.x/2 to radius
 				{
 					Position = old_Position;
 				}
