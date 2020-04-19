@@ -13,6 +13,7 @@
 #include <TerrainGenerator.h>
 #include "World.h"
 #include "TreeGenerator.h"
+#include "random"
 World  World::current;
 
 World::World(){
@@ -66,10 +67,17 @@ void World::ProcedurallyGenerateWorld() {
     world_entities.push_back(terrain);
     for(int i = -30; i < 31; i++){
         for(int j = 0; j > -61; j--){
-            if ((rand() > 0.9975 * RAND_MAX)) {
+            if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
                 AddEntities(TreeGenerator::generateTree(vec3{i, 0, j}));
             }
         }
     }
     std::cout << 'h' << std::endl;
+}
+
+int World::RandNumGen(int min, int max) {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(min,max); // dist
+    return dist(rng);
 }
