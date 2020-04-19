@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>	//for std::max to compile (windows)
+#include "TerrainV2.h"
 
 class Camera
 {
@@ -13,10 +14,14 @@ private:
 	// Other camera parameters
 	float speed = 3.0f * 10/2;
 	float fastSpeed = 2 * speed;
+	float jumpSpeed = 8.0f;
+	float fallSpeed = 2.5*jumpSpeed;
 	float horizontalAngle = 90.0f;
 	float verticalAngle = 0.0f;
 	const float angularSpeed = 5.0f;
 	bool initMouse = false;
+
+
 public:
 
 	float collisionOffset = 0.25f; // makes camera thicker to simulate a human colliding with trees
@@ -30,6 +35,9 @@ public:
 	glm::vec3 LookAt;
 	glm::vec3 Up;
 
+	glm::vec3 velocity;
+	glm::vec3 jumpVelocity;
+	glm::vec3 gravity;
 
 	Camera()
 	{
@@ -37,6 +45,8 @@ public:
 		LookAt = glm::vec3(0.0f, 0.0f, 0.0f);
 		Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
+		velocity = glm::vec3(0, 0, 0);
+		gravity = glm::vec3(0, -fallSpeed, 0);
 	}
 
 	void processMouse(float dt)
@@ -73,15 +83,12 @@ public:
 
 		bool ans_x = (west <= Position.x && Position.x <= east);
 		bool ans_z = (norf <= Position.z && Position.z <= souf);
-		
-		/*if (ans_x && ans_z)
-			std::cout << "in" << std::endl;
-		else
-			std::cout << "out" << std::endl;*/
-		
+
 		return (ans_x && ans_z);
 	}
 
+
+	bool airborne = false;
 	void processKeyboard(float dt, std::vector<Entity*> &world_entities)
 	{
 		glm::vec3 old_Position = Position;			//save old position in case new pos collides with objects
@@ -96,8 +103,32 @@ public:
 		if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
 			Position += LookAt * speed * dt;
 
-		//max height (to not fly above x units from the ground)
-		Position.y = ground_height + ground_offset;	
+		bool space_pressed = (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS);
+		if (airborne == false && space_pressed == true) // jump
+		{
+			std::cout << "\njumped\n";
+			velocity.y = jumpSpeed;
+			airborne = true;
+		}
+
+		Position.y = old_Position.y;			//so directional movement doesn't make you fly higher or land faster
+		Position = Position + velocity * dt;
+		velocity = velocity + gravity * dt;
+
+		ground_height = TerrainV2::getHeightAtPosition(Position);
+		if (Position.y <= ground_height + ground_offset)
+		{
+			velocity.y = 0.0f;
+			Position.y = ground_height + ground_offset;
+			if (airborne == true)
+				std::cout << "\nlanded.\n";
+			airborne = false;
+		}
+		else
+		{
+			airborne = true;
+			std::cout << "y=" << Position.y<< std::endl;
+		}
 
 		//handle collisions
 		int i = 0;

@@ -23,11 +23,9 @@ Rock* RockGenerator::generateRock(vec3 position) {
     //int rock_size = RandNumGen(1, 5);
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0,3); // dist
+    std::uniform_int_distribution<std::mt19937::result_type> dist(1,3); // dist
     std::uniform_int_distribution<std::mt19937::result_type> angle_dist(MIN_ANGLE,MAX_ANGLE); // dist
-    int trunk_height = dist(rng);
-    int radius = max(trunk_height, 1);
-    //generateTrunk( *rock, trunk_height);
+    int radius = dist(rng);
     vec3 center{3,0,0};
     generateShape(*rock, radius, center);
 
