@@ -66,7 +66,8 @@ void World::ProcedurallyGenerateWorld() {
     world_entities.push_back(terrain);
     for(int i = 0; i < 5; i++){
         for(int j = 0; j < 5; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,-j*15}));
+			float ground_heght = TerrainV2::getHeightAtPosition(vec3{ -30 + i * 15,0,-j * 15 });
+            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15, ground_heght, -j*15}));
         }
     }
     std::cout << 'h' << std::endl;
