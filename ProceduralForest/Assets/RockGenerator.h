@@ -1,5 +1,6 @@
 //
-// Created by Kali on 2020-04-18.
+// Created by RemineralizedWater(Michael Rowe) on 2020-04-18.
+// Student ID: 26101267
 //
 
 #ifndef INC_371PROCEDURALFOREST_ROCKGENERATOR_H

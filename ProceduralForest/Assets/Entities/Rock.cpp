@@ -1,5 +1,6 @@
 //
-// Created by Kali on 2020-04-18.
+// Created by RemineralizedWater(Michael Rowe) on 2020-04-18.
+// Student ID: 26101267
 //
 
 #include "Rock.h"
@@ -152,12 +153,6 @@ void Rock::createVAO(){
     glBindBuffer(GL_ARRAY_BUFFER, instanceTextVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureOffset.size(), &textureOffset[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glEnableVertexAttribArray(4);
-    glBindBuffer(GL_ARRAY_BUFFER, instanceTextVBO); // this attribute comes from a different vertex buffer
-    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(int), (void*)0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glVertexAttribDivisor(4, 1); // tell OpenGL this is an instanced vertex attribute.
 
     vao = vertexArrayObject;
 }
