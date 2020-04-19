@@ -39,7 +39,7 @@ int main(int argc, char*argv[])
 	do {
 		projectionMatrix = glm::perspective(cam.fov,            // field of view in degrees
 			SCREEN_WIDTH / SCREEN_HEIGHT,  // aspect ratio
-			0.01f, 100.0f);   // near and far (near > 0)
+			0.01f, 400.0f);   // near and far (near > 0)
 		viewMatrix = lookAt(cam.Position,  // eye
 			cam.Position + cam.LookAt,  // center
 			cam.Up); //

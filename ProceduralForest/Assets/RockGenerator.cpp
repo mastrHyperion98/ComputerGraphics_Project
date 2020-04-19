@@ -20,7 +20,6 @@ vec3 const RockGenerator::ROTATION_AXIS = vec3(0,1,0);
 Rock* RockGenerator::generateRock(vec3 position) {
     // generate the rock here and return it.
     Rock *rock = new Rock;
-    //int rock_size = RandNumGen(1, 5);
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1,3); // dist
@@ -39,13 +38,12 @@ Rock* RockGenerator::generateRock(vec3 position) {
 
 void RockGenerator::generateShape( Rock &rock, int radius, vec3 center) {
     int square_count{0};
-    //int buttom_cutoff = 0;//ceilf(radius/2);
     int increment = 1; // unit cube
 
     std::random_device dev;
     std::mt19937 rng(dev());
 
-    // compute in two halves
+    // compute top half only
     for(int i = 0; i <= radius; i++){
         int num_x = computeNumberInX(center, radius, i, increment);
         for(int j = 0; j <= num_x; j++){
@@ -55,7 +53,7 @@ void RockGenerator::generateShape( Rock &rock, int radius, vec3 center) {
                 rock.textureOffset.push_back(1);
                 square_count++;
             }
-            int num_z = computeNumberInZ(position, center, radius,j, increment);
+            int num_z = computeNumberInZ(position, center, radius, j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(j, i * increment, k);
                 rock.addLeavesOffset(position);
@@ -76,7 +74,7 @@ void RockGenerator::generateShape( Rock &rock, int radius, vec3 center) {
                 rock.addLeavesOffset(position);
                 rock.textureOffset.push_back(1);
             }
-            int num_z = computeNumberInZ(position, center, radius,j, increment);
+            int num_z = computeNumberInZ(position, center, radius, j, increment);
             for(int k = 0;k < num_z; k++){
                 position = center + vec3(-j, i * increment, k);
                 rock.addLeavesOffset(position);

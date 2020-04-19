@@ -29,7 +29,7 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
     // Now we generate our noise seed this is what we will interpolate to create our mapping.
     // fill it up with random numbers between 0 and 1
     for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = distribution(generator);
-    // then we generate out noise
+    // then we generate our noise
     noise = GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
     int blocks = 0;
     for (int x = 0; x < n_width; x++) {
