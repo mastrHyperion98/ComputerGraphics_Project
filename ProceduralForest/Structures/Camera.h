@@ -23,7 +23,7 @@ private:
 	bool initMouse = false;
 	//Flight toggles
 	bool shiftToggle = false;
-    int lastShiftState = GLFW_RELEASE;
+	int lastShiftState = GLFW_RELEASE;
 
 
 public:
@@ -96,49 +96,56 @@ public:
 	bool wall_collision = false;
 	bool entity_collision = false;
 
+
+	template <class DstType, class SrcType>
+	bool IsType(const SrcType* src)
+	{
+		return dynamic_cast<const DstType*>(src) != nullptr;
+	}
+
 	void processKeyboard(float dt, std::vector<Entity*>& world_entities)
 	{
 		glm::vec3 old_Position = Position;			//save old position in case new pos collides with objects
 
 		vec3 cameraSideVector = glm::cross(LookAt, vec3(0.0f, 0.5f, 0.0f));
 
-        if (lastShiftState == GLFW_RELEASE && glfwGetKey(WindowManager::getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-            shiftToggle = !shiftToggle;
-            if (shiftToggle) {
-                speed = fastSpeed;
-            }
-            else {
-                speed = base_speed;
-            }
-        }
-        lastShiftState = glfwGetKey(WindowManager::getWindow(), GLFW_KEY_LEFT_SHIFT);
+		if (lastShiftState == GLFW_RELEASE && glfwGetKey(WindowManager::getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+			shiftToggle = !shiftToggle;
+			if (shiftToggle) {
+				speed = fastSpeed;
+			}
+			else {
+				speed = base_speed;
+			}
+		}
+		lastShiftState = glfwGetKey(WindowManager::getWindow(), GLFW_KEY_LEFT_SHIFT);
 
 		if (wall_collision == false)
 		{
-		    if (shiftToggle) {
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
-                    Position -= cameraSideVector * speed * 2.0f * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
-                    Position += cameraSideVector * speed * 2.0f * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
-                    Position -= LookAt * speed * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
-                    Position += LookAt * speed * dt;
-            }
-		    // Checks if flying
-		    else {
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
-                    Position -= cameraSideVector * speed * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
-                    Position += cameraSideVector * speed * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
-                    Position -= LookAt * speed * dt;
-                if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
-                    Position += LookAt * speed * dt;
-		    }
+			if (shiftToggle) {
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
+					Position -= cameraSideVector * speed * 2.0f * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
+					Position += cameraSideVector * speed * 2.0f * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
+					Position -= LookAt * speed * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
+					Position += LookAt * speed * dt;
+			}
+			// Checks if flying
+			else {
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
+					Position -= cameraSideVector * speed * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
+					Position += cameraSideVector * speed * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_S) == GLFW_PRESS) // move camera up
+					Position -= LookAt * speed * dt;
+				if (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_W) == GLFW_PRESS) // move camera down
+					Position += LookAt * speed * dt;
+			}
 		}
 
-		
+
 		bool space_pressed = (glfwGetKey(WindowManager::getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS);
 		if (airborne == false && space_pressed == true) // jump
 		{
@@ -172,26 +179,47 @@ public:
 			if (i++ == 0) continue;	//skip 0th element
 			else
 			{
-				//int radius = ((Rock*)e)->radius;
-				//if (radius == NULL)
-				//	radius = 1;
 				int radius = 1;
-				if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
+				if (IsType<Rock,Entity>(e))
 				{
-					Position = old_Position;
-					entity_collision = true;
-					break;
+					radius = ((Rock*)e)->radius;
+					
+					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
+					{
+						//- vec3{ -3.0f * cos(((Rock*)e)->angle), 0.0f, -3.0f * sin(((Rock*)e)->angle) },
+						//std::cout << "[collision] rock, radius=" << radius << ",ngle=" << ((Rock*)e)->angle << std::endl;
+						glm::vec3 pos = e->getTransform()->position;
+						std::cout << "[collision] rock->position=(" << pos.x << "," << pos.y << "," << pos.z << ")	|| cam Position=(" << Position.x << "," << Position.y << "," << Position.z << ")" << std::endl;
+						//Position = old_Position ;
+						//Position = old_Position;
+						entity_collision = true;
+						break;
+					}
+					
 				}
+				else
+				{
+					
+					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
+					{
+						std::cout << "[collision] tree, radius=" << radius << std::endl;
+						Position = old_Position;
+						entity_collision = true;
+						break;
+					}
+				}
+				
+
 			}
 		}
 
 		// Disable gravity if flying
 		if (!shiftToggle) {
-            //gravity, drag camera to ground level over time.
-            Position.y = old_Position.y;            //for camera rotation to not make you fly higher or land faster while pressing directionals
-            Position = Position + velocity * dt;
-            velocity = velocity + gravity * dt;
-        }
+			//gravity, drag camera to ground level over time.
+			Position.y = old_Position.y;            //for camera rotation to not make you fly higher or land faster while pressing directionals
+			Position = Position + velocity * dt;
+			velocity = velocity + gravity * dt;
+		}
 
 		//correct height if it's below the ground level & set velocity to 0
 		if (Position.y <= ground_height + ground_offset)	//camera is at ground level here
