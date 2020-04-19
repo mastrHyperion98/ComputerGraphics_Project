@@ -8,7 +8,7 @@
 #ifndef INC_371PROCEDURALFOREST_RENDERER_H
 #define INC_371PROCEDURALFOREST_RENDERER_H
 // Include GLEW - OpenGL Extension Wrangler
-#define GLEW_STATIC 1
+//#define GLEW_STATIC 1
 #include "GL/glew.h"
 #include <string>
 #include <vector>

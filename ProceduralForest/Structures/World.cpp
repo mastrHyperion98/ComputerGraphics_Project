@@ -1,8 +1,11 @@
 //
 // Created by Steven Smith on 2020-04-05.
-/*// Created for Concordia W 2020 Comp 371
- *
- * THe world class is an additional layer of abstraction used when drawing our entities
+// Created for Concordia W 2020 Comp 371
+//
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
+/* The world class is an additional layer of abstraction used when drawing our entities
  * The world allows to procedurally generate a world while keeping the main display loop clean.
  *
  * Furthermore, the is composed of a vector list of Entities that allows us to add multiple
@@ -10,9 +13,11 @@
  */
 //
 
+#include <TerrainGenerator.h>
 #include "World.h"
 #include "TreeGenerator.h"
-#include "Terrain.h"
+#include "RockGenerator.h"
+#include "random"
 World  World::current;
 
 World::World(){
@@ -23,8 +28,6 @@ World::World(const World& world){
     worldTransform = Transform(world.worldTransform);
     world_entities = std::vector<Entity*>(world.world_entities);
     current = *this;
-
-
 }
 
 
@@ -60,40 +63,34 @@ void World::Update() {
         world_entities[i]->Update();
 }
 
-void World::ProcedurallyGenerateWorld() {/*
-    // create a basic terrain
-    Material simple_ground_material;
-    simple_ground_material.addTexture("../Assets/Textures/grass3.bmp");
-    // 1500 * 1500 terrain
-    Entity *terrain = new Entity;
-    for(int i = 0; i <10;i++){
-        for(int j = 0; j < 10; j++){
-            Cube *cube = new Cube(simple_ground_material, vec3(100,0.1,100));
-            cube->getTransform().position = (vec3(100*i ,0,-100*j ));
-            terrain->addComponent(cube);
+void World::ProcedurallyGenerateWorld() {
+    TerrainGenerator terrainGenerator;
+    TerrainV2 *terrain = terrainGenerator.GenerateTerrain(192, 192, 4, 0.25, 20, 4);
+    world_entities.push_back(terrain);
+    for(int i = 0; i < 192; i++){
+        for(int j = 0; j > -192; j--){
+            if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
+                vec3 position = vec3 (i, 0, j);
+                AddEntities(TreeGenerator::generateTree(vec3{i, TerrainV2::getHeightAtPosition(position)+1.005, j}));
+            }
+            if ((RandNumGen(0, RAND_MAX) > 0.9975 * RAND_MAX)) {
+                vec3 position = vec3 (i, 0, j);
+                AddEntities(RockGenerator::generateRock(vec3{i, TerrainV2::getHeightAtPosition(position)+1.005, j}));
+            }
         }
     }
-    for(int i = 0; i <10;i++){
-        for(int j = 0; j < 10; j++){
-            Cube *cube = new Cube(simple_ground_material, vec3(100,0.1,100));
-            cube->getTransform().position = (vec3(100*i ,0,100*j ));
-            terrain->addComponent(cube);
-        }
-    }
+    //std::cout << 'h' << std::endl;
+}
 
-    AddEntities(terrain);
-    // several options --> instancing or drawing ~10 cubes and allow for different textures.
-    // generate random spacing
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,-j*15}));
-        }
+int World::RandNumGen(int min, int max) {
+    if(min < 0){
+        min = 0;
     }
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            AddEntities(TreeGenerator::generateTree(vec3{-30 + i*15,0,j*15}));
-        }
-    }*/
-    Terrain *terrain = new Terrain();
-    AddEntities(terrain);
+    if(max < min){
+        max = min;
+    }
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(min,max); // dist
+    return dist(rng);
 }

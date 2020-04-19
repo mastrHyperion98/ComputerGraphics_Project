@@ -1,6 +1,9 @@
 //
 // Created by hyperion on 2020-04-05.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 
 #ifndef INC_371PROCEDURALFOREST_TREEGENERATOR_H
 #define INC_371PROCEDURALFOREST_TREEGENERATOR_H
@@ -18,6 +21,9 @@ private:
     static bool inSphere(vec3, vec3, float);
     static int computeNumberInX(vec3 center, float radius, int index, int increment);
     static int computeNumberInZ(vec3 position, vec3 center, float radius, int index, int increment);
+    static int const MIN_ANGLE = 0;
+    static int const MAX_ANGLE = 90;
+    static vec3 const ROTATION_AXIS;
 };
 
 

@@ -1,6 +1,9 @@
 //
 // Created by Steven Smith on 2020-03-07.
 //
+// Modified by RemineralizedWater(Michael Rowe) on 2020-04-08
+// Student ID: 26101267
+//
 
 #ifndef ASSIGNMENT2_ENTITY_H
 #define ASSIGNMENT2_ENTITY_H
@@ -33,6 +36,7 @@ public:
     int getSize();
     Component* getComponent(int index){return components[index];}
     Transform* getTransform();
+    long getNumberOfComponents(){return components.size();};
 protected:
     std::vector<Component*> components;
     Transform *transform;
