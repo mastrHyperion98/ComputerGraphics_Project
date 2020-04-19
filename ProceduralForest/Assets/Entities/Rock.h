@@ -21,8 +21,6 @@ public:
     void createVAO();
     std::vector<int> textureOffset;
 private:
-//    Material leaves;
-//    Material trunk;
     Material rock;
 
     std::vector<glm::vec3> offset;

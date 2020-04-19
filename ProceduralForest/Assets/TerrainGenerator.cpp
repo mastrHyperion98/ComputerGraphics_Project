@@ -29,7 +29,7 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
     // Now we generate our noise seed this is what we will interpolate to create our mapping.
     // fill it up with random numbers between 0 and 1
     for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = distribution(generator);
-    // then we generate out noise
+    // then we generate our noise
     noise = GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
     int blocks = 0;
     for (int x = 0; x < n_width; x++) {
@@ -39,34 +39,18 @@ TerrainV2* TerrainGenerator::GenerateTerrain(int width, int height, int octaves,
                 for (int i = 0; i < n_width * n_height; i++) noise_seed[i] = distribution(generator);
                 noise =  GenerateNoise(n_width, n_height, noise_seed, n_octaves, sBias);
             }
-            if(blocks < n_block_per_terrain/2){
-                // grab our height from our array of noise
-                int height = (int) ( noise[y * n_width + x] * height_multiplier);
-                // fill the void between -1 and height
-                for(int k = 0; k < height; k++){
-                    glm::vec3 position(x, k, -y);
-                    // add position
-                    terrain->addPositionOffset(position);
-                }
-                glm::vec3 position(x, height, -y);
+            // grab our height from our array of noise
+            int height = (int) ( noise[y * n_width + x] * height_multiplier);
+            // fill the void between -1 and height
+            for(int k = 0; k < height; k++){
+                glm::vec3 position(x, k, -y);
+                // add position
                 terrain->addPositionOffset(position);
-                terrain->addPositionToMap(position);
-                blocks++;
             }
-            else{
-                // grab our height from our array of noise
-                int height = (int) ( noise[y * n_width + x] * height_multiplier);
-                // fill the void between -1 and height
-                for(int k = 0; k < height; k++){
-                    glm::vec3 position(x, k, -y);
-                    // add position
-                    terrain->addPositionOffset(position);
-                }
-                glm::vec3 position(x, height, -y);
-                terrain->addPositionOffset(position);
-                terrain->addPositionToMap(position);
-                blocks++;
-            }
+            glm::vec3 position(x, height, -y);
+            terrain->addPositionOffset(position);
+            terrain->addPositionToMap(position);
+            blocks++;
         }
     }
     terrain->createVAO();
