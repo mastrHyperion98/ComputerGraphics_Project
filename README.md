@@ -14,7 +14,22 @@ Members: Steven Smith, Michael Rowe, Nhut Vo, Sheridan Perez Antigua<br></strong
   <a href="#tools"> Tools and Libraries </a>
  </li>
  </ul>
+ 
+ # Project Results
+ 
+ <h4>Default configuration, as submitted </h4>
+ 
+ ![alt text](https://raw.githubusercontent.com/mastrHyperion98/ComputerGraphics_Project/master/Default.png)
+ 
+ <hr/>
 
+<h4>Increased settings for procedural generation </h4>
+Long loading time and requires decent hardware for great stutter free-experience
+ran on Ryzen 7 2700 and a Radeon RX 5700 8Gb
+ 
+ ![alt text](https://raw.githubusercontent.com/mastrHyperion98/ComputerGraphics_Project/master/MaxTrees.png)
+ 
+ 
 # Project Description
 <p id="description">The generation of a procedurally rendered forest implementing collision, shadows, lighting and various other computer graphics techniques to enhance the realism or artistic appreciation of the rendered scene.<br><br>
 The goal of this project is to create a graphics program using OpenGLfor walking through aprocedurally created virtual world, say a forest of trees, plants, bushes,etc., or an urbancity with roads, buildings, etc. All repeating items,like the trees in the virtual forest or thebuildings  in  the virtual city, should  be  procedurally  created,  using  a  fewuser  specified parameters, if necessary. The terrain has tobe procedurally created. You are allowed to borrow digital assets for non repeating items, like a bridge, for  textures,  and  so  on,  asneeded  in  order  to  create  the virtual  world.  However  ensure  that  you  credit  the  source properly. You should have simple interactionmechanisms to navigate through the virtual world and view it from different angles. During navigation, the user must not be allowed to pass through objects.</p>
