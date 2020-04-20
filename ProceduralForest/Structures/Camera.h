@@ -82,8 +82,8 @@ public:
 	{
 		float norf = center.z - halfLength;
 		float souf = center.z + halfLength;
-		float east = center.x + halfLength;
-		float west = center.x - halfLength;
+		float east = center.x - 3 + halfLength;
+		float west = center.x - 3 - halfLength;
 
 		bool ans_x = (west <= Position.x && Position.x <= east);
 		bool ans_z = (norf <= Position.z && Position.z <= souf);
@@ -182,12 +182,12 @@ public:
 				int radius = 1;
 				//int angle = 0;
 				//glm:vec3 fixPos = vec3{ -3.0f * cos(((Rock*)e)->angle * 3.14159265 / 180.0), 0.0f, -3.0f * sin(((Rock*)e)->angle * 3.14159265 / 180.0) };
-                //glm:vec3 fixPos = vec3{ -3.0f, 0.0f, 0.0f};
+                //glm:vec3 fixPos = vec3{ 3.0f, 0.0f, 0.0f};
 
 				if (IsType<Rock,Entity>(e))	{
 					radius = ((Rock*)e)->radius;
 					//angle = ((Rock*)e)->angle;
-					collisionOffset = 2.0f;
+					//collisionOffset = 2.0f;
 
 					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))	{
 						//- vec3{ -3.0f * cos(((Rock*)e)->angle), 0.0f, -3.0f * sin(((Rock*)e)->angle) },

@@ -33,7 +33,7 @@ Rock* RockGenerator::generateRock(vec3 position) {
     // set position
     // we can also apply a random rotation to the rock
     rock->getTransform()->position = position;
-    rock->Rotate(rock->angle,ROTATION_AXIS);
+    //rock->Rotate(rock->angle,ROTATION_AXIS);
     rock->createVAO();
     return rock;
 }
