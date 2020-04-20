@@ -25,7 +25,8 @@ Rock* RockGenerator::generateRock(vec3 position) {
     std::uniform_int_distribution<std::mt19937::result_type> dist(1,3); // dist
     std::uniform_int_distribution<std::mt19937::result_type> angle_dist(MIN_ANGLE,MAX_ANGLE); // dist
 	rock->radius = dist(rng);
-	rock->angle = 0;//angle_dist(rng);
+	rock->angle = angle_dist(rng);
+	//rock->angle = 0;//angle_dist(rng);
     vec3 center{3,0,0};
     generateShape(*rock, rock->radius, center);
 

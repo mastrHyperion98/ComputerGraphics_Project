@@ -180,28 +180,29 @@ public:
 			else
 			{
 				int radius = 1;
-				if (IsType<Rock,Entity>(e))
-				{
+				//int angle = 0;
+				//glm:vec3 fixPos = vec3{ -3.0f * cos(((Rock*)e)->angle * 3.14159265 / 180.0), 0.0f, -3.0f * sin(((Rock*)e)->angle * 3.14159265 / 180.0) };
+                //glm:vec3 fixPos = vec3{ -3.0f, 0.0f, 0.0f};
+
+				if (IsType<Rock,Entity>(e))	{
 					radius = ((Rock*)e)->radius;
-					
-					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
-					{
+					//angle = ((Rock*)e)->angle;
+					collisionOffset = 2.0f;
+
+					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))	{
 						//- vec3{ -3.0f * cos(((Rock*)e)->angle), 0.0f, -3.0f * sin(((Rock*)e)->angle) },
 						//std::cout << "[collision] rock, radius=" << radius << ",ngle=" << ((Rock*)e)->angle << std::endl;
 						glm::vec3 pos = e->getTransform()->position;
 						std::cout << "[collision] rock->position=(" << pos.x << "," << pos.y << "," << pos.z << ")	|| cam Position=(" << Position.x << "," << Position.y << "," << Position.z << ")" << std::endl;
-						//Position = old_Position ;
+						Position = old_Position ;
 						//Position = old_Position;
 						entity_collision = true;
+						collisionOffset = 0.5f;
 						break;
 					}
-					
 				}
-				else
-				{
-					
-					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))
-					{
+				else {
+					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))	{
 						std::cout << "[collision] tree, radius=" << radius << std::endl;
 						Position = old_Position;
 						entity_collision = true;

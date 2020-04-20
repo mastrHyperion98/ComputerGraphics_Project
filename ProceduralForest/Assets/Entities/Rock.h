@@ -14,7 +14,7 @@
 class Rock: public Entity{
 public:
     int radius;
-	float angle;
+	int angle;
     void virtual Draw() override ;
     void virtual Update() override;
     void addLeavesOffset(glm::vec3);
