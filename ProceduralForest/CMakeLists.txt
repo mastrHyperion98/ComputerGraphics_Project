@@ -29,8 +29,7 @@ endif(WIN32)
 if(UNIX)
     #Execute Unix only command
     set(OpenGlLinkers -lglut -lGLU -lGL) # setting all the Glut libraries as one variable.
-    target_link_libraries(ProceduralForest glfw  ${OpenGlLinkers} GLEW glm)
-
+    target_link_libraries(ProceduralForest PRIVATE GLEW::GLEW PRIVATE glfw PRIVATE glm  ${OpenGlLinkers})
 endif(UNIX)
 
 
