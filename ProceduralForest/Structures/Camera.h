@@ -193,7 +193,7 @@ public:
 						//- vec3{ -3.0f * cos(((Rock*)e)->angle), 0.0f, -3.0f * sin(((Rock*)e)->angle) },
 						//std::cout << "[collision] rock, radius=" << radius << ",ngle=" << ((Rock*)e)->angle << std::endl;
 						glm::vec3 pos = e->getTransform()->position;
-						std::cout << "[collision] rock->position=(" << pos.x << "," << pos.y << "," << pos.z << ")	|| cam Position=(" << Position.x << "," << Position.y << "," << Position.z << ")" << std::endl;
+						//std::cout << "[collision] rock->position=(" << pos.x << "," << pos.y << "," << pos.z << ")	|| cam Position=(" << Position.x << "," << Position.y << "," << Position.z << ")" << std::endl;
 						Position = old_Position ;
 						//Position = old_Position;
 						entity_collision = true;
@@ -203,7 +203,7 @@ public:
 				}
 				else {
 					if (isInsideObject(e->getTransform()->position, collisionOffset + radius / 2))	{
-						std::cout << "[collision] tree, radius=" << radius << std::endl;
+						//std::cout << "[collision] tree, radius=" << radius << std::endl;
 						Position = old_Position;
 						entity_collision = true;
 						break;
